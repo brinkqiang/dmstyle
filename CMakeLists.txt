@@ -1,10 +1,13 @@
 cmake_minimum_required(VERSION 3.0)
-project(astyle CXX)
+project(dmstyle CXX)
 
 # Release Build - release by default (except for Borland)
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release")
 endif()
+
+SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/bin)
+SET(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
 # Build Options - executable by default, libraries on request
 option(BUILD_JAVA_LIBS   "Build java library"   OFF)
@@ -117,7 +120,7 @@ elseif(BUILD_STATIC_LIBS)
     endif()
 else()
     if(WIN32)
-        set_property(TARGET astyle PROPERTY OUTPUT_NAME AStyle)
+        set_property(TARGET astyle PROPERTY OUTPUT_NAME dmstyle)
     endif()
 endif()
 
