@@ -1,10 +1,10 @@
-// ASLocalizer.cpp
+ï»¿// ASLocalizer.cpp
 // Copyright (c) 2018 by Jim Pattee <jimp03@email.com>.
 // This code is licensed under the MIT License.
 // License.md describes the conditions under which this software may be distributed.
 //
 // File encoding for this file is unicode
-//    §â§å§ã§ã§Ü§Ú§Û     ÖĞÎÄ£¨¼òÌå£©    ÈÕ±¾ÕZ     ???
+//    Ñ€ÑƒÑÑĞºĞ¸Ğ¹     ä¸­æ–‡ï¼ˆç®€ä½“ï¼‰    æ—¥æœ¬èª     ???
 //
 // Windows:
 // Add the required "Language" to the system.
@@ -426,106 +426,106 @@ string& Translation::translate( const string& stringIn ) const
 // These classes have only a constructor which builds the language vector.
 //----------------------------------------------------------------------------
 
-Bulgarian::Bulgarian()  // §Ò§ì§İ§Ô§Ñ§â§ã§Ü§Ú
+Bulgarian::Bulgarian()  // Ğ±ÑŠĞ»Ğ³Ğ°Ñ€ÑĞºĞ¸
 // build the translation vector in the Translation base class
 {
-    addPair( "Formatted  %s\n", L"§¶§à§â§Ş§Ñ§ä§Ú§â§Ñ§ß  %s\n" );    // should align with unchanged
-    addPair( "Unchanged  %s\n", L"§¯§Ö§á§â§à§Ş§Ö§ß§Ö§ß  %s\n" );    // should align with formatted
-    addPair( "Directory  %s\n", L"§Õ§Ú§â§Ö§Ü§ä§à§â§Ú§ñ  %s\n" );
-    addPair( "Default option file  %s\n", L"§¶§Ñ§Û§İ §ã §à§á§è§Ú§Ú §á§à §á§à§Õ§â§Ñ§Ù§Ò§Ú§â§Ñ§ß§Ö  %s\n" );
-    addPair( "Project option file  %s\n", L"§¶§Ñ§Û§İ §ã §à§á§è§Ú§Ú §Ù§Ñ §á§â§à§Ö§Ü§ä§Ñ  %s\n" );
-    addPair( "Exclude  %s\n", L"§ª§Ù§Ü§İ§ğ§é§Ó§Ñ§Ş  %s\n" );
-    addPair( "Exclude (unmatched)  %s\n", L"§ª§Ù§Ü§İ§ğ§é§Ó§Ñ§ß§Ö (§ß§Ö§ã§â§Ñ§Ó§ß§Ú§Ş§à)  %s\n" );
-    addPair( " %s formatted   %s unchanged   ", L" %s §æ§à§â§Ş§Ñ§ä§Ú§â§Ñ§ß   %s h§Ö§á§â§à§Ş§Ö§ß§Ö§ß   " );
-    addPair( " seconds   ", L" §ã§Ö§Ü§å§ß§Õ§Ú   " );
-    addPair( "%d min %d sec   ", L"%d §Ş§Ú§ß %d §ã§Ö§Ü   " );
-    addPair( "%s lines\n", L"%s §İ§Ú§ß§Ú§Ú\n" );
-    addPair( "Opening HTML documentation %s\n", L"§°§ä§Ü§â§Ú§Ó§Ñ§ß§Ö HTML §Õ§à§Ü§å§Ş§Ö§ß§ä§Ñ§è§Ú§ñ %s\n" );
-    addPair( "Invalid default options:", L"§¯§Ö§Ó§Ñ§İ§Ú§Õ§ß§Ú §à§á§è§Ú§Ú §á§à §á§à§Õ§â§Ñ§Ù§Ò§Ú§â§Ñ§ß§Ö:" );
-    addPair( "Invalid project options:", L"§¯§Ö§Ó§Ñ§İ§Ú§Õ§ß§Ú §à§á§è§Ú§Ú §Ù§Ñ §á§â§à§Ö§Ü§ä§Ú:" );
-    addPair( "Invalid command line options:", L"§¯§Ö§Ó§Ñ§İ§Ú§Õ§ß§Ú §à§á§è§Ú§Ú §Ù§Ñ §Ü§à§Ş§Ñ§ß§Õ§ß§Ú§ñ §â§Ö§Õ:" );
-    addPair( "For help on options type 'astyle -h'", L"§©§Ñ §á§à§Ş§à§ë §à§ä§ß§à§ã§ß§à §Ó§ì§Ù§Ş§à§Ø§ß§à§ã§ä§Ú§ä§Ö §ä§Ú§á 'astyle -h'" );
-    addPair( "Cannot open default option file", L"§¯§Ö §Ş§à§Ø§Ö §Õ§Ñ §ã§Ö §à§ä§Ó§à§â§Ú §æ§Ñ§Û§İ§ì§ä §ã §à§á§è§Ú§Ú §á§à §á§à§Õ§â§Ñ§Ù§Ò§Ú§â§Ñ§ß§Ö" );
-    addPair( "Cannot open project option file", L"§¯§Ö §Ş§à§Ø§Ö §Õ§Ñ §ã§Ö §à§ä§Ó§à§â§Ú §æ§Ñ§Û§İ§Ñ §ã §à§á§è§Ú§Ú §Ù§Ñ §á§â§à§Ö§Ü§ä§Ñ" );
-    addPair( "Cannot open directory", L"§¯§Ö §Ş§à§Ø§Ö §Õ§Ñ §ã§Ö §à§ä§Ó§à§â§Ú §Õ§Ú§â§Ö§Ü§ä§à§â§Ú§ñ" );
-    addPair( "Cannot open HTML file %s\n", L"§¯§Ö §Ş§à§Ø§Ö §Õ§Ñ §ã§Ö §à§ä§Ó§à§â§Ú HTML §æ§Ñ§Û§İ %s\n" );
-    addPair( "Command execute failure", L"Command §Ú§Ù§á§ì§İ§ß§Ú §ß§Ö§Õ§à§ã§ä§Ñ§ä§ì§é§ß§à§ã§ä" );
-    addPair( "Command is not installed", L"Command §ß§Ö §Ö §Ú§ß§ã§ä§Ñ§İ§Ú§â§Ñ§ß" );
-    addPair( "Missing filename in %s\n", L"§­§Ú§á§ã§Ó§Ñ §Ú§Ş§Ö§ä§à §ß§Ñ §æ§Ñ§Û§İ§Ñ §Ó %s\n" );
-    addPair( "Recursive option with no wildcard", L"§²§Ö§Ü§å§â§ã§Ú§Ó§ß§à §à§á§è§Ú§ñ, §Ò§Ö§Ù §Ş§Ñ§ã§Ü§Ñ" );
-    addPair( "Did you intend quote the filename", L"§©§ß§Ñ§Ö§ä§Ö §İ§Ú §ß§Ñ§Ş§Ö§â§Ö§ß§Ú§Ö §Õ§Ñ §è§Ú§ä§Ú§â§Ñ§Ş §Ú§Ş§Ö§ä§à §ß§Ñ §æ§Ñ§Û§İ§Ñ" );
-    addPair( "No file to process %s\n", L"§¯§Ö §æ§Ñ§Û§İ §Ù§Ñ §à§Ò§â§Ñ§Ò§à§ä§Ü§Ñ %s\n" );
-    addPair( "Did you intend to use --recursive", L"§©§ß§Ñ§Ö§ä§Ö §İ§Ú §Ó§ì§Ù§ß§Ñ§Ş§Ö§â§ñ§Ó§Ñ§ä§Ö §Õ§Ñ §Ú§Ù§á§à§İ§Ù§Ó§Ñ§ä§Ö --recursive" );
-    addPair( "Cannot process UTF-32 encoding", L"§¯§Ö §Ş§à§Ø§Ö §Õ§Ñ §ã§Ñ UTF-32 §Ü§à§Õ§Ú§â§Ñ§ß§Ö" );
-    addPair( "Artistic Style has terminated\n", L"Artistic Style §Ö §á§â§Ö§Ü§â§Ñ§ä§Ö§ß§à\n" );
+    addPair( "Formatted  %s\n", L"Ğ¤Ğ¾Ñ€Ğ¼Ğ°Ñ‚Ğ¸Ñ€Ğ°Ğ½  %s\n" );    // should align with unchanged
+    addPair( "Unchanged  %s\n", L"ĞĞµĞ¿Ñ€Ğ¾Ğ¼ĞµĞ½ĞµĞ½  %s\n" );    // should align with formatted
+    addPair( "Directory  %s\n", L"Ğ´Ğ¸Ñ€ĞµĞºÑ‚Ğ¾Ñ€Ğ¸Ñ  %s\n" );
+    addPair( "Default option file  %s\n", L"Ğ¤Ğ°Ğ¹Ğ» Ñ Ğ¾Ğ¿Ñ†Ğ¸Ğ¸ Ğ¿Ğ¾ Ğ¿Ğ¾Ğ´Ñ€Ğ°Ğ·Ğ±Ğ¸Ñ€Ğ°Ğ½Ğµ  %s\n" );
+    addPair( "Project option file  %s\n", L"Ğ¤Ğ°Ğ¹Ğ» Ñ Ğ¾Ğ¿Ñ†Ğ¸Ğ¸ Ğ·Ğ° Ğ¿Ñ€Ğ¾ĞµĞºÑ‚Ğ°  %s\n" );
+    addPair( "Exclude  %s\n", L"Ğ˜Ğ·ĞºĞ»ÑÑ‡Ğ²Ğ°Ğ¼  %s\n" );
+    addPair( "Exclude (unmatched)  %s\n", L"Ğ˜Ğ·ĞºĞ»ÑÑ‡Ğ²Ğ°Ğ½Ğµ (Ğ½ĞµÑÑ€Ğ°Ğ²Ğ½Ğ¸Ğ¼Ğ¾)  %s\n" );
+    addPair( " %s formatted   %s unchanged   ", L" %s Ñ„Ğ¾Ñ€Ğ¼Ğ°Ñ‚Ğ¸Ñ€Ğ°Ğ½   %s hĞµĞ¿Ñ€Ğ¾Ğ¼ĞµĞ½ĞµĞ½   " );
+    addPair( " seconds   ", L" ÑĞµĞºÑƒĞ½Ğ´Ğ¸   " );
+    addPair( "%d min %d sec   ", L"%d Ğ¼Ğ¸Ğ½ %d ÑĞµĞº   " );
+    addPair( "%s lines\n", L"%s Ğ»Ğ¸Ğ½Ğ¸Ğ¸\n" );
+    addPair( "Opening HTML documentation %s\n", L"ĞÑ‚ĞºÑ€Ğ¸Ğ²Ğ°Ğ½Ğµ HTML Ğ´Ğ¾ĞºÑƒĞ¼ĞµĞ½Ñ‚Ğ°Ñ†Ğ¸Ñ %s\n" );
+    addPair( "Invalid default options:", L"ĞĞµĞ²Ğ°Ğ»Ğ¸Ğ´Ğ½Ğ¸ Ğ¾Ğ¿Ñ†Ğ¸Ğ¸ Ğ¿Ğ¾ Ğ¿Ğ¾Ğ´Ñ€Ğ°Ğ·Ğ±Ğ¸Ñ€Ğ°Ğ½Ğµ:" );
+    addPair( "Invalid project options:", L"ĞĞµĞ²Ğ°Ğ»Ğ¸Ğ´Ğ½Ğ¸ Ğ¾Ğ¿Ñ†Ğ¸Ğ¸ Ğ·Ğ° Ğ¿Ñ€Ğ¾ĞµĞºÑ‚Ğ¸:" );
+    addPair( "Invalid command line options:", L"ĞĞµĞ²Ğ°Ğ»Ğ¸Ğ´Ğ½Ğ¸ Ğ¾Ğ¿Ñ†Ğ¸Ğ¸ Ğ·Ğ° ĞºĞ¾Ğ¼Ğ°Ğ½Ğ´Ğ½Ğ¸Ñ Ñ€ĞµĞ´:" );
+    addPair( "For help on options type 'astyle -h'", L"Ğ—Ğ° Ğ¿Ğ¾Ğ¼Ğ¾Ñ‰ Ğ¾Ñ‚Ğ½Ğ¾ÑĞ½Ğ¾ Ğ²ÑŠĞ·Ğ¼Ğ¾Ğ¶Ğ½Ğ¾ÑÑ‚Ğ¸Ñ‚Ğµ Ñ‚Ğ¸Ğ¿ 'astyle -h'" );
+    addPair( "Cannot open default option file", L"ĞĞµ Ğ¼Ğ¾Ğ¶Ğµ Ğ´Ğ° ÑĞµ Ğ¾Ñ‚Ğ²Ğ¾Ñ€Ğ¸ Ñ„Ğ°Ğ¹Ğ»ÑŠÑ‚ Ñ Ğ¾Ğ¿Ñ†Ğ¸Ğ¸ Ğ¿Ğ¾ Ğ¿Ğ¾Ğ´Ñ€Ğ°Ğ·Ğ±Ğ¸Ñ€Ğ°Ğ½Ğµ" );
+    addPair( "Cannot open project option file", L"ĞĞµ Ğ¼Ğ¾Ğ¶Ğµ Ğ´Ğ° ÑĞµ Ğ¾Ñ‚Ğ²Ğ¾Ñ€Ğ¸ Ñ„Ğ°Ğ¹Ğ»Ğ° Ñ Ğ¾Ğ¿Ñ†Ğ¸Ğ¸ Ğ·Ğ° Ğ¿Ñ€Ğ¾ĞµĞºÑ‚Ğ°" );
+    addPair( "Cannot open directory", L"ĞĞµ Ğ¼Ğ¾Ğ¶Ğµ Ğ´Ğ° ÑĞµ Ğ¾Ñ‚Ğ²Ğ¾Ñ€Ğ¸ Ğ´Ğ¸Ñ€ĞµĞºÑ‚Ğ¾Ñ€Ğ¸Ñ" );
+    addPair( "Cannot open HTML file %s\n", L"ĞĞµ Ğ¼Ğ¾Ğ¶Ğµ Ğ´Ğ° ÑĞµ Ğ¾Ñ‚Ğ²Ğ¾Ñ€Ğ¸ HTML Ñ„Ğ°Ğ¹Ğ» %s\n" );
+    addPair( "Command execute failure", L"Command Ğ¸Ğ·Ğ¿ÑŠĞ»Ğ½Ğ¸ Ğ½ĞµĞ´Ğ¾ÑÑ‚Ğ°Ñ‚ÑŠÑ‡Ğ½Ğ¾ÑÑ‚" );
+    addPair( "Command is not installed", L"Command Ğ½Ğµ Ğµ Ğ¸Ğ½ÑÑ‚Ğ°Ğ»Ğ¸Ñ€Ğ°Ğ½" );
+    addPair( "Missing filename in %s\n", L"Ğ›Ğ¸Ğ¿ÑĞ²Ğ° Ğ¸Ğ¼ĞµÑ‚Ğ¾ Ğ½Ğ° Ñ„Ğ°Ğ¹Ğ»Ğ° Ğ² %s\n" );
+    addPair( "Recursive option with no wildcard", L"Ğ ĞµĞºÑƒÑ€ÑĞ¸Ğ²Ğ½Ğ¾ Ğ¾Ğ¿Ñ†Ğ¸Ñ, Ğ±ĞµĞ· Ğ¼Ğ°ÑĞºĞ°" );
+    addPair( "Did you intend quote the filename", L"Ğ—Ğ½Ğ°ĞµÑ‚Ğµ Ğ»Ğ¸ Ğ½Ğ°Ğ¼ĞµÑ€ĞµĞ½Ğ¸Ğµ Ğ´Ğ° Ñ†Ğ¸Ñ‚Ğ¸Ñ€Ğ°Ğ¼ Ğ¸Ğ¼ĞµÑ‚Ğ¾ Ğ½Ğ° Ñ„Ğ°Ğ¹Ğ»Ğ°" );
+    addPair( "No file to process %s\n", L"ĞĞµ Ñ„Ğ°Ğ¹Ğ» Ğ·Ğ° Ğ¾Ğ±Ñ€Ğ°Ğ±Ğ¾Ñ‚ĞºĞ° %s\n" );
+    addPair( "Did you intend to use --recursive", L"Ğ—Ğ½Ğ°ĞµÑ‚Ğµ Ğ»Ğ¸ Ğ²ÑŠĞ·Ğ½Ğ°Ğ¼ĞµÑ€ÑĞ²Ğ°Ñ‚Ğµ Ğ´Ğ° Ğ¸Ğ·Ğ¿Ğ¾Ğ»Ğ·Ğ²Ğ°Ñ‚Ğµ --recursive" );
+    addPair( "Cannot process UTF-32 encoding", L"ĞĞµ Ğ¼Ğ¾Ğ¶Ğµ Ğ´Ğ° ÑĞ° UTF-32 ĞºĞ¾Ğ´Ğ¸Ñ€Ğ°Ğ½Ğµ" );
+    addPair( "Artistic Style has terminated\n", L"Artistic Style Ğµ Ğ¿Ñ€ĞµĞºÑ€Ğ°Ñ‚ĞµĞ½Ğ¾\n" );
 }
 
-ChineseSimplified::ChineseSimplified()  // ÖĞÎÄ£¨¼òÌå£©
+ChineseSimplified::ChineseSimplified()  // ä¸­æ–‡ï¼ˆç®€ä½“ï¼‰
 // build the translation vector in the Translation base class
 {
-    addPair( "Formatted  %s\n", L"¸ñÊ½»¯  %s\n" );      // should align with unchanged
-    addPair( "Unchanged  %s\n", L"Î´¸Ä±ä  %s\n" );      // should align with formatted
-    addPair( "Directory  %s\n", L"Ä¿Â¼  %s\n" );
-    addPair( "Default option file  %s\n", L"Ä¬ÈÏÑ¡ÏîÎÄ¼ş  %s\n" );
-    addPair( "Project option file  %s\n", L"ÏîÄ¿Ñ¡ÏîÎÄ¼ş  %s\n" );
-    addPair( "Exclude  %s\n", L"ÅÅ³ı  %s\n" );
-    addPair( "Exclude (unmatched)  %s\n", L"ÅÅ³ı£¨ÎŞÆ¥ÅäÏî£©  %s\n" );
-    addPair( " %s formatted   %s unchanged   ", L" %s ¸ñÊ½»¯   %s Î´¸Ä±ä   " );
-    addPair( " seconds   ", L" Ãë   " );
-    addPair( "%d min %d sec   ", L"%d ·Ö %d Ãë   " );
-    addPair( "%s lines\n", L"%s ĞĞ\n" );
-    addPair( "Opening HTML documentation %s\n", L"´ò¿ªHTMLÎÄµµ %s\n" );
-    addPair( "Invalid default options:", L"Ä¬ÈÏÑ¡ÏîÎŞĞ§:" );
-    addPair( "Invalid project options:", L"ÏîÄ¿Ñ¡ÏîÎŞĞ§:" );
-    addPair( "Invalid command line options:", L"ÎŞĞ§µÄÃüÁîĞĞÑ¡Ïî:" );
-    addPair( "For help on options type 'astyle -h'", L"ÊäÈë 'astyle -h' ÒÔ»ñµÃÓĞ¹ØÃüÁîĞĞµÄ°ïÖú" );
-    addPair( "Cannot open default option file", L"ÎŞ·¨´ò¿ªÄ¬ÈÏÑ¡ÏîÎÄ¼ş" );
-    addPair( "Cannot open project option file", L"ÎŞ·¨´ò¿ªÏîÄ¿Ñ¡ÏîÎÄ¼ş" );
-    addPair( "Cannot open directory", L"ÎŞ·¨´ò¿ªÄ¿Â¼" );
-    addPair( "Cannot open HTML file %s\n", L"ÎŞ·¨´ò¿ªHTMLÎÄ¼ş %s\n" );
-    addPair( "Command execute failure", L"Ö´ĞĞÃüÁîÊ§°Ü" );
-    addPair( "Command is not installed", L"Î´°²×°ÃüÁî" );
-    addPair( "Missing filename in %s\n", L"ÔÚ%sÈ±ÉÙÎÄ¼şÃû\n" );
-    addPair( "Recursive option with no wildcard", L"µİ¹éÑ¡ÏîÃ»ÓĞÍ¨Åä·û" );
-    addPair( "Did you intend quote the filename", L"Äã´òËãÒıÓÃÎÄ¼şÃû" );
-    addPair( "No file to process %s\n", L"Ã»ÓĞÎÄ¼ş¿É´¦Àí %s\n" );
-    addPair( "Did you intend to use --recursive", L"Äã´òËãÊ¹ÓÃ --recursive" );
-    addPair( "Cannot process UTF-32 encoding", L"²»ÄÜ´¦ÀíUTF-32±àÂë" );
-    addPair( "Artistic Style has terminated\n", L"Artistic Style ÒÑ¾­ÖÕÖ¹ÔËĞĞ\n" );
+    addPair( "Formatted  %s\n", L"æ ¼å¼åŒ–  %s\n" );      // should align with unchanged
+    addPair( "Unchanged  %s\n", L"æœªæ”¹å˜  %s\n" );      // should align with formatted
+    addPair( "Directory  %s\n", L"ç›®å½•  %s\n" );
+    addPair( "Default option file  %s\n", L"é»˜è®¤é€‰é¡¹æ–‡ä»¶  %s\n" );
+    addPair( "Project option file  %s\n", L"é¡¹ç›®é€‰é¡¹æ–‡ä»¶  %s\n" );
+    addPair( "Exclude  %s\n", L"æ’é™¤  %s\n" );
+    addPair( "Exclude (unmatched)  %s\n", L"æ’é™¤ï¼ˆæ— åŒ¹é…é¡¹ï¼‰  %s\n" );
+    addPair( " %s formatted   %s unchanged   ", L" %s æ ¼å¼åŒ–   %s æœªæ”¹å˜   " );
+    addPair( " seconds   ", L" ç§’   " );
+    addPair( "%d min %d sec   ", L"%d åˆ† %d ç§’   " );
+    addPair( "%s lines\n", L"%s è¡Œ\n" );
+    addPair( "Opening HTML documentation %s\n", L"æ‰“å¼€HTMLæ–‡æ¡£ %s\n" );
+    addPair( "Invalid default options:", L"é»˜è®¤é€‰é¡¹æ— æ•ˆ:" );
+    addPair( "Invalid project options:", L"é¡¹ç›®é€‰é¡¹æ— æ•ˆ:" );
+    addPair( "Invalid command line options:", L"æ— æ•ˆçš„å‘½ä»¤è¡Œé€‰é¡¹:" );
+    addPair( "For help on options type 'astyle -h'", L"è¾“å…¥ 'astyle -h' ä»¥è·å¾—æœ‰å…³å‘½ä»¤è¡Œçš„å¸®åŠ©" );
+    addPair( "Cannot open default option file", L"æ— æ³•æ‰“å¼€é»˜è®¤é€‰é¡¹æ–‡ä»¶" );
+    addPair( "Cannot open project option file", L"æ— æ³•æ‰“å¼€é¡¹ç›®é€‰é¡¹æ–‡ä»¶" );
+    addPair( "Cannot open directory", L"æ— æ³•æ‰“å¼€ç›®å½•" );
+    addPair( "Cannot open HTML file %s\n", L"æ— æ³•æ‰“å¼€HTMLæ–‡ä»¶ %s\n" );
+    addPair( "Command execute failure", L"æ‰§è¡Œå‘½ä»¤å¤±è´¥" );
+    addPair( "Command is not installed", L"æœªå®‰è£…å‘½ä»¤" );
+    addPair( "Missing filename in %s\n", L"åœ¨%sç¼ºå°‘æ–‡ä»¶å\n" );
+    addPair( "Recursive option with no wildcard", L"é€’å½’é€‰é¡¹æ²¡æœ‰é€šé…ç¬¦" );
+    addPair( "Did you intend quote the filename", L"ä½ æ‰“ç®—å¼•ç”¨æ–‡ä»¶å" );
+    addPair( "No file to process %s\n", L"æ²¡æœ‰æ–‡ä»¶å¯å¤„ç† %s\n" );
+    addPair( "Did you intend to use --recursive", L"ä½ æ‰“ç®—ä½¿ç”¨ --recursive" );
+    addPair( "Cannot process UTF-32 encoding", L"ä¸èƒ½å¤„ç†UTF-32ç¼–ç " );
+    addPair( "Artistic Style has terminated\n", L"Artistic Style å·²ç»ç»ˆæ­¢è¿è¡Œ\n" );
 }
 
-ChineseTraditional::ChineseTraditional()    // ÖĞÎÄ£¨·±ów£©
+ChineseTraditional::ChineseTraditional()    // ä¸­æ–‡ï¼ˆç¹é«”ï¼‰
 // build the translation vector in the Translation base class
 {
-    addPair( "Formatted  %s\n", L"¸ñÊ½»¯  %s\n" );      // should align with unchanged
-    addPair( "Unchanged  %s\n", L"Î´¸Ä×ƒ  %s\n" );      // should align with formatted
-    addPair( "Directory  %s\n", L"Ä¿ä›  %s\n" );
-    addPair( "Default option file  %s\n", L"Ä¬ÕJßxí—ÎÄ¼ş  %s\n" );
-    addPair( "Project option file  %s\n", L"í—Ä¿ßxí—ÎÄ¼ş  %s\n" );
-    addPair( "Exclude  %s\n", L"ÅÅ³ı  %s\n" );
-    addPair( "Exclude (unmatched)  %s\n", L"ÅÅ³ı£¨ŸoÆ¥Åäí—£©  %s\n" );
-    addPair( " %s formatted   %s unchanged   ", L" %s ¸ñÊ½»¯   %s Î´¸Ä×ƒ   " );
-    addPair( " seconds   ", L" Ãë   " );
-    addPair( "%d min %d sec   ", L"%d ·Ö %d Ãë   " );
-    addPair( "%s lines\n", L"%s ĞĞ\n" );
-    addPair( "Opening HTML documentation %s\n", L"´òé_HTMLÎÄ™n %s\n" );
-    addPair( "Invalid default options:", L"Ä¬ÕJßxí—ŸoĞ§:" );
-    addPair( "Invalid project options:", L"í—Ä¿ßxí—ŸoĞ§:" );
-    addPair( "Invalid command line options:", L"ŸoĞ§µÄÃüÁîĞĞßxí—:" );
-    addPair( "For help on options type 'astyle -h'", L"İ”Èë'astyle -h'ÒÔ«@µÃÓĞêPÃüÁîĞĞµÄÍÖú:" );
-    addPair( "Cannot open default option file", L"Ÿo·¨´òé_Ä¬ÕJßxí—ÎÄ¼ş" );
-    addPair( "Cannot open project option file", L"Ÿo·¨´òé_í—Ä¿ßxí—ÎÄ¼ş" );
-    addPair( "Cannot open directory", L"Ÿo·¨´òé_Ä¿ä›" );
-    addPair( "Cannot open HTML file %s\n", L"Ÿo·¨´òé_HTMLÎÄ¼ş %s\n" );
-    addPair( "Command execute failure", L"ˆÌĞĞÃüÁîÊ§”¡" );
-    addPair( "Command is not installed", L"Î´°²ÑbÃüÁî" );
-    addPair( "Missing filename in %s\n", L"ÔÚ%sÈ±ÉÙÎÄ¼şÃû\n" );
-    addPair( "Recursive option with no wildcard", L"ßfšwßxí—›]ÓĞÍ¨Åä·û" );
-    addPair( "Did you intend quote the filename", L"Äã´òËãÒıÓÃÎÄ¼şÃû" );
-    addPair( "No file to process %s\n", L"›]ÓĞÎÄ¼ş¿ÉÌÀí %s\n" );
-    addPair( "Did you intend to use --recursive", L"Äã´òËãÊ¹ÓÃ --recursive" );
-    addPair( "Cannot process UTF-32 encoding", L"²»ÄÜÌÀíUTF-32¾´a" );
-    addPair( "Artistic Style has terminated\n", L"Artistic Style ÒÑ½›½KÖ¹ß\ĞĞ\n" );
+    addPair( "Formatted  %s\n", L"æ ¼å¼åŒ–  %s\n" );      // should align with unchanged
+    addPair( "Unchanged  %s\n", L"æœªæ”¹è®Š  %s\n" );      // should align with formatted
+    addPair( "Directory  %s\n", L"ç›®éŒ„  %s\n" );
+    addPair( "Default option file  %s\n", L"é»˜èªé¸é …æ–‡ä»¶  %s\n" );
+    addPair( "Project option file  %s\n", L"é …ç›®é¸é …æ–‡ä»¶  %s\n" );
+    addPair( "Exclude  %s\n", L"æ’é™¤  %s\n" );
+    addPair( "Exclude (unmatched)  %s\n", L"æ’é™¤ï¼ˆç„¡åŒ¹é…é …ï¼‰  %s\n" );
+    addPair( " %s formatted   %s unchanged   ", L" %s æ ¼å¼åŒ–   %s æœªæ”¹è®Š   " );
+    addPair( " seconds   ", L" ç§’   " );
+    addPair( "%d min %d sec   ", L"%d åˆ† %d ç§’   " );
+    addPair( "%s lines\n", L"%s è¡Œ\n" );
+    addPair( "Opening HTML documentation %s\n", L"æ‰“é–‹HTMLæ–‡æª” %s\n" );
+    addPair( "Invalid default options:", L"é»˜èªé¸é …ç„¡æ•ˆ:" );
+    addPair( "Invalid project options:", L"é …ç›®é¸é …ç„¡æ•ˆ:" );
+    addPair( "Invalid command line options:", L"ç„¡æ•ˆçš„å‘½ä»¤è¡Œé¸é …:" );
+    addPair( "For help on options type 'astyle -h'", L"è¼¸å…¥'astyle -h'ä»¥ç²å¾—æœ‰é—œå‘½ä»¤è¡Œçš„å¹«åŠ©:" );
+    addPair( "Cannot open default option file", L"ç„¡æ³•æ‰“é–‹é»˜èªé¸é …æ–‡ä»¶" );
+    addPair( "Cannot open project option file", L"ç„¡æ³•æ‰“é–‹é …ç›®é¸é …æ–‡ä»¶" );
+    addPair( "Cannot open directory", L"ç„¡æ³•æ‰“é–‹ç›®éŒ„" );
+    addPair( "Cannot open HTML file %s\n", L"ç„¡æ³•æ‰“é–‹HTMLæ–‡ä»¶ %s\n" );
+    addPair( "Command execute failure", L"åŸ·è¡Œå‘½ä»¤å¤±æ•—" );
+    addPair( "Command is not installed", L"æœªå®‰è£å‘½ä»¤" );
+    addPair( "Missing filename in %s\n", L"åœ¨%sç¼ºå°‘æ–‡ä»¶å\n" );
+    addPair( "Recursive option with no wildcard", L"éæ­¸é¸é …æ²’æœ‰é€šé…ç¬¦" );
+    addPair( "Did you intend quote the filename", L"ä½ æ‰“ç®—å¼•ç”¨æ–‡ä»¶å" );
+    addPair( "No file to process %s\n", L"æ²’æœ‰æ–‡ä»¶å¯è™•ç† %s\n" );
+    addPair( "Did you intend to use --recursive", L"ä½ æ‰“ç®—ä½¿ç”¨ --recursive" );
+    addPair( "Cannot process UTF-32 encoding", L"ä¸èƒ½è™•ç†UTF-32ç·¨ç¢¼" );
+    addPair( "Artistic Style has terminated\n", L"Artistic Style å·²ç¶“çµ‚æ­¢é‹è¡Œ\n" );
 }
 
 Dutch::Dutch()  // Nederlandse
@@ -584,7 +584,7 @@ Estonian::Estonian()    // Eesti
     addPair( "Invalid default options:", L"Vaikevalikud on sobimatud:" );
     addPair( "Invalid project options:", L"Projekti valikud on sobimatud:" );
     addPair( "Invalid command line options:", L"Vale k?sureav?tmetega:" );
-    addPair( "For help on options type 'astyle -h'", L"Abiks v?imaluste t¨¹¨¹p 'astyle -h'" );
+    addPair( "For help on options type 'astyle -h'", L"Abiks v?imaluste tÃ¼Ã¼p 'astyle -h'" );
     addPair( "Cannot open default option file", L"Vaikimisi valitud faili ei saa avada" );
     addPair( "Cannot open project option file", L"Projektivaliku faili ei saa avada" );
     addPair( "Cannot open directory", L"Ei saa avada kataloogi" );
@@ -637,32 +637,32 @@ Finnish::Finnish()  // Suomeksi
 French::French()    // Fran?aise
 // build the translation vector in the Translation base class
 {
-    addPair( "Formatted  %s\n", L"Format¨¦    %s\n" );  // should align with unchanged
-    addPair( "Unchanged  %s\n", L"Inchang¨¦e  %s\n" );  // should align with formatted
-    addPair( "Directory  %s\n", L"R¨¦pertoire  %s\n" );
-    addPair( "Default option file  %s\n", L"Fichier d'option par d¨¦faut  %s\n" );
+    addPair( "Formatted  %s\n", L"FormatÃ©    %s\n" );  // should align with unchanged
+    addPair( "Unchanged  %s\n", L"InchangÃ©e  %s\n" );  // should align with formatted
+    addPair( "Directory  %s\n", L"RÃ©pertoire  %s\n" );
+    addPair( "Default option file  %s\n", L"Fichier d'option par dÃ©faut  %s\n" );
     addPair( "Project option file  %s\n", L"Fichier d'option de projet  %s\n" );
     addPair( "Exclude  %s\n", L"Exclure  %s\n" );
-    addPair( "Exclude (unmatched)  %s\n", L"Exclure (non appari¨¦s)  %s\n" );
-    addPair( " %s formatted   %s unchanged   ", L" %s format¨¦   %s inchang¨¦e   " );
+    addPair( "Exclude (unmatched)  %s\n", L"Exclure (non appariÃ©s)  %s\n" );
+    addPair( " %s formatted   %s unchanged   ", L" %s formatÃ©   %s inchangÃ©e   " );
     addPair( " seconds   ", L" seconde   " );
     addPair( "%d min %d sec   ", L"%d min %d sec   " );
     addPair( "%s lines\n", L"%s lignes\n" );
     addPair( "Opening HTML documentation %s\n", L"Ouverture documentation HTML %s\n" );
-    addPair( "Invalid default options:", L"Options par d¨¦faut invalides:" );
+    addPair( "Invalid default options:", L"Options par dÃ©faut invalides:" );
     addPair( "Invalid project options:", L"Options de projet non valides:" );
     addPair( "Invalid command line options:", L"Blancs options ligne de commande:" );
     addPair( "For help on options type 'astyle -h'", L"Pour de l'aide sur les options tapez 'astyle -h'" );
-    addPair( "Cannot open default option file", L"Impossible d'ouvrir le fichier d'option par d¨¦faut" );
+    addPair( "Cannot open default option file", L"Impossible d'ouvrir le fichier d'option par dÃ©faut" );
     addPair( "Cannot open project option file", L"Impossible d'ouvrir le fichier d'option de projet" );
-    addPair( "Cannot open directory", L"Impossible d'ouvrir le r¨¦pertoire" );
+    addPair( "Cannot open directory", L"Impossible d'ouvrir le rÃ©pertoire" );
     addPair( "Cannot open HTML file %s\n", L"Impossible d'ouvrir le fichier HTML %s\n" );
-    addPair( "Command execute failure", L"Ex¨¦cuter ¨¦chec de la commande" );
-    addPair( "Command is not installed", L"Commande n'est pas install¨¦" );
+    addPair( "Command execute failure", L"ExÃ©cuter Ã©chec de la commande" );
+    addPair( "Command is not installed", L"Commande n'est pas installÃ©" );
     addPair( "Missing filename in %s\n", L"Nom de fichier manquant dans %s\n" );
-    addPair( "Recursive option with no wildcard", L"Option r¨¦cursive sans joker" );
+    addPair( "Recursive option with no wildcard", L"Option rÃ©cursive sans joker" );
     addPair( "Did you intend quote the filename", L"Avez-vous l'intention de citer le nom de fichier" );
-    addPair( "No file to process %s\n", L"Aucun fichier ¨¤ traiter %s\n" );
+    addPair( "No file to process %s\n", L"Aucun fichier Ã  traiter %s\n" );
     addPair( "Did you intend to use --recursive", L"Avez-vous l'intention d'utiliser --recursive" );
     addPair( "Cannot process UTF-32 encoding", L"Impossible de traiter codage UTF-32" );
     addPair( "Artistic Style has terminated\n", L"Artistic Style a mis fin\n" );
@@ -683,10 +683,10 @@ German::German()    // Deutsch
     addPair( "%d min %d sec   ", L"%d min %d sek   " );
     addPair( "%s lines\n", L"%s linien\n" );
     addPair( "Opening HTML documentation %s\n", L"?ffnen HTML-Dokumentation %s\n" );
-    addPair( "Invalid default options:", L"Ung¨¹ltige Standardoptionen:" );
-    addPair( "Invalid project options:", L"Ung¨¹ltige Projektoptionen:" );
-    addPair( "Invalid command line options:", L"Ung¨¹ltige Kommandozeilen-Optionen:" );
-    addPair( "For help on options type 'astyle -h'", L"F¨¹r Hilfe zu den Optionen geben Sie 'astyle -h'" );
+    addPair( "Invalid default options:", L"UngÃ¼ltige Standardoptionen:" );
+    addPair( "Invalid project options:", L"UngÃ¼ltige Projektoptionen:" );
+    addPair( "Invalid command line options:", L"UngÃ¼ltige Kommandozeilen-Optionen:" );
+    addPair( "For help on options type 'astyle -h'", L"FÃ¼r Hilfe zu den Optionen geben Sie 'astyle -h'" );
     addPair( "Cannot open default option file", L"Die Standardoptionsdatei kann nicht ge?ffnet werden" );
     addPair( "Cannot open project option file", L"Die Projektoptionsdatei kann nicht ge?ffnet werden" );
     addPair( "Cannot open directory", L"Kann nicht ge?ffnet werden Verzeichnis" );
@@ -702,39 +702,39 @@ German::German()    // Deutsch
     addPair( "Artistic Style has terminated\n", L"Artistic Style ist beendet\n" );
 }
 
-Greek::Greek()  // ¦Å¦Ë¦Ë¦Ç¦Í¦É¦Ê?
+Greek::Greek()  // ÎµÎ»Î»Î·Î½Î¹Îº?
 // build the translation vector in the Translation base class
 {
-    addPair( "Formatted  %s\n", L"¦¤¦É¦Á¦Ì¦Ï¦Ñ¦Õ¦Ø¦Ì?¦Í¦Ç  %s\n" ); // should align with unchanged
-    addPair( "Unchanged  %s\n", L"¦¡¦Ì¦Å¦Ó?¦Â¦Ë¦Ç¦Ó¦Ï?   %s\n" ); // should align with formatted
-    addPair( "Directory  %s\n", L"¦ª¦Á¦Ó?¦Ë¦Ï¦Ã¦Ï?  %s\n" );
-    addPair( "Default option file  %s\n", L"¦°¦Ñ¦Ï¦Å¦Ğ¦É¦Ë¦Å¦Ã¦Ì?¦Í¦Ï ¦Á¦Ñ¦Ö¦Å?¦Ï ¦Å¦Ğ¦É¦Ë¦Ï¦Ã?¦Í  %s\n" );
-    addPair( "Project option file  %s\n", L"¦¡¦Ñ¦Ö¦Å?¦Ï ¦Å¦Ğ¦É¦Ë¦Ï¦Ã?? ?¦Ñ¦Ã¦Ï¦Ô  %s\n" );
-    addPair( "Exclude  %s\n", L"¦¡¦Ğ¦Ï¦Ê¦Ë¦Å?¦Ø  %s\n" );
+    addPair( "Formatted  %s\n", L"Î”Î¹Î±Î¼Î¿ÏÏ†Ï‰Î¼?Î½Î·  %s\n" ); // should align with unchanged
+    addPair( "Unchanged  %s\n", L"Î‘Î¼ÎµÏ„?Î²Î»Î·Ï„Î¿?   %s\n" ); // should align with formatted
+    addPair( "Directory  %s\n", L"ÎšÎ±Ï„?Î»Î¿Î³Î¿?  %s\n" );
+    addPair( "Default option file  %s\n", L"Î ÏÎ¿ÎµÏ€Î¹Î»ÎµÎ³Î¼?Î½Î¿ Î±ÏÏ‡Îµ?Î¿ ÎµÏ€Î¹Î»Î¿Î³?Î½  %s\n" );
+    addPair( "Project option file  %s\n", L"Î‘ÏÏ‡Îµ?Î¿ ÎµÏ€Î¹Î»Î¿Î³?? ?ÏÎ³Î¿Ï…  %s\n" );
+    addPair( "Exclude  %s\n", L"Î‘Ï€Î¿ÎºÎ»Îµ?Ï‰  %s\n" );
     addPair( "Exclude (unmatched)  %s\n", L"Ausschlie?en (unerreichte)  %s\n" );
-    addPair( " %s formatted   %s unchanged   ", L" %s ¦Ò¦Ö¦Ç¦Ì¦Á¦Ó¦Ï¦Ğ¦Ï¦É¦Ç¦Ì?¦Í¦Ç   %s ¦Á¦Ì¦Å¦Ó?¦Â¦Ë¦Ç¦Ó¦Å?   " );
-    addPair( " seconds   ", L" ¦Ä¦Å¦Ô¦Ó¦Å¦Ñ?¦Ë¦Å¦Ğ¦Ó¦Á   " );
-    addPair( "%d min %d sec   ", L"%d ¦Ë¦Å¦Ğ %d ¦Ä¦Å¦Ô   " );
-    addPair( "%s lines\n", L"%s ¦Ã¦Ñ¦Á¦Ì¦Ì??\n" );
-    addPair( "Opening HTML documentation %s\n", L"¦¥¦Ã¦Ê¦Á?¦Í¦É¦Á ?¦Ã¦Ã¦Ñ¦Á¦Õ¦Á HTML %s\n" );
-    addPair( "Invalid default options:", L"¦¬¦Ç ?¦Ã¦Ê¦Ô¦Ñ¦Å? ¦Å¦Ğ¦É¦Ë¦Ï¦Ã?? ¦Ğ¦Ñ¦Ï¦Å¦Ğ¦É¦Ë¦Ï¦Ã??:" );
-    addPair( "Invalid project options:", L"¦¬¦Ç ?¦Ã¦Ê¦Ô¦Ñ¦Å? ¦Å¦Ğ¦É¦Ë¦Ï¦Ã?? ?¦Ñ¦Ã¦Ï¦Ô:" );
-    addPair( "Invalid command line options:", L"¦¬¦Ç ?¦Ã¦Ê¦Ô¦Ñ¦Ç ¦Å¦Ğ¦É¦Ë¦Ï¦Ã?? ¦Ã¦Ñ¦Á¦Ì¦Ì?? ¦Å¦Í¦Ó¦Ï¦Ë?¦Í:" );
-    addPair( "For help on options type 'astyle -h'", L"¦£¦É¦Á ¦Â¦Ï?¦È¦Å¦É¦Á ¦Ò¦Ö¦Å¦Ó¦É¦Ê? ¦Ì¦Å ¦Ó¦Ï ¦Å?¦Ä¦Ï? ¦Å¦Ğ¦É¦Ë¦Ï¦Ã?? 'astyle -h'" );
+    addPair( " %s formatted   %s unchanged   ", L" %s ÏƒÏ‡Î·Î¼Î±Ï„Î¿Ï€Î¿Î¹Î·Î¼?Î½Î·   %s Î±Î¼ÎµÏ„?Î²Î»Î·Ï„Îµ?   " );
+    addPair( " seconds   ", L" Î´ÎµÏ…Ï„ÎµÏ?Î»ÎµÏ€Ï„Î±   " );
+    addPair( "%d min %d sec   ", L"%d Î»ÎµÏ€ %d Î´ÎµÏ…   " );
+    addPair( "%s lines\n", L"%s Î³ÏÎ±Î¼Î¼??\n" );
+    addPair( "Opening HTML documentation %s\n", L"Î•Î³ÎºÎ±?Î½Î¹Î± ?Î³Î³ÏÎ±Ï†Î± HTML %s\n" );
+    addPair( "Invalid default options:", L"ÎœÎ· ?Î³ÎºÏ…ÏÎµ? ÎµÏ€Î¹Î»Î¿Î³?? Ï€ÏÎ¿ÎµÏ€Î¹Î»Î¿Î³??:" );
+    addPair( "Invalid project options:", L"ÎœÎ· ?Î³ÎºÏ…ÏÎµ? ÎµÏ€Î¹Î»Î¿Î³?? ?ÏÎ³Î¿Ï…:" );
+    addPair( "Invalid command line options:", L"ÎœÎ· ?Î³ÎºÏ…ÏÎ· ÎµÏ€Î¹Î»Î¿Î³?? Î³ÏÎ±Î¼Î¼?? ÎµÎ½Ï„Î¿Î»?Î½:" );
+    addPair( "For help on options type 'astyle -h'", L"Î“Î¹Î± Î²Î¿?Î¸ÎµÎ¹Î± ÏƒÏ‡ÎµÏ„Î¹Îº? Î¼Îµ Ï„Î¿ Îµ?Î´Î¿? ÎµÏ€Î¹Î»Î¿Î³?? 'astyle -h'" );
     addPair( "Cannot open default option file",
-             L"¦¤¦Å¦Í ¦Å?¦Í¦Á¦É ¦Ä¦Ô¦Í¦Á¦Ó? ¦Í¦Á ¦Á¦Í¦Ï?¦Î¦Å¦É ¦Ó¦Ï ¦Ğ¦Ñ¦Ï¦Å¦Ğ¦É¦Ë¦Å¦Ã¦Ì?¦Í¦Ï ¦Á¦Ñ¦Ö¦Å?¦Ï ¦Å¦Ğ¦É¦Ë¦Ï¦Ã?¦Í" );
-    addPair( "Cannot open project option file", L"¦¤¦Å¦Í ¦Å?¦Í¦Á¦É ¦Ä¦Ô¦Í¦Á¦Ó? ¦Í¦Á ¦Á¦Í¦Ï?¦Î¦Å¦É ¦Ó¦Ï ¦Á¦Ñ¦Ö¦Å?¦Ï ¦Å¦Ğ¦É¦Ë¦Ï¦Ã?? ?¦Ñ¦Ã¦Ï¦Ô" );
-    addPair( "Cannot open directory", L"¦¤¦Å¦Í ¦Ì¦Ğ¦Ï¦Ñ¦Å?¦Ó¦Å ¦Í¦Á ¦Á¦Í¦Ï?¦Î¦Å¦Ó¦Å ¦Ó¦Ï¦Í ¦Ê¦Á¦Ó?¦Ë¦Ï¦Ã¦Ï" );
-    addPair( "Cannot open HTML file %s\n", L"¦¤¦Å¦Í ¦Ì¦Ğ¦Ï¦Ñ¦Å?¦Ó¦Å ¦Í¦Á ¦Á¦Í¦Ï?¦Î¦Å¦Ó¦Å ¦Ó¦Ï ¦Á¦Ñ¦Ö¦Å?¦Ï HTML %s\n" );
-    addPair( "Command execute failure", L"¦¥¦Í¦Ó¦Ï¦Ë? ¦Í¦Á ¦Å¦Ê¦Ó¦Å¦Ë?¦Ò¦Å¦É ¦Ó¦Ç¦Í ¦Á¦Ğ¦Ï¦Ó¦Ô¦Ö?¦Á" );
-    addPair( "Command is not installed", L"¦§ ¦Å¦Í¦Ó¦Ï¦Ë? ¦Ä¦Å¦Í ?¦Ö¦Å¦É ¦Å¦Ã¦Ê¦Á¦Ó¦Á¦Ò¦Ó¦Á¦È¦Å?" );
-    addPair( "Missing filename in %s\n", L"¦«¦Å?¦Ğ¦Å¦É ¦Ó¦Ï ?¦Í¦Ï¦Ì¦Á ¦Á¦Ñ¦Ö¦Å?¦Ï¦Ô ¦Ò¦Å %s\n" );
-    addPair( "Recursive option with no wildcard", L"¦¡¦Í¦Á¦Ä¦Ñ¦Ï¦Ì¦É¦Ê?? ¦Å¦Ğ¦É¦Ë¦Ï¦Ã? ¦Ö¦Ø¦Ñ?? ¦Ì¦Ğ¦Á¦Ë¦Á¦Í¦Ó?¦Ñ" );
-    addPair( "Did you intend quote the filename", L"¦¬?¦Ğ¦Ø? ¦Ò¦Ê¦Ï¦Ğ¦Å?¦Å¦Ó¦Å ¦Í¦Á ¦Á¦Í¦Á¦Õ?¦Ñ¦Å¦Ó¦Å ¦Ó¦Ï ?¦Í¦Ï¦Ì¦Á ¦Ó¦Ï¦Ô ¦Á¦Ñ¦Ö¦Å?¦Ï¦Ô" );
-    addPair( "No file to process %s\n", L"¦¤¦Å¦Í ¦Ô¦Ğ?¦Ñ¦Ö¦Å¦É ¦Á¦Ñ¦Ö¦Å?¦Ï ¦Ã¦É¦Á ¦Ó¦Ç¦Í ¦Å¦Ğ¦Å¦Î¦Å¦Ñ¦Ã¦Á¦Ò?¦Á %s\n" );
-    addPair( "Did you intend to use --recursive", L"¦¬?¦Ğ¦Ø? ¦Ò¦Ê¦Ï¦Ğ¦Å?¦Å¦Ó¦Å ¦Í¦Á ¦Ö¦Ñ¦Ç¦Ò¦É¦Ì¦Ï¦Ğ¦Ï¦É?¦Ò¦Å¦Ó¦Å --recursive" );
-    addPair( "Cannot process UTF-32 encoding", L"¦Ä¦Å¦Í ¦Ì¦Ğ¦Ï¦Ñ¦Å? ¦Í¦Á ¦Å¦Ğ¦Å¦Î¦Å¦Ñ¦Ã¦Á¦Ò¦Ó¦Å? UTF-32 ¦Ê¦Ø¦Ä¦É¦Ê¦Ï¦Ğ¦Ï?¦Ç¦Ò¦Ç" );
-    addPair( "Artistic Style has terminated\n", L"Artistic Style ?¦Ö¦Å¦É ¦Ë?¦Î¦Å¦É\n" );
+             L"Î”ÎµÎ½ Îµ?Î½Î±Î¹ Î´Ï…Î½Î±Ï„? Î½Î± Î±Î½Î¿?Î¾ÎµÎ¹ Ï„Î¿ Ï€ÏÎ¿ÎµÏ€Î¹Î»ÎµÎ³Î¼?Î½Î¿ Î±ÏÏ‡Îµ?Î¿ ÎµÏ€Î¹Î»Î¿Î³?Î½" );
+    addPair( "Cannot open project option file", L"Î”ÎµÎ½ Îµ?Î½Î±Î¹ Î´Ï…Î½Î±Ï„? Î½Î± Î±Î½Î¿?Î¾ÎµÎ¹ Ï„Î¿ Î±ÏÏ‡Îµ?Î¿ ÎµÏ€Î¹Î»Î¿Î³?? ?ÏÎ³Î¿Ï…" );
+    addPair( "Cannot open directory", L"Î”ÎµÎ½ Î¼Ï€Î¿ÏÎµ?Ï„Îµ Î½Î± Î±Î½Î¿?Î¾ÎµÏ„Îµ Ï„Î¿Î½ ÎºÎ±Ï„?Î»Î¿Î³Î¿" );
+    addPair( "Cannot open HTML file %s\n", L"Î”ÎµÎ½ Î¼Ï€Î¿ÏÎµ?Ï„Îµ Î½Î± Î±Î½Î¿?Î¾ÎµÏ„Îµ Ï„Î¿ Î±ÏÏ‡Îµ?Î¿ HTML %s\n" );
+    addPair( "Command execute failure", L"Î•Î½Ï„Î¿Î»? Î½Î± ÎµÎºÏ„ÎµÎ»?ÏƒÎµÎ¹ Ï„Î·Î½ Î±Ï€Î¿Ï„Ï…Ï‡?Î±" );
+    addPair( "Command is not installed", L"Î— ÎµÎ½Ï„Î¿Î»? Î´ÎµÎ½ ?Ï‡ÎµÎ¹ ÎµÎ³ÎºÎ±Ï„Î±ÏƒÏ„Î±Î¸Îµ?" );
+    addPair( "Missing filename in %s\n", L"Î›Îµ?Ï€ÎµÎ¹ Ï„Î¿ ?Î½Î¿Î¼Î± Î±ÏÏ‡Îµ?Î¿Ï… ÏƒÎµ %s\n" );
+    addPair( "Recursive option with no wildcard", L"Î‘Î½Î±Î´ÏÎ¿Î¼Î¹Îº?? ÎµÏ€Î¹Î»Î¿Î³? Ï‡Ï‰Ï?? Î¼Ï€Î±Î»Î±Î½Ï„?Ï" );
+    addPair( "Did you intend quote the filename", L"Îœ?Ï€Ï‰? ÏƒÎºÎ¿Ï€Îµ?ÎµÏ„Îµ Î½Î± Î±Î½Î±Ï†?ÏÎµÏ„Îµ Ï„Î¿ ?Î½Î¿Î¼Î± Ï„Î¿Ï… Î±ÏÏ‡Îµ?Î¿Ï…" );
+    addPair( "No file to process %s\n", L"Î”ÎµÎ½ Ï…Ï€?ÏÏ‡ÎµÎ¹ Î±ÏÏ‡Îµ?Î¿ Î³Î¹Î± Ï„Î·Î½ ÎµÏ€ÎµÎ¾ÎµÏÎ³Î±Ïƒ?Î± %s\n" );
+    addPair( "Did you intend to use --recursive", L"Îœ?Ï€Ï‰? ÏƒÎºÎ¿Ï€Îµ?ÎµÏ„Îµ Î½Î± Ï‡ÏÎ·ÏƒÎ¹Î¼Î¿Ï€Î¿Î¹?ÏƒÎµÏ„Îµ --recursive" );
+    addPair( "Cannot process UTF-32 encoding", L"Î´ÎµÎ½ Î¼Ï€Î¿ÏÎµ? Î½Î± ÎµÏ€ÎµÎ¾ÎµÏÎ³Î±ÏƒÏ„Îµ? UTF-32 ÎºÏ‰Î´Î¹ÎºÎ¿Ï€Î¿?Î·ÏƒÎ·" );
+    addPair( "Artistic Style has terminated\n", L"Artistic Style ?Ï‡ÎµÎ¹ Î»?Î¾ÎµÎ¹\n" );
 }
 
 Hindi::Hindi()  // ??????
@@ -776,34 +776,34 @@ Hindi::Hindi()  // ??????
 Hungarian::Hungarian()  // Magyar
 // build the translation vector in the Translation base class
 {
-    addPair( "Formatted  %s\n", L"Form¨¢zott    %s\n" ); // should align with unchanged
-    addPair( "Unchanged  %s\n", L"V¨¢ltozatlan  %s\n" ); // should align with formatted
-    addPair( "Directory  %s\n", L"C¨ªmjegyz¨¦k  %s\n" );
-    addPair( "Default option file  %s\n", L"Alap¨¦rtelmezett be¨¢ll¨ªt¨¢si f¨¢jl  %s\n" );
-    addPair( "Project option file  %s\n", L"Projekt opci¨®f¨¢jl  %s\n" );
-    addPair( "Exclude  %s\n", L"Kiz¨¢r  %s\n" );
+    addPair( "Formatted  %s\n", L"FormÃ¡zott    %s\n" ); // should align with unchanged
+    addPair( "Unchanged  %s\n", L"VÃ¡ltozatlan  %s\n" ); // should align with formatted
+    addPair( "Directory  %s\n", L"CÃ­mjegyzÃ©k  %s\n" );
+    addPair( "Default option file  %s\n", L"AlapÃ©rtelmezett beÃ¡llÃ­tÃ¡si fÃ¡jl  %s\n" );
+    addPair( "Project option file  %s\n", L"Projekt opciÃ³fÃ¡jl  %s\n" );
+    addPair( "Exclude  %s\n", L"KizÃ¡r  %s\n" );
     addPair( "Exclude (unmatched)  %s\n", L"Escludere (senza pari)  %s\n" );
-    addPair( " %s formatted   %s unchanged   ", L" %s form¨¢zott   %s v¨¢ltozatlan   " );
-    addPair( " seconds   ", L" m¨¢sodperc   " );
-    addPair( "%d min %d sec   ", L"%d jeg %d m¨¢s   " );
+    addPair( " %s formatted   %s unchanged   ", L" %s formÃ¡zott   %s vÃ¡ltozatlan   " );
+    addPair( " seconds   ", L" mÃ¡sodperc   " );
+    addPair( "%d min %d sec   ", L"%d jeg %d mÃ¡s   " );
     addPair( "%s lines\n", L"%s vonalak\n" );
-    addPair( "Opening HTML documentation %s\n", L"Nyit¨® HTML dokument¨¢ci¨® %s\n" );
-    addPair( "Invalid default options:", L"¨¦rv¨¦nytelen alap¨¦rtelmezett be¨¢ll¨ªt¨¢sok:" );
-    addPair( "Invalid project options:", L"¨¦rv¨¦nytelen projektbe¨¢ll¨ªt¨¢sok:" );
-    addPair( "Invalid command line options:", L"¨¦rv¨¦nytelen parancssori opci¨®k:" );
-    addPair( "For help on options type 'astyle -h'", L"Ha seg¨ªts¨¦gre van lehet?s¨¦g t¨ªpus 'astyle-h'" );
-    addPair( "Cannot open default option file", L"Nem lehet megnyitni az alap¨¦rtelmezett be¨¢ll¨ªt¨¢si f¨¢jlt" );
-    addPair( "Cannot open project option file", L"Nem lehet megnyitni a projekt opci¨® f¨¢jlt" );
-    addPair( "Cannot open directory", L"Nem lehet megnyitni k?nyvt¨¢r" );
-    addPair( "Cannot open HTML file %s\n", L"Nem lehet megnyitni a HTML f¨¢jlt %s\n" );
-    addPair( "Command execute failure", L"Command v¨¦gre hiba" );
-    addPair( "Command is not installed", L"Parancs nincs telep¨ªtve" );
-    addPair( "Missing filename in %s\n", L"Hi¨¢nyz¨® f¨¢jln¨¦v %s\n" );
-    addPair( "Recursive option with no wildcard", L"Rekurz¨ªv kapcsol¨®t nem wildcard" );
-    addPair( "Did you intend quote the filename", L"Esetleg k¨ªv¨¢nja id¨¦zni a f¨¢jln¨¦v" );
-    addPair( "No file to process %s\n", L"Nincs f¨¢jl feldolgoz¨¢sa %s\n" );
-    addPair( "Did you intend to use --recursive", L"Esetleg a haszn¨¢lni k¨ªv¨¢nt --recursive" );
-    addPair( "Cannot process UTF-32 encoding", L"Nem tudja feldolgozni UTF-32 k¨®dol¨¢ssal" );
+    addPair( "Opening HTML documentation %s\n", L"NyitÃ³ HTML dokumentÃ¡ciÃ³ %s\n" );
+    addPair( "Invalid default options:", L"Ã©rvÃ©nytelen alapÃ©rtelmezett beÃ¡llÃ­tÃ¡sok:" );
+    addPair( "Invalid project options:", L"Ã©rvÃ©nytelen projektbeÃ¡llÃ­tÃ¡sok:" );
+    addPair( "Invalid command line options:", L"Ã©rvÃ©nytelen parancssori opciÃ³k:" );
+    addPair( "For help on options type 'astyle -h'", L"Ha segÃ­tsÃ©gre van lehet?sÃ©g tÃ­pus 'astyle-h'" );
+    addPair( "Cannot open default option file", L"Nem lehet megnyitni az alapÃ©rtelmezett beÃ¡llÃ­tÃ¡si fÃ¡jlt" );
+    addPair( "Cannot open project option file", L"Nem lehet megnyitni a projekt opciÃ³ fÃ¡jlt" );
+    addPair( "Cannot open directory", L"Nem lehet megnyitni k?nyvtÃ¡r" );
+    addPair( "Cannot open HTML file %s\n", L"Nem lehet megnyitni a HTML fÃ¡jlt %s\n" );
+    addPair( "Command execute failure", L"Command vÃ©gre hiba" );
+    addPair( "Command is not installed", L"Parancs nincs telepÃ­tve" );
+    addPair( "Missing filename in %s\n", L"HiÃ¡nyzÃ³ fÃ¡jlnÃ©v %s\n" );
+    addPair( "Recursive option with no wildcard", L"RekurzÃ­v kapcsolÃ³t nem wildcard" );
+    addPair( "Did you intend quote the filename", L"Esetleg kÃ­vÃ¡nja idÃ©zni a fÃ¡jlnÃ©v" );
+    addPair( "No file to process %s\n", L"Nincs fÃ¡jl feldolgozÃ¡sa %s\n" );
+    addPair( "Did you intend to use --recursive", L"Esetleg a hasznÃ¡lni kÃ­vÃ¡nt --recursive" );
+    addPair( "Cannot process UTF-32 encoding", L"Nem tudja feldolgozni UTF-32 kÃ³dolÃ¡ssal" );
     addPair( "Artistic Style has terminated\n", L"Artistic Style megsz?nt\n" );
 }
 
@@ -831,48 +831,48 @@ Italian::Italian()  // Italiano
     addPair( "Cannot open directory", L"Impossibile aprire la directory" );
     addPair( "Cannot open HTML file %s\n", L"Impossibile aprire il file HTML %s\n" );
     addPair( "Command execute failure", L"Esegui fallimento comando" );
-    addPair( "Command is not installed", L"Il comando non ¨¨ installato" );
+    addPair( "Command is not installed", L"Il comando non Ã¨ installato" );
     addPair( "Missing filename in %s\n", L"Nome del file mancante in %s\n" );
     addPair( "Recursive option with no wildcard", L"Opzione ricorsiva senza jolly" );
     addPair( "Did you intend quote the filename", L"Avete intenzione citare il nome del file" );
     addPair( "No file to process %s\n", L"Nessun file al processo %s\n" );
     addPair( "Did you intend to use --recursive", L"Hai intenzione di utilizzare --recursive" );
-    addPair( "Cannot process UTF-32 encoding", L"Non ¨¨ possibile processo di codifica UTF-32" );
+    addPair( "Cannot process UTF-32 encoding", L"Non Ã¨ possibile processo di codifica UTF-32" );
     addPair( "Artistic Style has terminated\n", L"Artistic Style ha terminato\n" );
 }
 
-Japanese::Japanese()    // ÈÕ±¾ÕZ
+Japanese::Japanese()    // æ—¥æœ¬èª
 // build the translation vector in the Translation base class
 {
-    addPair( "Formatted  %s\n", L"¥Õ¥©©`¥Ş¥Ã¥Èœg¤ß¤Î  %s\n" );      // should align with unchanged
-    addPair( "Unchanged  %s\n", L"‰ä¤ï¤ê¤Ş¤»¤ó        %s\n" );      // should align with formatted
-    addPair( "Directory  %s\n", L"¥Ç¥£¥ì¥¯¥È¥ê  %s\n" );
-    addPair( "Default option file  %s\n", L"¥Ç¥Õ¥©¥ë¥È¥ª¥×¥·¥ç¥ó¥Õ¥¡¥¤¥ë  %s\n" );
-    addPair( "Project option file  %s\n", L"¥×¥í¥¸¥§¥¯¥È¥ª¥×¥·¥ç¥ó¥Õ¥¡¥¤¥ë  %s\n" );
-    addPair( "Exclude  %s\n", L"³ıÍâ¤¹¤ë  %s\n" );
-    addPair( "Exclude (unmatched)  %s\n", L"³ıÍâ¤¹¤ë£¨Ò»ÖÂ¤·¤Ş¤»¤ó£©  %s\n" );
-    addPair( " %s formatted   %s unchanged   ", L" %s ¥Õ¥Õ¥©©`¥Ş¥Ã¥Èœg¤ß¤Î   %s ‰ä¤ï¤ê¤Ş¤»¤ó   " );
-    addPair( " seconds   ", L" Ãë   " );
-    addPair( "%d min %d sec   ", L"%d ·Ö %d Ãë   " );
-    addPair( "%s lines\n", L"%s ¥é¥¤¥ó\n" );
-    addPair( "Opening HTML documentation %s\n", L"¥ª©`¥×¥Ë¥ó¥°HTML¥É¥­¥å¥á¥ó¥È %s\n" );
-    addPair( "Invalid default options:", L"Ÿo„¿¤Ê¥Ç¥Õ¥©¥ë¥È¥ª¥×¥·¥ç¥ó:" );
-    addPair( "Invalid project options:", L"Ÿo„¿¤Ê¥×¥í¥¸¥§¥¯¥È¥ª¥×¥·¥ç¥ó:" );
-    addPair( "Invalid command line options:", L"Ÿo„¿¤Ê¥³¥Ş¥ó¥É¥é¥¤¥ó¥ª¥×¥·¥ç¥ó£º" );
-    addPair( "For help on options type 'astyle -h'", L"¥³¥ª¥×¥·¥ç¥ó¤Î·Nî¤Î¥Ø¥ë¥×¤Ë¤Ä¤¤¤Æ'astyle- h'¤òÈëÁ¦¤·¤Æ¤¯¤À¤µ¤¤" );
-    addPair( "Cannot open default option file", L"¥Ç¥Õ¥©¥ë¥È¤Î¥ª¥×¥·¥ç¥ó¥Õ¥¡¥¤¥ë¤òé_¤¯¤³¤È¤¬¤Ç¤­¤Ş¤»¤ó" );
-    addPair( "Cannot open project option file", L"¥×¥í¥¸¥§¥¯¥È¥ª¥×¥·¥ç¥ó¥Õ¥¡¥¤¥ë¤òé_¤¯¤³¤È¤¬¤Ç¤­¤Ş¤»¤ó" );
-    addPair( "Cannot open directory", L"¥Ç¥£¥ì¥¯¥È¥ê¤òé_¤¯¤³¤È¤¬¤Ç¤­¤Ş¤»¤ó¡£" );
-    addPair( "Cannot open HTML file %s\n", L"HTML¥Õ¥¡¥¤¥ë¤òé_¤¯¤³¤È¤¬¤Ç¤­¤Ş¤»¤ó %s\n" );
-    addPair( "Command execute failure", L"¥³¥Ş¥ó¥É¤¬Ê§”¡¤òŒgĞĞ¤·¤Ş¤¹" );
-    addPair( "Command is not installed", L"¥³¥Ş¥ó¥É¤¬¥¤¥ó¥¹¥È©`¥ë¤µ¤ì¤Æ¤¤¤Ş¤»¤ó" );
-    addPair( "Missing filename in %s\n", L"%s ¤Ç¡¢¥Õ¥¡¥¤¥ëÃû¤¬¤¢¤ê¤Ş¤»¤ó\n" );
-    addPair( "Recursive option with no wildcard", L"Ÿo¥ï¥¤¥ë¥É¥«©`¥É¤òÊ¹ÓÃ¤·¤ÆÔÙ¢µÄ¤Ê¥ª¥×¥·¥ç¥ó" );
-    addPair( "Did you intend quote the filename", L"¤¢¤Ê¤¿¤Ï¥Õ¥¡¥¤¥ëÃû¤òÒıÓÃ¤¹¤ë¤Ä¤â¤ê¤Ç¤·¤¿" );
-    addPair( "No file to process %s\n", L"¤¤¤¤¤¨¥Õ¥¡¥¤¥ë¤Ï„IÀí¤·¤Ê¤¤¤è¤¦¤Ë %s\n" );
-    addPair( "Did you intend to use --recursive", L"¤¢¤Ê¤¿¤Ï--recursiveÊ¹ÓÃ¤¹¤ë¤Ä¤â¤ê¤Ç¤·¤¿" );
-    addPair( "Cannot process UTF-32 encoding", L"UTF - 32¥¨¥ó¥³©`¥Ç¥£¥ó¥°¤ò„IÀí¤Ç¤­¤Ş¤»¤ó" );
-    addPair( "Artistic Style has terminated\n", L"Artistic Style ½KÁË¤·¤Ş¤·¤¿\n" );
+    addPair( "Formatted  %s\n", L"ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆæ¸ˆã¿ã®  %s\n" );      // should align with unchanged
+    addPair( "Unchanged  %s\n", L"å¤‰ã‚ã‚Šã¾ã›ã‚“        %s\n" );      // should align with formatted
+    addPair( "Directory  %s\n", L"ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª  %s\n" );
+    addPair( "Default option file  %s\n", L"ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ•ã‚¡ã‚¤ãƒ«  %s\n" );
+    addPair( "Project option file  %s\n", L"ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ•ã‚¡ã‚¤ãƒ«  %s\n" );
+    addPair( "Exclude  %s\n", L"é™¤å¤–ã™ã‚‹  %s\n" );
+    addPair( "Exclude (unmatched)  %s\n", L"é™¤å¤–ã™ã‚‹ï¼ˆä¸€è‡´ã—ã¾ã›ã‚“ï¼‰  %s\n" );
+    addPair( " %s formatted   %s unchanged   ", L" %s ãƒ•ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆæ¸ˆã¿ã®   %s å¤‰ã‚ã‚Šã¾ã›ã‚“   " );
+    addPair( " seconds   ", L" ç§’   " );
+    addPair( "%d min %d sec   ", L"%d åˆ† %d ç§’   " );
+    addPair( "%s lines\n", L"%s ãƒ©ã‚¤ãƒ³\n" );
+    addPair( "Opening HTML documentation %s\n", L"ã‚ªãƒ¼ãƒ—ãƒ‹ãƒ³ã‚°HTMLãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆ %s\n" );
+    addPair( "Invalid default options:", L"ç„¡åŠ¹ãªãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚ªãƒ—ã‚·ãƒ§ãƒ³:" );
+    addPair( "Invalid project options:", L"ç„¡åŠ¹ãªãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã‚ªãƒ—ã‚·ãƒ§ãƒ³:" );
+    addPair( "Invalid command line options:", L"ç„¡åŠ¹ãªã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã‚ªãƒ—ã‚·ãƒ§ãƒ³ï¼š" );
+    addPair( "For help on options type 'astyle -h'", L"ã‚³ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã®ç¨®é¡ã®ãƒ˜ãƒ«ãƒ—ã«ã¤ã„ã¦'astyle- h'ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„" );
+    addPair( "Cannot open default option file", L"ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ãã“ã¨ãŒã§ãã¾ã›ã‚“" );
+    addPair( "Cannot open project option file", L"ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ãã“ã¨ãŒã§ãã¾ã›ã‚“" );
+    addPair( "Cannot open directory", L"ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’é–‹ãã“ã¨ãŒã§ãã¾ã›ã‚“ã€‚" );
+    addPair( "Cannot open HTML file %s\n", L"HTMLãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ãã“ã¨ãŒã§ãã¾ã›ã‚“ %s\n" );
+    addPair( "Command execute failure", L"ã‚³ãƒãƒ³ãƒ‰ãŒå¤±æ•—ã‚’å®Ÿè¡Œã—ã¾ã™" );
+    addPair( "Command is not installed", L"ã‚³ãƒãƒ³ãƒ‰ãŒã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã•ã‚Œã¦ã„ã¾ã›ã‚“" );
+    addPair( "Missing filename in %s\n", L"%s ã§ã€ãƒ•ã‚¡ã‚¤ãƒ«åãŒã‚ã‚Šã¾ã›ã‚“\n" );
+    addPair( "Recursive option with no wildcard", L"ç„¡ãƒ¯ã‚¤ãƒ«ãƒ‰ã‚«ãƒ¼ãƒ‰ã‚’ä½¿ç”¨ã—ã¦å†å¸°çš„ãªã‚ªãƒ—ã‚·ãƒ§ãƒ³" );
+    addPair( "Did you intend quote the filename", L"ã‚ãªãŸã¯ãƒ•ã‚¡ã‚¤ãƒ«åã‚’å¼•ç”¨ã™ã‚‹ã¤ã‚‚ã‚Šã§ã—ãŸ" );
+    addPair( "No file to process %s\n", L"ã„ã„ãˆãƒ•ã‚¡ã‚¤ãƒ«ã¯å‡¦ç†ã—ãªã„ã‚ˆã†ã« %s\n" );
+    addPair( "Did you intend to use --recursive", L"ã‚ãªãŸã¯--recursiveä½¿ç”¨ã™ã‚‹ã¤ã‚‚ã‚Šã§ã—ãŸ" );
+    addPair( "Cannot process UTF-32 encoding", L"UTF - 32ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‡ã‚£ãƒ³ã‚°ã‚’å‡¦ç†ã§ãã¾ã›ã‚“" );
+    addPair( "Artistic Style has terminated\n", L"Artistic Style çµ‚äº†ã—ã¾ã—ãŸ\n" );
 }
 
 Korean::Korean()    // ???
@@ -952,7 +952,7 @@ Polish::Polish()    // Polski
     addPair( "Default option file  %s\n", L"Domy?lny plik opcji  %s\n" );
     addPair( "Project option file  %s\n", L"Plik opcji projektu  %s\n" );
     addPair( "Exclude  %s\n", L"Wyklucza?  %s\n" );
-    addPair( "Exclude (unmatched)  %s\n", L"Wyklucz (niezr¨®wnany)  %s\n" );
+    addPair( "Exclude (unmatched)  %s\n", L"Wyklucz (niezrÃ³wnany)  %s\n" );
     addPair( " %s formatted   %s unchanged   ", L" %s sformatowany   %s niezmienione   " );
     addPair( " seconds   ", L" sekund   " );
     addPair( "%d min %d sec   ", L"%d min %d sek   " );
@@ -974,39 +974,39 @@ Polish::Polish()    // Polski
     addPair( "No file to process %s\n", L"Brak pliku do procesu %s\n" );
     addPair( "Did you intend to use --recursive", L"Czy masz zamiar u?ywa? --recursive" );
     addPair( "Cannot process UTF-32 encoding", L"Nie mo?na procesu kodowania UTF-32" );
-    addPair( "Artistic Style has terminated\n", L"Artistic Style zosta? zako¨½czony\n" );
+    addPair( "Artistic Style has terminated\n", L"Artistic Style zosta? zakoÅ„czony\n" );
 }
 
-Portuguese::Portuguese()    // Portugu¨ºs
+Portuguese::Portuguese()    // PortuguÃªs
 // build the translation vector in the Translation base class
 {
     addPair( "Formatted  %s\n", L"Formatado   %s\n" );  // should align with unchanged
     addPair( "Unchanged  %s\n", L"Inalterado  %s\n" );  // should align with formatted
-    addPair( "Directory  %s\n", L"Diret¨®rio  %s\n" );
+    addPair( "Directory  %s\n", L"DiretÃ³rio  %s\n" );
     addPair( "Default option file  %s\n", L"Arquivo de op??o padr?o  %s\n" );
     addPair( "Project option file  %s\n", L"Arquivo de op??o de projeto  %s\n" );
     addPair( "Exclude  %s\n", L"Excluir  %s\n" );
-    addPair( "Exclude (unmatched)  %s\n", L"Excluir (incompar¨¢vel)  %s\n" );
+    addPair( "Exclude (unmatched)  %s\n", L"Excluir (incomparÃ¡vel)  %s\n" );
     addPair( " %s formatted   %s unchanged   ", L" %s formatado   %s inalterado   " );
     addPair( " seconds   ", L" segundo   " );
     addPair( "%d min %d sec   ", L"%d min %d seg   " );
     addPair( "%s lines\n", L"%s linhas\n" );
     addPair( "Opening HTML documentation %s\n", L"Abrindo a documenta??o HTML %s\n" );
-    addPair( "Invalid default options:", L"Op??es padr?o inv¨¢lidas:" );
-    addPair( "Invalid project options:", L"Op??es de projeto inv¨¢lidas:" );
-    addPair( "Invalid command line options:", L"Op??es de linha de comando inv¨¢lida:" );
+    addPair( "Invalid default options:", L"Op??es padr?o invÃ¡lidas:" );
+    addPair( "Invalid project options:", L"Op??es de projeto invÃ¡lidas:" );
+    addPair( "Invalid command line options:", L"Op??es de linha de comando invÃ¡lida:" );
     addPair( "For help on options type 'astyle -h'", L"Para obter ajuda sobre as op??es de tipo 'astyle -h'" );
-    addPair( "Cannot open default option file", L"N?o ¨¦ poss¨ªvel abrir o arquivo de op??o padr?o" );
-    addPair( "Cannot open project option file", L"N?o ¨¦ poss¨ªvel abrir o arquivo de op??o do projeto" );
-    addPair( "Cannot open directory", L"N?o ¨¦ poss¨ªvel abrir diret¨®rio" );
-    addPair( "Cannot open HTML file %s\n", L"N?o ¨¦ poss¨ªvel abrir arquivo HTML %s\n" );
+    addPair( "Cannot open default option file", L"N?o Ã© possÃ­vel abrir o arquivo de op??o padr?o" );
+    addPair( "Cannot open project option file", L"N?o Ã© possÃ­vel abrir o arquivo de op??o do projeto" );
+    addPair( "Cannot open directory", L"N?o Ã© possÃ­vel abrir diretÃ³rio" );
+    addPair( "Cannot open HTML file %s\n", L"N?o Ã© possÃ­vel abrir arquivo HTML %s\n" );
     addPair( "Command execute failure", L"Executar falha de comando" );
-    addPair( "Command is not installed", L"Comando n?o est¨¢ instalado" );
+    addPair( "Command is not installed", L"Comando n?o estÃ¡ instalado" );
     addPair( "Missing filename in %s\n", L"Filename faltando em %s\n" );
     addPair( "Recursive option with no wildcard", L"Op??o recursiva sem curinga" );
-    addPair( "Did you intend quote the filename", L"Ser¨¢ que voc¨º pretende citar o nome do arquivo" );
+    addPair( "Did you intend quote the filename", L"SerÃ¡ que vocÃª pretende citar o nome do arquivo" );
     addPair( "No file to process %s\n", L"Nenhum arquivo para processar %s\n" );
-    addPair( "Did you intend to use --recursive", L"Ser¨¢ que voc¨º pretende usar --recursive" );
+    addPair( "Did you intend to use --recursive", L"SerÃ¡ que vocÃª pretende usar --recursive" );
     addPair( "Cannot process UTF-32 encoding", L"N?o pode processar a codifica??o UTF-32" );
     addPair( "Artistic Style has terminated\n", L"Artistic Style terminou\n" );
 }
@@ -1045,38 +1045,38 @@ Romanian::Romanian()    // Roman?
     addPair( "Artistic Style has terminated\n", L"Artistic Style a terminat\n" );
 }
 
-Russian::Russian()  // §â§å§ã§ã§Ü§Ú§Û
+Russian::Russian()  // Ñ€ÑƒÑÑĞºĞ¸Ğ¹
 // build the translation vector in the Translation base class
 {
-    addPair( "Formatted  %s\n", L"§¶§à§â§Ş§Ñ§ä§Ú§â§à§Ó§Ñ§ß§ß§í§Û  %s\n" );  // should align with unchanged
-    addPair( "Unchanged  %s\n", L"§Ò§Ö§Ù §Ú§Ù§Ş§Ö§ß§Ö§ß§Ú§Û    %s\n" ); // should align with formatted
-    addPair( "Directory  %s\n", L"§Ü§Ñ§ä§Ñ§İ§à§Ô  %s\n" );
-    addPair( "Default option file  %s\n", L"§¶§Ñ§Û§İ §ã §à§á§è§Ú§Ö§Û §á§à §å§Ş§à§İ§é§Ñ§ß§Ú§ğ  %s\n" );
-    addPair( "Project option file  %s\n", L"§¶§Ñ§Û§İ §à§á§è§Ú§Û §á§â§à§Ö§Ü§ä§Ñ  %s\n" );
-    addPair( "Exclude  %s\n", L"§Ú§ã§Ü§İ§ğ§é§Ñ§ä§î  %s\n" );
-    addPair( "Exclude (unmatched)  %s\n", L"§ª§ã§Ü§İ§ğ§é§Ú§ä§î (§ß§Ö§á§â§Ö§Ó§Ù§à§Û§Õ§Ö§ß§ß§í§Û)  %s\n" );
-    addPair( " %s formatted   %s unchanged   ", L" %s §¶§à§â§Ş§Ñ§ä§Ú§â§à§Ó§Ñ§ß§ß§í§Û   %s §Ò§Ö§Ù §Ú§Ù§Ş§Ö§ß§Ö§ß§Ú§Û   " );
-    addPair( " seconds   ", L" §ã§Ö§Ü§å§ß§Õ§í   " );
-    addPair( "%d min %d sec   ", L"%d §Ş§Ú§ß %d §ã§Ö§Ü   " );
-    addPair( "%s lines\n", L"%s §İ§Ú§ß§Ú§Û\n" );
-    addPair( "Opening HTML documentation %s\n", L"§°§ä§Ü§â§í§ä§Ú§Ö HTML §Õ§à§Ü§å§Ş§Ö§ß§ä§Ñ§è§Ú§Ú %s\n" );
-    addPair( "Invalid default options:", L"§¯§Ö§Õ§Ö§Û§ã§ä§Ó§Ú§ä§Ö§İ§î§ß§í§Ö §á§Ñ§â§Ñ§Ş§Ö§ä§â§í §á§à §å§Ş§à§İ§é§Ñ§ß§Ú§ğ:" );
-    addPair( "Invalid project options:", L"§¯§Ö§Õ§à§á§å§ã§ä§Ú§Ş§í§Ö §á§Ñ§â§Ñ§Ş§Ö§ä§â§í §á§â§à§Ö§Ü§ä§Ñ:" );
-    addPair( "Invalid command line options:", L"§¯§Ö§Õ§à§á§å§ã§ä§Ú§Ş§í§Ö §á§Ñ§â§Ñ§Ş§Ö§ä§â§í §Ü§à§Ş§Ñ§ß§Õ§ß§à§Û §ã§ä§â§à§Ü§Ú:" );
-    addPair( "For help on options type 'astyle -h'", L"§¥§İ§ñ §á§à§İ§å§é§Ö§ß§Ú§ñ §ã§á§â§Ñ§Ó§Ü§Ú §á§à 'astyle -h' §à§á§è§Ú§Û §ä§Ú§á§Ñ" );
-    addPair( "Cannot open default option file", L"§¯§Ö §å§Õ§Ñ§Ö§ä§ã§ñ §à§ä§Ü§â§í§ä§î §æ§Ñ§Û§İ §á§Ñ§â§Ñ§Ş§Ö§ä§â§à§Ó §á§à §å§Ş§à§İ§é§Ñ§ß§Ú§ğ" );
-    addPair( "Cannot open project option file", L"§¯§Ö §å§Õ§Ñ§Ö§ä§ã§ñ §à§ä§Ü§â§í§ä§î §æ§Ñ§Û§İ §à§á§è§Ú§Û §á§â§à§Ö§Ü§ä§Ñ" );
-    addPair( "Cannot open directory", L"§¯§Ö §Ş§à§Ô§å §à§ä§Ü§â§í§ä§î §Ü§Ñ§ä§Ñ§İ§à§Ô" );
-    addPair( "Cannot open HTML file %s\n", L"§¯§Ö §å§Õ§Ñ§Ö§ä§ã§ñ §à§ä§Ü§â§í§ä§î §æ§Ñ§Û§İ HTML %s\n" );
-    addPair( "Command execute failure", L"§£§í§á§à§İ§ß§Ú§ä§î §Ü§à§Ş§Ñ§ß§Õ§å §ß§Ö§Õ§à§ã§ä§Ñ§ä§à§é§ß§à§ã§ä§Ú" );
-    addPair( "Command is not installed", L"§¯§Ö §å§ã§ä§Ñ§ß§à§Ó§İ§Ö§ß §¬§à§Ş§Ñ§ß§Õ§Ñ" );
-    addPair( "Missing filename in %s\n", L"§°§ä§ã§å§ä§ã§ä§Ó§å§Ö§ä §Ú§Ş§ñ §æ§Ñ§Û§İ§Ñ §Ó %s\n" );
-    addPair( "Recursive option with no wildcard", L"§²§Ö§Ü§å§â§ã§Ú§Ó§ß§í§Û §Ó§Ñ§â§Ú§Ñ§ß§ä §Ò§Ö§Ù §Ü§Ñ§Ü§Ú§ç-§İ§Ú§Ò§à §ê§Ñ§Ò§İ§à§ß§Ñ" );
-    addPair( "Did you intend quote the filename", L"§£§í §ß§Ñ§Ş§Ö§â§Ö§ß§í §è§Ú§ä§Ñ§ä§à§Û §æ§Ñ§Û§İ§Ñ" );
-    addPair( "No file to process %s\n", L"§¯§Ö§ä §æ§Ñ§Û§İ§à§Ó §Õ§İ§ñ §à§Ò§â§Ñ§Ò§à§ä§Ü§Ú %s\n" );
-    addPair( "Did you intend to use --recursive", L"§¯§Ö§å§Ø§Ö§İ§Ú §Ó§í §ã§à§Ò§Ú§â§Ñ§Ö§ä§Ö§ã§î §Ú§ã§á§à§İ§î§Ù§à§Ó§Ñ§ä§î --recursive" );
-    addPair( "Cannot process UTF-32 encoding", L"§¯§Ö §å§Õ§Ñ§Ö§ä§ã§ñ §à§Ò§â§Ñ§Ò§à§ä§Ñ§ä§î UTF-32 §Ü§à§Õ§Ú§â§à§Ó§Ü§Ö" );
-    addPair( "Artistic Style has terminated\n", L"Artistic Style §á§â§Ö§Ü§â§Ñ§ä§Ú§İ\n" );
+    addPair( "Formatted  %s\n", L"Ğ¤Ğ¾Ñ€Ğ¼Ğ°Ñ‚Ğ¸Ñ€Ğ¾Ğ²Ğ°Ğ½Ğ½Ñ‹Ğ¹  %s\n" );  // should align with unchanged
+    addPair( "Unchanged  %s\n", L"Ğ±ĞµĞ· Ğ¸Ğ·Ğ¼ĞµĞ½ĞµĞ½Ğ¸Ğ¹    %s\n" ); // should align with formatted
+    addPair( "Directory  %s\n", L"ĞºĞ°Ñ‚Ğ°Ğ»Ğ¾Ğ³  %s\n" );
+    addPair( "Default option file  %s\n", L"Ğ¤Ğ°Ğ¹Ğ» Ñ Ğ¾Ğ¿Ñ†Ğ¸ĞµĞ¹ Ğ¿Ğ¾ ÑƒĞ¼Ğ¾Ğ»Ñ‡Ğ°Ğ½Ğ¸Ñ  %s\n" );
+    addPair( "Project option file  %s\n", L"Ğ¤Ğ°Ğ¹Ğ» Ğ¾Ğ¿Ñ†Ğ¸Ğ¹ Ğ¿Ñ€Ğ¾ĞµĞºÑ‚Ğ°  %s\n" );
+    addPair( "Exclude  %s\n", L"Ğ¸ÑĞºĞ»ÑÑ‡Ğ°Ñ‚ÑŒ  %s\n" );
+    addPair( "Exclude (unmatched)  %s\n", L"Ğ˜ÑĞºĞ»ÑÑ‡Ğ¸Ñ‚ÑŒ (Ğ½ĞµĞ¿Ñ€ĞµĞ²Ğ·Ğ¾Ğ¹Ğ´ĞµĞ½Ğ½Ñ‹Ğ¹)  %s\n" );
+    addPair( " %s formatted   %s unchanged   ", L" %s Ğ¤Ğ¾Ñ€Ğ¼Ğ°Ñ‚Ğ¸Ñ€Ğ¾Ğ²Ğ°Ğ½Ğ½Ñ‹Ğ¹   %s Ğ±ĞµĞ· Ğ¸Ğ·Ğ¼ĞµĞ½ĞµĞ½Ğ¸Ğ¹   " );
+    addPair( " seconds   ", L" ÑĞµĞºÑƒĞ½Ğ´Ñ‹   " );
+    addPair( "%d min %d sec   ", L"%d Ğ¼Ğ¸Ğ½ %d ÑĞµĞº   " );
+    addPair( "%s lines\n", L"%s Ğ»Ğ¸Ğ½Ğ¸Ğ¹\n" );
+    addPair( "Opening HTML documentation %s\n", L"ĞÑ‚ĞºÑ€Ñ‹Ñ‚Ğ¸Ğµ HTML Ğ´Ğ¾ĞºÑƒĞ¼ĞµĞ½Ñ‚Ğ°Ñ†Ğ¸Ğ¸ %s\n" );
+    addPair( "Invalid default options:", L"ĞĞµĞ´ĞµĞ¹ÑÑ‚Ğ²Ğ¸Ñ‚ĞµĞ»ÑŒĞ½Ñ‹Ğµ Ğ¿Ğ°Ñ€Ğ°Ğ¼ĞµÑ‚Ñ€Ñ‹ Ğ¿Ğ¾ ÑƒĞ¼Ğ¾Ğ»Ñ‡Ğ°Ğ½Ğ¸Ñ:" );
+    addPair( "Invalid project options:", L"ĞĞµĞ´Ğ¾Ğ¿ÑƒÑÑ‚Ğ¸Ğ¼Ñ‹Ğµ Ğ¿Ğ°Ñ€Ğ°Ğ¼ĞµÑ‚Ñ€Ñ‹ Ğ¿Ñ€Ğ¾ĞµĞºÑ‚Ğ°:" );
+    addPair( "Invalid command line options:", L"ĞĞµĞ´Ğ¾Ğ¿ÑƒÑÑ‚Ğ¸Ğ¼Ñ‹Ğµ Ğ¿Ğ°Ñ€Ğ°Ğ¼ĞµÑ‚Ñ€Ñ‹ ĞºĞ¾Ğ¼Ğ°Ğ½Ğ´Ğ½Ğ¾Ğ¹ ÑÑ‚Ñ€Ğ¾ĞºĞ¸:" );
+    addPair( "For help on options type 'astyle -h'", L"Ğ”Ğ»Ñ Ğ¿Ğ¾Ğ»ÑƒÑ‡ĞµĞ½Ğ¸Ñ ÑĞ¿Ñ€Ğ°Ğ²ĞºĞ¸ Ğ¿Ğ¾ 'astyle -h' Ğ¾Ğ¿Ñ†Ğ¸Ğ¹ Ñ‚Ğ¸Ğ¿Ğ°" );
+    addPair( "Cannot open default option file", L"ĞĞµ ÑƒĞ´Ğ°ĞµÑ‚ÑÑ Ğ¾Ñ‚ĞºÑ€Ñ‹Ñ‚ÑŒ Ñ„Ğ°Ğ¹Ğ» Ğ¿Ğ°Ñ€Ğ°Ğ¼ĞµÑ‚Ñ€Ğ¾Ğ² Ğ¿Ğ¾ ÑƒĞ¼Ğ¾Ğ»Ñ‡Ğ°Ğ½Ğ¸Ñ" );
+    addPair( "Cannot open project option file", L"ĞĞµ ÑƒĞ´Ğ°ĞµÑ‚ÑÑ Ğ¾Ñ‚ĞºÑ€Ñ‹Ñ‚ÑŒ Ñ„Ğ°Ğ¹Ğ» Ğ¾Ğ¿Ñ†Ğ¸Ğ¹ Ğ¿Ñ€Ğ¾ĞµĞºÑ‚Ğ°" );
+    addPair( "Cannot open directory", L"ĞĞµ Ğ¼Ğ¾Ğ³Ñƒ Ğ¾Ñ‚ĞºÑ€Ñ‹Ñ‚ÑŒ ĞºĞ°Ñ‚Ğ°Ğ»Ğ¾Ğ³" );
+    addPair( "Cannot open HTML file %s\n", L"ĞĞµ ÑƒĞ´Ğ°ĞµÑ‚ÑÑ Ğ¾Ñ‚ĞºÑ€Ñ‹Ñ‚ÑŒ Ñ„Ğ°Ğ¹Ğ» HTML %s\n" );
+    addPair( "Command execute failure", L"Ğ’Ñ‹Ğ¿Ğ¾Ğ»Ğ½Ğ¸Ñ‚ÑŒ ĞºĞ¾Ğ¼Ğ°Ğ½Ğ´Ñƒ Ğ½ĞµĞ´Ğ¾ÑÑ‚Ğ°Ñ‚Ğ¾Ñ‡Ğ½Ğ¾ÑÑ‚Ğ¸" );
+    addPair( "Command is not installed", L"ĞĞµ ÑƒÑÑ‚Ğ°Ğ½Ğ¾Ğ²Ğ»ĞµĞ½ ĞšĞ¾Ğ¼Ğ°Ğ½Ğ´Ğ°" );
+    addPair( "Missing filename in %s\n", L"ĞÑ‚ÑÑƒÑ‚ÑÑ‚Ğ²ÑƒĞµÑ‚ Ğ¸Ğ¼Ñ Ñ„Ğ°Ğ¹Ğ»Ğ° Ğ² %s\n" );
+    addPair( "Recursive option with no wildcard", L"Ğ ĞµĞºÑƒÑ€ÑĞ¸Ğ²Ğ½Ñ‹Ğ¹ Ğ²Ğ°Ñ€Ğ¸Ğ°Ğ½Ñ‚ Ğ±ĞµĞ· ĞºĞ°ĞºĞ¸Ñ…-Ğ»Ğ¸Ğ±Ğ¾ ÑˆĞ°Ğ±Ğ»Ğ¾Ğ½Ğ°" );
+    addPair( "Did you intend quote the filename", L"Ğ’Ñ‹ Ğ½Ğ°Ğ¼ĞµÑ€ĞµĞ½Ñ‹ Ñ†Ğ¸Ñ‚Ğ°Ñ‚Ğ¾Ğ¹ Ñ„Ğ°Ğ¹Ğ»Ğ°" );
+    addPair( "No file to process %s\n", L"ĞĞµÑ‚ Ñ„Ğ°Ğ¹Ğ»Ğ¾Ğ² Ğ´Ğ»Ñ Ğ¾Ğ±Ñ€Ğ°Ğ±Ğ¾Ñ‚ĞºĞ¸ %s\n" );
+    addPair( "Did you intend to use --recursive", L"ĞĞµÑƒĞ¶ĞµĞ»Ğ¸ Ğ²Ñ‹ ÑĞ¾Ğ±Ğ¸Ñ€Ğ°ĞµÑ‚ĞµÑÑŒ Ğ¸ÑĞ¿Ğ¾Ğ»ÑŒĞ·Ğ¾Ğ²Ğ°Ñ‚ÑŒ --recursive" );
+    addPair( "Cannot process UTF-32 encoding", L"ĞĞµ ÑƒĞ´Ğ°ĞµÑ‚ÑÑ Ğ¾Ğ±Ñ€Ğ°Ğ±Ğ¾Ñ‚Ğ°Ñ‚ÑŒ UTF-32 ĞºĞ¾Ğ´Ğ¸Ñ€Ğ¾Ğ²ĞºĞµ" );
+    addPair( "Artistic Style has terminated\n", L"Artistic Style Ğ¿Ñ€ĞµĞºÑ€Ğ°Ñ‚Ğ¸Ğ»\n" );
 }
 
 Spanish::Spanish()  // Espa?ol
@@ -1092,24 +1092,24 @@ Spanish::Spanish()  // Espa?ol
     addPair( " %s formatted   %s unchanged   ", L" %s formato   %s inalterado   " );
     addPair( " seconds   ", L" segundo   " );
     addPair( "%d min %d sec   ", L"%d min %d seg   " );
-    addPair( "%s lines\n", L"%s l¨ªneas\n" );
-    addPair( "Opening HTML documentation %s\n", L"Apertura de documentaci¨®n HTML %s\n" );
-    addPair( "Invalid default options:", L"Opciones predeterminadas no v¨¢lidas:" );
-    addPair( "Invalid project options:", L"Opciones de proyecto no v¨¢lidas:" );
-    addPair( "Invalid command line options:", L"No v¨¢lido opciones de l¨ªnea de comando:" );
+    addPair( "%s lines\n", L"%s lÃ­neas\n" );
+    addPair( "Opening HTML documentation %s\n", L"Apertura de documentaciÃ³n HTML %s\n" );
+    addPair( "Invalid default options:", L"Opciones predeterminadas no vÃ¡lidas:" );
+    addPair( "Invalid project options:", L"Opciones de proyecto no vÃ¡lidas:" );
+    addPair( "Invalid command line options:", L"No vÃ¡lido opciones de lÃ­nea de comando:" );
     addPair( "For help on options type 'astyle -h'", L"Para obtener ayuda sobre las opciones tipo 'astyle -h'" );
     addPair( "Cannot open default option file", L"No se puede abrir el archivo de opciones predeterminado" );
     addPair( "Cannot open project option file", L"No se puede abrir el archivo de opciones del proyecto" );
     addPair( "Cannot open directory", L"No se puede abrir el directorio" );
     addPair( "Cannot open HTML file %s\n", L"No se puede abrir el archivo HTML %s\n" );
     addPair( "Command execute failure", L"Ejecutar el fracaso de comandos" );
-    addPair( "Command is not installed", L"El comando no est¨¢ instalado" );
+    addPair( "Command is not installed", L"El comando no estÃ¡ instalado" );
     addPair( "Missing filename in %s\n", L"Falta nombre del archivo en %s\n" );
-    addPair( "Recursive option with no wildcard", L"Recursiva opci¨®n sin comod¨ªn" );
-    addPair( "Did you intend quote the filename", L"Se tiene la intenci¨®n de citar el nombre de archivo" );
+    addPair( "Recursive option with no wildcard", L"Recursiva opciÃ³n sin comodÃ­n" );
+    addPair( "Did you intend quote the filename", L"Se tiene la intenciÃ³n de citar el nombre de archivo" );
     addPair( "No file to process %s\n", L"No existe el fichero a procesar %s\n" );
     addPair( "Did you intend to use --recursive", L"Se va a utilizar --recursive" );
-    addPair( "Cannot process UTF-32 encoding", L"No se puede procesar la codificaci¨®n UTF-32" );
+    addPair( "Cannot process UTF-32 encoding", L"No se puede procesar la codificaciÃ³n UTF-32" );
     addPair( "Artistic Style has terminated\n", L"Artistic Style ha terminado\n" );
 }
 
@@ -1147,38 +1147,38 @@ Swedish::Swedish()  // Svenska
     addPair( "Artistic Style has terminated\n", L"Artistic Style har upph?rt\n" );
 }
 
-Ukrainian::Ukrainian()  // §µ§Ü§â§Ñ?§ß§ã§î§Ü§Ú§Û
+Ukrainian::Ukrainian()  // Ğ£ĞºÑ€Ğ°?Ğ½ÑÑŒĞºĞ¸Ğ¹
 // build the translation vector in the Translation base class
 {
-    addPair( "Formatted  %s\n", L"§æ§à§â§Ş§Ñ§ä§à§Ó§Ñ§ß§Ú§Û  %s\n" ); // should align with unchanged
-    addPair( "Unchanged  %s\n", L"§Ò§Ö§Ù §Ù§Ş?§ß      %s\n" );  // should align with formatted
-    addPair( "Directory  %s\n", L"§¬§Ñ§ä§Ñ§İ§à§Ô  %s\n" );
-    addPair( "Default option file  %s\n", L"§¶§Ñ§Û§İ §á§Ñ§â§Ñ§Ş§Ö§ä§â§Ñ §Ù§Ñ §Ù§Ñ§Ş§à§Ó§é§å§Ó§Ñ§ß§ß§ñ§Ş  %s\n" );
-    addPair( "Project option file  %s\n", L"§¶§Ñ§Û§İ §Ó§Ñ§â?§Ñ§ß§ä§å §á§â§à§Ö§Ü§ä§å  %s\n" );
-    addPair( "Exclude  %s\n", L"§£§Ú§Ü§İ§ğ§é§Ú§ä§Ú  %s\n" );
-    addPair( "Exclude (unmatched)  %s\n", L"§£§Ú§Ü§İ§ğ§é§Ú§ä§Ú (§ß§Ö§á§Ö§â§Ö§Ó§Ö§â§ê§Ö§ß§Ú§Û)  %s\n" );
-    addPair( " %s formatted   %s unchanged   ", L" %s §Ó?§Õ§æ§à§â§Ş§Ñ§ä§à§Ó§Ñ§ß§Ú§Û   %s §Ò§Ö§Ù §Ù§Ş?§ß   " );
-    addPair( " seconds   ", L" §ã§Ö§Ü§å§ß§Õ§Ú   " );
-    addPair( "%d min %d sec   ", L"%d §ç§Ó§Ú %d cek   " );
-    addPair( "%s lines\n", L"%s §İ?§ß?§Û\n" );
-    addPair( "Opening HTML documentation %s\n", L"§£?§Õ§Ü§â§Ú§ä§ä§ñ HTML §Õ§à§Ü§å§Ş§Ö§ß§ä§Ñ§è?? %s\n" );
-    addPair( "Invalid default options:", L"§¯§Ö§Õ?§Û§ã§ß? §á§Ñ§â§Ñ§Ş§Ö§ä§â§Ú §Ù§Ñ §å§Ş§à§Ó§é§Ñ§ß§ß§ñ§Ş:" );
-    addPair( "Invalid project options:", L"§¯§Ö§Õ?§Û§ã§ß? §á§Ñ§â§Ñ§Ş§Ö§ä§â§Ú §á§â§à§Ö§Ü§ä§å:" );
-    addPair( "Invalid command line options:", L"§¯§Ö§á§â§Ú§á§å§ã§ä§Ú§Ş§Ñ §á§Ñ§â§Ñ§Ş§Ö§ä§â§Ú §Ü§à§Ş§Ñ§ß§Õ§ß§à§Ô§à §â§ñ§Õ§Ü§Ñ:" );
-    addPair( "For help on options type 'astyle -h'", L"§¥§İ§ñ §à§ä§â§Ú§Ş§Ñ§ß§ß§ñ §Õ§à§Ó?§Õ§Ü§Ú §á§à 'astyle -h' §à§á§è?§Û §ä§Ú§á§å" );
-    addPair( "Cannot open default option file", L"§¯§Ö§Ş§à§Ø§İ§Ú§Ó§à §Ó?§Õ§Ü§â§Ú§ä§Ú §æ§Ñ§Û§İ §á§Ñ§â§Ñ§Ş§Ö§ä§â?§Ó §Ù§Ñ §Ù§Ñ§Ş§à§Ó§é§å§Ó§Ñ§ß§ß§ñ§Ş" );
-    addPair( "Cannot open project option file", L"§¯§Ö§Ş§à§Ø§İ§Ú§Ó§à §Ó?§Õ§Ü§â§Ú§ä§Ú §æ§Ñ§Û§İ §á§Ñ§â§Ñ§Ş§Ö§ä§â?§Ó §á§â§à§Ö§Ü§ä§å" );
-    addPair( "Cannot open directory", L"§¯§Ö §Ş§à§Ø§å §Ó?§Õ§Ü§â§Ú§ä§Ú §Ü§Ñ§ä§Ñ§İ§à§Ô" );
-    addPair( "Cannot open HTML file %s\n", L"§¯§Ö §Ó§Õ§Ñ?§ä§î§ã§ñ §Ó?§Õ§Ü§â§Ú§ä§Ú §æ§Ñ§Û§İ HTML %s\n" );
-    addPair( "Command execute failure", L"§£§Ú§Ü§à§ß§Ñ§ä§Ú §Ü§à§Ş§Ñ§ß§Õ§å §ß§Ö§Õ§à§ã§ä§Ñ§ä§ß§à§ã§ä?" );
-    addPair( "Command is not installed", L"§¯§Ö §Ó§ã§ä§Ñ§ß§à§Ó§İ§Ö§ß§Ú§Û §¬§à§Ş§Ñ§ß§Õ§Ñ" );
-    addPair( "Missing filename in %s\n", L"§£?§Õ§ã§å§ä§ß§ñ §ß§Ñ§Ù§Ó§Ñ §æ§Ñ§Û§İ§å §Ó %s\n" );
-    addPair( "Recursive option with no wildcard", L"§²§Ö§Ü§å§â§ã§Ú§Ó§ß§Ú§Û §Ó§Ñ§â?§Ñ§ß§ä §Ò§Ö§Ù §Ò§å§Õ§î-§ñ§Ü§Ú§ç §ê§Ñ§Ò§İ§à§ß§å" );
-    addPair( "Did you intend quote the filename", L"§£§Ú §Ş§Ñ?§ä§Ö §ß§Ñ§Ş?§â §è§Ú§ä§Ñ§ä§à§ğ §æ§Ñ§Û§İ§å" );
-    addPair( "No file to process %s\n", L"§¯§Ö§Ş§Ñ? §æ§Ñ§Û§İ?§Ó §Õ§İ§ñ §à§Ò§â§à§Ò§Ü§Ú %s\n" );
-    addPair( "Did you intend to use --recursive", L"§¯§Ö§Ó§Ø§Ö §Ó§Ú §Ù§Ò§Ú§â§Ñ?§ä§Ö§ã§ñ §Ó§Ú§Ü§à§â§Ú§ã§ä§à§Ó§å§Ó§Ñ§ä§Ú --recursive" );
-    addPair( "Cannot process UTF-32 encoding", L"§¯§Ö §Ó§Õ§Ñ?§ä§î§ã§ñ §à§Ò§â§à§Ò§Ú§ä§Ú UTF-32 §Ü§à§Õ§å§Ó§Ñ§ß§ß?" );
-    addPair( "Artistic Style has terminated\n", L"Artistic Style §á§â§Ú§á§Ú§ß§Ú§Ó\n" );
+    addPair( "Formatted  %s\n", L"Ñ„Ğ¾Ñ€Ğ¼Ğ°Ñ‚Ğ¾Ğ²Ğ°Ğ½Ğ¸Ğ¹  %s\n" ); // should align with unchanged
+    addPair( "Unchanged  %s\n", L"Ğ±ĞµĞ· Ğ·Ğ¼?Ğ½      %s\n" );  // should align with formatted
+    addPair( "Directory  %s\n", L"ĞšĞ°Ñ‚Ğ°Ğ»Ğ¾Ğ³  %s\n" );
+    addPair( "Default option file  %s\n", L"Ğ¤Ğ°Ğ¹Ğ» Ğ¿Ğ°Ñ€Ğ°Ğ¼ĞµÑ‚Ñ€Ğ° Ğ·Ğ° Ğ·Ğ°Ğ¼Ğ¾Ğ²Ñ‡ÑƒĞ²Ğ°Ğ½Ğ½ÑĞ¼  %s\n" );
+    addPair( "Project option file  %s\n", L"Ğ¤Ğ°Ğ¹Ğ» Ğ²Ğ°Ñ€?Ğ°Ğ½Ñ‚Ñƒ Ğ¿Ñ€Ğ¾ĞµĞºÑ‚Ñƒ  %s\n" );
+    addPair( "Exclude  %s\n", L"Ğ’Ğ¸ĞºĞ»ÑÑ‡Ğ¸Ñ‚Ğ¸  %s\n" );
+    addPair( "Exclude (unmatched)  %s\n", L"Ğ’Ğ¸ĞºĞ»ÑÑ‡Ğ¸Ñ‚Ğ¸ (Ğ½ĞµĞ¿ĞµÑ€ĞµĞ²ĞµÑ€ÑˆĞµĞ½Ğ¸Ğ¹)  %s\n" );
+    addPair( " %s formatted   %s unchanged   ", L" %s Ğ²?Ğ´Ñ„Ğ¾Ñ€Ğ¼Ğ°Ñ‚Ğ¾Ğ²Ğ°Ğ½Ğ¸Ğ¹   %s Ğ±ĞµĞ· Ğ·Ğ¼?Ğ½   " );
+    addPair( " seconds   ", L" ÑĞµĞºÑƒĞ½Ğ´Ğ¸   " );
+    addPair( "%d min %d sec   ", L"%d Ñ…Ğ²Ğ¸ %d cek   " );
+    addPair( "%s lines\n", L"%s Ğ»?Ğ½?Ğ¹\n" );
+    addPair( "Opening HTML documentation %s\n", L"Ğ’?Ğ´ĞºÑ€Ğ¸Ñ‚Ñ‚Ñ HTML Ğ´Ğ¾ĞºÑƒĞ¼ĞµĞ½Ñ‚Ğ°Ñ†?? %s\n" );
+    addPair( "Invalid default options:", L"ĞĞµĞ´?Ğ¹ÑĞ½? Ğ¿Ğ°Ñ€Ğ°Ğ¼ĞµÑ‚Ñ€Ğ¸ Ğ·Ğ° ÑƒĞ¼Ğ¾Ğ²Ñ‡Ğ°Ğ½Ğ½ÑĞ¼:" );
+    addPair( "Invalid project options:", L"ĞĞµĞ´?Ğ¹ÑĞ½? Ğ¿Ğ°Ñ€Ğ°Ğ¼ĞµÑ‚Ñ€Ğ¸ Ğ¿Ñ€Ğ¾ĞµĞºÑ‚Ñƒ:" );
+    addPair( "Invalid command line options:", L"ĞĞµĞ¿Ñ€Ğ¸Ğ¿ÑƒÑÑ‚Ğ¸Ğ¼Ğ° Ğ¿Ğ°Ñ€Ğ°Ğ¼ĞµÑ‚Ñ€Ğ¸ ĞºĞ¾Ğ¼Ğ°Ğ½Ğ´Ğ½Ğ¾Ğ³Ğ¾ Ñ€ÑĞ´ĞºĞ°:" );
+    addPair( "For help on options type 'astyle -h'", L"Ğ”Ğ»Ñ Ğ¾Ñ‚Ñ€Ğ¸Ğ¼Ğ°Ğ½Ğ½Ñ Ğ´Ğ¾Ğ²?Ğ´ĞºĞ¸ Ğ¿Ğ¾ 'astyle -h' Ğ¾Ğ¿Ñ†?Ğ¹ Ñ‚Ğ¸Ğ¿Ñƒ" );
+    addPair( "Cannot open default option file", L"ĞĞµĞ¼Ğ¾Ğ¶Ğ»Ğ¸Ğ²Ğ¾ Ğ²?Ğ´ĞºÑ€Ğ¸Ñ‚Ğ¸ Ñ„Ğ°Ğ¹Ğ» Ğ¿Ğ°Ñ€Ğ°Ğ¼ĞµÑ‚Ñ€?Ğ² Ğ·Ğ° Ğ·Ğ°Ğ¼Ğ¾Ğ²Ñ‡ÑƒĞ²Ğ°Ğ½Ğ½ÑĞ¼" );
+    addPair( "Cannot open project option file", L"ĞĞµĞ¼Ğ¾Ğ¶Ğ»Ğ¸Ğ²Ğ¾ Ğ²?Ğ´ĞºÑ€Ğ¸Ñ‚Ğ¸ Ñ„Ğ°Ğ¹Ğ» Ğ¿Ğ°Ñ€Ğ°Ğ¼ĞµÑ‚Ñ€?Ğ² Ğ¿Ñ€Ğ¾ĞµĞºÑ‚Ñƒ" );
+    addPair( "Cannot open directory", L"ĞĞµ Ğ¼Ğ¾Ğ¶Ñƒ Ğ²?Ğ´ĞºÑ€Ğ¸Ñ‚Ğ¸ ĞºĞ°Ñ‚Ğ°Ğ»Ğ¾Ğ³" );
+    addPair( "Cannot open HTML file %s\n", L"ĞĞµ Ğ²Ğ´Ğ°?Ñ‚ÑŒÑÑ Ğ²?Ğ´ĞºÑ€Ğ¸Ñ‚Ğ¸ Ñ„Ğ°Ğ¹Ğ» HTML %s\n" );
+    addPair( "Command execute failure", L"Ğ’Ğ¸ĞºĞ¾Ğ½Ğ°Ñ‚Ğ¸ ĞºĞ¾Ğ¼Ğ°Ğ½Ğ´Ñƒ Ğ½ĞµĞ´Ğ¾ÑÑ‚Ğ°Ñ‚Ğ½Ğ¾ÑÑ‚?" );
+    addPair( "Command is not installed", L"ĞĞµ Ğ²ÑÑ‚Ğ°Ğ½Ğ¾Ğ²Ğ»ĞµĞ½Ğ¸Ğ¹ ĞšĞ¾Ğ¼Ğ°Ğ½Ğ´Ğ°" );
+    addPair( "Missing filename in %s\n", L"Ğ’?Ğ´ÑÑƒÑ‚Ğ½Ñ Ğ½Ğ°Ğ·Ğ²Ğ° Ñ„Ğ°Ğ¹Ğ»Ñƒ Ğ² %s\n" );
+    addPair( "Recursive option with no wildcard", L"Ğ ĞµĞºÑƒÑ€ÑĞ¸Ğ²Ğ½Ğ¸Ğ¹ Ğ²Ğ°Ñ€?Ğ°Ğ½Ñ‚ Ğ±ĞµĞ· Ğ±ÑƒĞ´ÑŒ-ÑĞºĞ¸Ñ… ÑˆĞ°Ğ±Ğ»Ğ¾Ğ½Ñƒ" );
+    addPair( "Did you intend quote the filename", L"Ğ’Ğ¸ Ğ¼Ğ°?Ñ‚Ğµ Ğ½Ğ°Ğ¼?Ñ€ Ñ†Ğ¸Ñ‚Ğ°Ñ‚Ğ¾Ñ Ñ„Ğ°Ğ¹Ğ»Ñƒ" );
+    addPair( "No file to process %s\n", L"ĞĞµĞ¼Ğ°? Ñ„Ğ°Ğ¹Ğ»?Ğ² Ğ´Ğ»Ñ Ğ¾Ğ±Ñ€Ğ¾Ğ±ĞºĞ¸ %s\n" );
+    addPair( "Did you intend to use --recursive", L"ĞĞµĞ²Ğ¶Ğµ Ğ²Ğ¸ Ğ·Ğ±Ğ¸Ñ€Ğ°?Ñ‚ĞµÑÑ Ğ²Ğ¸ĞºĞ¾Ñ€Ğ¸ÑÑ‚Ğ¾Ğ²ÑƒĞ²Ğ°Ñ‚Ğ¸ --recursive" );
+    addPair( "Cannot process UTF-32 encoding", L"ĞĞµ Ğ²Ğ´Ğ°?Ñ‚ÑŒÑÑ Ğ¾Ğ±Ñ€Ğ¾Ğ±Ğ¸Ñ‚Ğ¸ UTF-32 ĞºĞ¾Ğ´ÑƒĞ²Ğ°Ğ½Ğ½?" );
+    addPair( "Artistic Style has terminated\n", L"Artistic Style Ğ¿Ñ€Ğ¸Ğ¿Ğ¸Ğ½Ğ¸Ğ²\n" );
 }
 
 
