@@ -12,12 +12,13 @@
 
 // library builds do not need ASLocalizer
 #ifdef ASTYLE_JNI
-	#ifndef ASTYLE_LIB    // ASTYLE_LIB must be defined for ASTYLE_JNI
-		#define ASTYLE_LIB
-	#endif
+#ifndef ASTYLE_LIB    // ASTYLE_LIB must be defined for ASTYLE_JNI
+#define ASTYLE_LIB
+#endif
 #endif  //  ASTYLE_JNI
 
-namespace astyle {
+namespace astyle
+{
 
 using namespace std;
 
@@ -32,26 +33,26 @@ class Translation;
 
 class ASLocalizer
 {
-public:		// functions
-	ASLocalizer();
-	virtual ~ASLocalizer();
-	string getLanguageID() const;
-	const Translation* getTranslationClass() const;
+public:     // functions
+    ASLocalizer();
+    virtual ~ASLocalizer();
+    string getLanguageID() const;
+    const Translation* getTranslationClass() const;
 #ifdef _WIN32
-	void setLanguageFromLCID(size_t lcid);
+    void setLanguageFromLCID( size_t lcid );
 #endif
-	void setLanguageFromName(const char* langID);
-	const char* settext(const char* textIn) const;
+    void setLanguageFromName( const char* langID );
+    const char* settext( const char* textIn ) const;
 
-private:	// functions
-	void setTranslationClass();
+private:    // functions
+    void setTranslationClass();
 
-private:	// variables
-	Translation* m_translation;		// pointer to a polymorphic Translation class
-	string m_langID;				// language identifier from the locale
-	string m_subLangID;				// sub language identifier, if needed
-	string m_localeName;			// name of the current locale (Linux only)
-	size_t m_lcid;					// LCID of the user locale (Windows only)
+private:    // variables
+    Translation* m_translation;     // pointer to a polymorphic Translation class
+    string m_langID;                // language identifier from the locale
+    string m_subLangID;             // sub language identifier, if needed
+    string m_localeName;            // name of the current locale (Linux only)
+    size_t m_lcid;                  // LCID of the user locale (Windows only)
 };
 
 //----------------------------------------------------------------------------
@@ -67,21 +68,21 @@ class Translation
 //       typeid() is used by AStyleTestI18n_Localizer.cpp.
 {
 public:
-	Translation() {}
-	virtual ~Translation() {}
-	string convertToMultiByte(const wstring& wideStr) const;
-	string getTranslationString(size_t i) const;
-	size_t getTranslationVectorSize() const;
-	bool getWideTranslation(const string& stringIn, wstring& wideOut) const;
-	string& translate(const string& stringIn) const;
+    Translation() {}
+    virtual ~Translation() {}
+    string convertToMultiByte( const wstring& wideStr ) const;
+    string getTranslationString( size_t i ) const;
+    size_t getTranslationVectorSize() const;
+    bool getWideTranslation( const string& stringIn, wstring& wideOut ) const;
+    string& translate( const string& stringIn ) const;
 
 protected:
-	void addPair(const string& english, const wstring& translated);
-	// variables
-	vector<pair<string, wstring> > m_translation;		// translation vector
+    void addPair( const string& english, const wstring& translated );
+    // variables
+    vector<pair<string, wstring> > m_translation;       // translation vector
 
 private:
-	mutable string m_mbTranslation;
+    mutable string m_mbTranslation;
 };
 
 //----------------------------------------------------------------------------
@@ -91,77 +92,146 @@ private:
 //----------------------------------------------------------------------------
 
 class Bulgarian : public Translation
-{ public: Bulgarian(); };
+{
+public:
+    Bulgarian();
+};
 
 class ChineseSimplified : public Translation
-{ public: ChineseSimplified(); };
+{
+public:
+    ChineseSimplified();
+};
 
 class ChineseTraditional : public Translation
-{ public: ChineseTraditional(); };
+{
+public:
+    ChineseTraditional();
+};
 
 class Dutch : public Translation
-{ public: Dutch(); };
+{
+public:
+    Dutch();
+};
 
 class English : public Translation
-{ public: English(); };
+{
+public:
+    English();
+};
 
 class Estonian : public Translation
-{ public: Estonian(); };
+{
+public:
+    Estonian();
+};
 
 class Finnish : public Translation
-{ public: Finnish(); };
+{
+public:
+    Finnish();
+};
 
 class French : public Translation
-{ public: French(); };
+{
+public:
+    French();
+};
 
 class German : public Translation
-{ public: German(); };
+{
+public:
+    German();
+};
 
 class Greek : public Translation
-{ public: Greek(); };
+{
+public:
+    Greek();
+};
 
 class Hindi : public Translation
-{ public: Hindi(); };
+{
+public:
+    Hindi();
+};
 
 class Hungarian : public Translation
-{ public: Hungarian(); };
+{
+public:
+    Hungarian();
+};
 
 class Italian : public Translation
-{ public: Italian(); };
+{
+public:
+    Italian();
+};
 
 class Japanese : public Translation
-{ public: Japanese(); };
+{
+public:
+    Japanese();
+};
 
 class Korean : public Translation
-{ public: Korean(); };
+{
+public:
+    Korean();
+};
 
 class Norwegian : public Translation
-{ public: Norwegian(); };
+{
+public:
+    Norwegian();
+};
 
 class Polish : public Translation
-{ public: Polish(); };
+{
+public:
+    Polish();
+};
 
 class Portuguese : public Translation
-{ public: Portuguese(); };
+{
+public:
+    Portuguese();
+};
 
 class Romanian : public Translation
-{ public: Romanian(); };
+{
+public:
+    Romanian();
+};
 
 class Russian : public Translation
-{ public: Russian(); };
+{
+public:
+    Russian();
+};
 
 class Spanish : public Translation
-{ public: Spanish(); };
+{
+public:
+    Spanish();
+};
 
 class Swedish : public Translation
-{ public: Swedish(); };
+{
+public:
+    Swedish();
+};
 
 class Ukrainian : public Translation
-{ public: Ukrainian(); };
+{
+public:
+    Ukrainian();
+};
 
 
-#endif	//  ASTYLE_LIB
+#endif  //  ASTYLE_LIB
 
-}	// namespace astyle
+}   // namespace astyle
 
-#endif	//  ASLOCALIZER_H
+#endif  //  ASLOCALIZER_H
