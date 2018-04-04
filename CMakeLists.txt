@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 2.8)
 project(dmstyle CXX)
 
 # Release Build - release by default (except for Borland)
@@ -25,9 +25,14 @@ list(APPEND SRCS
     src/ASBeautifier.cpp
     src/ASEnhancer.cpp
     src/ASFormatter.cpp
-    src/ASLocalizer.cpp
     src/ASResource.cpp
     src/astyle_main.cpp)
+
+if(WIN32)
+	list(APPEND SRCS src/ASLocalizer_UNICODE.cpp)
+else()
+	list(APPEND SRCS src/ASLocalizer_UTF8.cpp)
+endif()
 
 # AStyle Documentation
 list(APPEND DOCS
@@ -119,9 +124,7 @@ elseif(BUILD_STATIC_LIBS)
         set_property(TARGET astyle PROPERTY PREFIX "")
     endif()
 else()
-    if(WIN32)
-        set_property(TARGET astyle PROPERTY OUTPUT_NAME dmstyle)
-    endif()
+    set_property(TARGET astyle PROPERTY OUTPUT_NAME dmstyle)
 endif()
 
 macro(set_linker_options strip_option)
