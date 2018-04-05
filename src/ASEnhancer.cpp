@@ -64,7 +64,6 @@ void ASEnhancer::init( int  _fileType,
     emptyLineFill = _emptyLineFill;
     indentableMacros = _indentableMacros;
     quoteChar = '\'';
-
     // unindent variables
     lineNumber = 0;
     braceCount = 0;
@@ -76,13 +75,11 @@ void ASEnhancer::init( int  _fileType,
     unindentNextLine = false;
     shouldUnindentLine = false;
     shouldUnindentComment = false;
-
     // switch struct and vector
     sw.switchBraceCount = 0;
     sw.unindentDepth = 0;
     sw.unindentCase = false;
     switchStack.clear();
-
     // other variables
     nextLineIsEventIndent = false;
     isInEventTable = false;
@@ -123,7 +120,9 @@ void ASEnhancer::enhance( string& line, bool isInNamespace, bool isInPreprocesso
             && !isInEventTable
             && !isInDeclareSection
             && !emptyLineFill )
+    {
         return;
+    }
 
     // test for unindent on attached braces
     if ( unindentNextLine )
@@ -142,7 +141,9 @@ void ASEnhancer::enhance( string& line, bool isInNamespace, bool isInPreprocesso
         size_t firstText = line.find_first_not_of( " \t" );
 
         if ( firstText == string::npos || line[firstText] != '#' )
+        {
             indentLine( line, 1 );
+        }
     }
 
     // check for event table indentable lines
@@ -153,13 +154,19 @@ void ASEnhancer::enhance( string& line, bool isInNamespace, bool isInPreprocesso
         size_t firstText = line.find_first_not_of( " \t" );
 
         if ( firstText == string::npos || line[firstText] != '#' )
+        {
             indentLine( line, 1 );
+        }
     }
 
     if ( shouldUnindentComment && sw.unindentDepth > 0 )
+    {
         unindentLine( line, sw.unindentDepth - 1 );
+    }
     else if ( shouldUnindentLine && sw.unindentDepth > 0 )
+    {
         unindentLine( line, sw.unindentDepth );
+    }
 }
 
 /**
@@ -173,7 +180,9 @@ void ASEnhancer::convertForceTabIndentToSpaces( string& line ) const
     for ( size_t i = 0; i < line.length(); i++ )
     {
         if ( !isWhiteSpace( line[i] ) )
+        {
             break;
+        }
 
         if ( line[i] == '\t' )
         {
@@ -192,7 +201,6 @@ void ASEnhancer::convertForceTabIndentToSpaces( string& line ) const
 void ASEnhancer::convertSpaceIndentToForceTab( string& line ) const
 {
     assert( tabLength > 0 );
-
     // replace leading spaces with tab indents
     size_t newSpaceIndentLength = line.find_first_not_of( " \t" );
     size_t tabCount = newSpaceIndentLength / tabLength;     // truncate extra spaces
@@ -244,9 +252,13 @@ size_t ASEnhancer::findCaseColon( const string& line, size_t caseIndex ) const
         if ( line[i] == ':' )
         {
             if ( ( i + 1 < line.length() ) && ( line[i + 1] == ':' ) )
-                i++;                                // bypass scope resolution operator
+            {
+                i++;    // bypass scope resolution operator
+            }
             else
-                break;                              // found it
+            {
+                break;    // found it
+            }
         }
     }
 
@@ -265,7 +277,9 @@ int ASEnhancer::indentLine( string& line, int indent ) const
 {
     if ( line.length() == 0
             && !emptyLineFill )
+    {
         return 0;
+    }
 
     size_t charsToInsert = 0;
 
@@ -312,18 +326,26 @@ bool ASEnhancer::isBeginDeclareSectionSQL( const string& line, size_t index ) co
         i = line.find_first_not_of( " \t", i );
 
         if ( i == string::npos )
+        {
             return false;
+        }
 
         if ( line[i] == ';' )
+        {
             break;
+        }
 
         if ( !isCharPotentialHeader( line, i ) )
+        {
             continue;
+        }
 
         word = getCurrentWord( line, i );
 
         for ( size_t j = 0; j < word.length(); j++ )
+        {
             word[j] = ( char ) toupper( word[j] );
+        }
 
         if ( word == "EXEC" || word == "SQL" )
         {
@@ -349,7 +371,9 @@ bool ASEnhancer::isBeginDeclareSectionSQL( const string& line, size_t index ) co
     }
 
     if ( hits == 3 )
+    {
         return true;
+    }
 
     return false;
 }
@@ -373,18 +397,26 @@ bool ASEnhancer::isEndDeclareSectionSQL( const string& line, size_t index ) cons
         i = line.find_first_not_of( " \t", i );
 
         if ( i == string::npos )
+        {
             return false;
+        }
 
         if ( line[i] == ';' )
+        {
             break;
+        }
 
         if ( !isCharPotentialHeader( line, i ) )
+        {
             continue;
+        }
 
         word = getCurrentWord( line, i );
 
         for ( size_t j = 0; j < word.length(); j++ )
+        {
             word[j] = ( char ) toupper( word[j] );
+        }
 
         if ( word == "EXEC" || word == "SQL" )
         {
@@ -410,7 +442,9 @@ bool ASEnhancer::isEndDeclareSectionSQL( const string& line, size_t index ) cons
     }
 
     if ( hits == 3 )
+    {
         return true;
+    }
 
     return false;
 }
@@ -426,7 +460,6 @@ bool ASEnhancer::isEndDeclareSectionSQL( const string& line, size_t index ) cons
 bool ASEnhancer::isOneLineBlockReached( const string& line, int startChar ) const
 {
     assert( line[startChar] == '{' );
-
     bool isInComment_ = false;
     bool isInQuote_ = false;
     int _braceCount = 1;
@@ -458,7 +491,9 @@ bool ASEnhancer::isOneLineBlockReached( const string& line, int startChar ) cons
         if ( isInQuote_ )
         {
             if ( ch == quoteChar_ )
+            {
                 isInQuote_ = false;
+            }
 
             continue;
         }
@@ -472,7 +507,9 @@ bool ASEnhancer::isOneLineBlockReached( const string& line, int startChar ) cons
         }
 
         if ( line.compare( i, 2, "//" ) == 0 )
+        {
             break;
+        }
 
         if ( line.compare( i, 2, "/*" ) == 0 )
         {
@@ -482,12 +519,18 @@ bool ASEnhancer::isOneLineBlockReached( const string& line, int startChar ) cons
         }
 
         if ( ch == '{' )
+        {
             ++_braceCount;
+        }
         else if ( ch == '}' )
+        {
             --_braceCount;
+        }
 
         if ( _braceCount == 0 )
+        {
             return true;
+        }
     }
 
     return false;
@@ -507,7 +550,9 @@ void ASEnhancer::parseCurrentLine( string& line, bool isInPreprocessor, bool isI
 
         // bypass whitespace
         if ( isWhiteSpace( ch ) )
+        {
             continue;
+        }
 
         // handle special characters (i.e. backslash+character such as \n, \t, ...)
         if ( isSpecialChar )
@@ -546,7 +591,9 @@ void ASEnhancer::parseCurrentLine( string& line, bool isInPreprocessor, bool isI
         }
 
         if ( isInQuote )
+        {
             continue;
+        }
 
         // handle comments
 
@@ -554,13 +601,17 @@ void ASEnhancer::parseCurrentLine( string& line, bool isInPreprocessor, bool isI
         {
             // check for windows line markers
             if ( line.compare( i + 2, 1, "\xf0" ) > 0 )
+            {
                 lineNumber--;
+            }
 
             // unindent if not in case braces
             if ( line.find_first_not_of( " \t" ) == i
                     && sw.switchBraceCount == 1
                     && sw.unindentCase )
+            {
                 shouldUnindentComment = true;
+            }
 
             break;                 // finished with the line
         }
@@ -568,15 +619,21 @@ void ASEnhancer::parseCurrentLine( string& line, bool isInPreprocessor, bool isI
         {
             // unindent if not in case braces
             if ( sw.switchBraceCount == 1 && sw.unindentCase )
+            {
                 shouldUnindentComment = true;
+            }
 
             isInComment = true;
             size_t commentEnd = line.find( "*/", i );
 
             if ( commentEnd == string::npos )
+            {
                 i = line.length() - 1;
+            }
             else
+            {
                 i = commentEnd - 1;
+            }
 
             continue;
         }
@@ -584,7 +641,9 @@ void ASEnhancer::parseCurrentLine( string& line, bool isInPreprocessor, bool isI
         {
             // unindent if not in case braces
             if ( sw.switchBraceCount == 1 && sw.unindentCase )
+            {
                 shouldUnindentComment = true;
+            }
 
             isInComment = false;
             i++;
@@ -595,14 +654,20 @@ void ASEnhancer::parseCurrentLine( string& line, bool isInPreprocessor, bool isI
         {
             // unindent if not in case braces
             if ( sw.switchBraceCount == 1 && sw.unindentCase )
+            {
                 shouldUnindentComment = true;
+            }
 
             size_t commentEnd = line.find( "*/", i );
 
             if ( commentEnd == string::npos )
+            {
                 i = line.length() - 1;
+            }
             else
+            {
                 i = commentEnd - 1;
+            }
 
             continue;
         }
@@ -610,10 +675,14 @@ void ASEnhancer::parseCurrentLine( string& line, bool isInPreprocessor, bool isI
         // if we have reached this far then we are NOT in a comment or string of special characters
 
         if ( line[i] == '{' )
+        {
             braceCount++;
+        }
 
         if ( line[i] == '}' )
+        {
             braceCount--;
+        }
 
         // check for preprocessor within an event table
         if ( isInEventTable && line[i] == '#' && preprocBlockIndent )
@@ -622,10 +691,14 @@ void ASEnhancer::parseCurrentLine( string& line, bool isInPreprocessor, bool isI
             preproc = line.substr( i + 1 );
 
             if ( preproc.substr( 0, 2 ) == "if" ) // #if, #ifdef, #ifndef)
+            {
                 eventPreprocDepth += 1;
+            }
 
             if ( preproc.substr( 0, 5 ) == "endif" && eventPreprocDepth > 0 )
+            {
                 eventPreprocDepth -= 1;
+            }
         }
 
         bool isPotentialKeyword = isCharPotentialHeader( line, i );
@@ -661,10 +734,14 @@ void ASEnhancer::parseCurrentLine( string& line, bool isInPreprocessor, bool isI
         if ( isInSQL )
         {
             if ( isBeginDeclareSectionSQL( line, i ) )
+            {
                 nextLineIsDeclareIndent = true;
+            }
 
             if ( isEndDeclareSectionSQL( line, i ) )
+            {
                 isInDeclareSection = false;
+            }
 
             break;
         }
@@ -698,7 +775,6 @@ void ASEnhancer::parseCurrentLine( string& line, bool isInPreprocessor, bool isI
         }
 
         i = processSwitchBlock( line, i );
-
     }   // end of for loop * end of for loop * end of for loop * end of for loop
 }
 
@@ -740,12 +816,16 @@ size_t ASEnhancer::processSwitchBlock( string& line, size_t index )
 
             if ( line.find_first_not_of( " \t" ) == i
                     && !switchStack.empty() )
+            {
                 lineUnindent = switchStack[switchStack.size() - 1].unindentDepth;
+            }
 
             if ( shouldUnindentLine )
             {
                 if ( lineUnindent > 0 )
+                {
                     i -= unindentLine( line, lineUnindent );
+                }
 
                 shouldUnindentLine = false;
             }
@@ -769,13 +849,14 @@ size_t ASEnhancer::processSwitchBlock( string& line, size_t index )
         }
 
         i = findCaseColon( line, i );
-
         i++;
 
         for ( ; i < line.length(); i++ )        // bypass whitespace
         {
             if ( !isWhiteSpace( line[i] ) )
+            {
                 break;
+            }
         }
 
         if ( i < line.length() )
@@ -786,7 +867,9 @@ size_t ASEnhancer::processSwitchBlock( string& line, size_t index )
                 sw.switchBraceCount++;
 
                 if ( !isOneLineBlockReached( line, i ) )
+                {
                     unindentNextLine = true;
+                }
 
                 return i;
             }
@@ -819,10 +902,14 @@ int ASEnhancer::unindentLine( string& line, int unindent ) const
     size_t whitespace = line.find_first_not_of( " \t" );
 
     if ( whitespace == string::npos )       // if line is blank
-        whitespace = line.length();         // must remove padding, if any
+    {
+        whitespace = line.length();    // must remove padding, if any
+    }
 
     if ( whitespace == 0 )
+    {
         return 0;
+    }
 
     size_t charsToErase = 0;
 
@@ -835,9 +922,13 @@ int ASEnhancer::unindentLine( string& line, int unindent ) const
         charsToErase = unindent * indentLength;
 
         if ( charsToErase <= spaceIndentLength )
+        {
             line.erase( 0, charsToErase );
+        }
         else
+        {
             charsToErase = 0;
+        }
 
         // replace leading spaces with tab indents
         convertSpaceIndentToForceTab( line );
@@ -847,18 +938,26 @@ int ASEnhancer::unindentLine( string& line, int unindent ) const
         charsToErase = unindent;
 
         if ( charsToErase <= whitespace )
+        {
             line.erase( 0, charsToErase );
+        }
         else
+        {
             charsToErase = 0;
+        }
     }
     else // spaces
     {
         charsToErase = unindent * indentLength;
 
         if ( charsToErase <= whitespace )
+        {
             line.erase( 0, charsToErase );
+        }
         else
+        {
             charsToErase = 0;
+        }
     }
 
     return charsToErase;

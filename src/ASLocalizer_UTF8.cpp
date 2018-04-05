@@ -93,7 +93,6 @@ ASLocalizer::ASLocalizer()
     m_lcid = 0;
     m_subLangID.clear();
     m_translation = nullptr;
-
     // Not all compilers support the C++ function locale::global(locale(""));
     char* localeName = setlocale( LC_ALL, "" );
 
@@ -164,7 +163,6 @@ void ASLocalizer::setLanguageFromLCID( size_t lcid )
 {
     m_lcid = lcid;
     m_langID = "en";    // default to english
-
     size_t lang = PRIMARYLANGID( LANGIDFROMLCID( m_lcid ) );
     size_t sublang = SUBLANGID( LANGIDFROMLCID( m_lcid ) );
     // find language in the wlc table
@@ -182,9 +180,13 @@ void ASLocalizer::setLanguageFromLCID( size_t lcid )
     if ( m_langID == "zh" )
     {
         if ( sublang == SUBLANG_CHINESE_SIMPLIFIED || sublang == SUBLANG_CHINESE_SINGAPORE )
+        {
             m_subLangID = "CHS";
+        }
         else
+        {
             m_subLangID = "CHT";    // default
+        }
     }
 
     setTranslationClass();
@@ -236,9 +238,13 @@ void ASLocalizer::setLanguageFromName( const char* langID )
         string subLang = langStr.substr( 3, 2 );
 
         if ( subLang == "CN" || subLang == "SG" )
+        {
             m_subLangID = "CHS";
+        }
         else
+        {
             m_subLangID = "CHT";    // default
+        }
     }
 
     setTranslationClass();
@@ -267,53 +273,101 @@ void ASLocalizer::setTranslationClass()
     }
 
     if ( m_langID == "bg" )
+    {
         m_translation = new Bulgarian;
+    }
     else if ( m_langID == "zh" && m_subLangID == "CHS" )
+    {
         m_translation = new ChineseSimplified;
+    }
     else if ( m_langID == "zh" && m_subLangID == "CHT" )
+    {
         m_translation = new ChineseTraditional;
+    }
     else if ( m_langID == "nl" )
+    {
         m_translation = new Dutch;
+    }
     else if ( m_langID == "en" )
+    {
         m_translation = new English;
+    }
     else if ( m_langID == "et" )
+    {
         m_translation = new Estonian;
+    }
     else if ( m_langID == "fi" )
+    {
         m_translation = new Finnish;
+    }
     else if ( m_langID == "fr" )
+    {
         m_translation = new French;
+    }
     else if ( m_langID == "de" )
+    {
         m_translation = new German;
+    }
     else if ( m_langID == "el" )
+    {
         m_translation = new Greek;
+    }
     else if ( m_langID == "hi" )
+    {
         m_translation = new Hindi;
+    }
     else if ( m_langID == "hu" )
+    {
         m_translation = new Hungarian;
+    }
     else if ( m_langID == "it" )
+    {
         m_translation = new Italian;
+    }
     else if ( m_langID == "ja" )
+    {
         m_translation = new Japanese;
+    }
     else if ( m_langID == "ko" )
+    {
         m_translation = new Korean;
+    }
     else if ( m_langID == "nn" )
+    {
         m_translation = new Norwegian;
+    }
     else if ( m_langID == "pl" )
+    {
         m_translation = new Polish;
+    }
     else if ( m_langID == "pt" )
+    {
         m_translation = new Portuguese;
+    }
     else if ( m_langID == "ro" )
+    {
         m_translation = new Romanian;
+    }
     else if ( m_langID == "ru" )
+    {
         m_translation = new Russian;
+    }
     else if ( m_langID == "es" )
+    {
         m_translation = new Spanish;
+    }
     else if ( m_langID == "sv" )
+    {
         m_translation = new Swedish;
+    }
     else if ( m_langID == "uk" )
+    {
         m_translation = new Ukrainian;
+    }
     else    // default
+    {
         m_translation = new English;
+    }
 }
 
 //----------------------------------------------------------------------------
@@ -371,7 +425,9 @@ string Translation::getTranslationString( size_t i ) const
 // Return the translation ascii value. Used for testing.
 {
     if ( i >= m_translation.size() )
+    {
         return string();
+    }
 
     return m_translation[i].first;
 }
@@ -417,7 +473,9 @@ string& Translation::translate( const string& stringIn ) const
 
     // not found, return english
     if ( m_mbTranslation.empty() )
+    {
         m_mbTranslation = stringIn;
+    }
 
     return m_mbTranslation;
 }

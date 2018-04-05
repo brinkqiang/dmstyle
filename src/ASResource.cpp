@@ -205,15 +205,12 @@ void ASResource::buildAssignmentOperators( vector<const string*>* assignmentOper
     assignmentOperators->emplace_back( &AS_OR_ASSIGN );
     assignmentOperators->emplace_back( &AS_AND_ASSIGN );
     assignmentOperators->emplace_back( &AS_XOR_ASSIGN );
-
     // Java
     assignmentOperators->emplace_back( &AS_GR_GR_GR_ASSIGN );
     assignmentOperators->emplace_back( &AS_GR_GR_ASSIGN );
     assignmentOperators->emplace_back( &AS_LS_LS_ASSIGN );
-
     // Unknown
     assignmentOperators->emplace_back( &AS_LS_LS_LS_ASSIGN );
-
     assert( assignmentOperators->size() < elements );
     sort( assignmentOperators->begin(), assignmentOperators->end(), sortOnLength );
 }
@@ -239,7 +236,6 @@ void ASResource::buildCastOperators( vector<const string*>* castOperators )
     castOperators->emplace_back( &AS_DYNAMIC_CAST );
     castOperators->emplace_back( &AS_REINTERPRET_CAST );
     castOperators->emplace_back( &AS_STATIC_CAST );
-
     assert( castOperators->size() < elements );
     sort( castOperators->begin(), castOperators->end(), sortOnName );
 }
@@ -304,7 +300,9 @@ void ASResource::buildHeaders( vector<const string*>* headers, int fileType, boo
     if ( beautifier )
     {
         if ( fileType == C_TYPE )
+        {
             headers->emplace_back( &AS_TEMPLATE );
+        }
 
         if ( fileType == JAVA_TYPE )
         {
@@ -325,7 +323,6 @@ void ASResource::buildHeaders( vector<const string*>* headers, int fileType, boo
 void ASResource::buildIndentableHeaders( vector<const string*>* indentableHeaders )
 {
     indentableHeaders->emplace_back( &AS_RETURN );
-
     //  sort(indentableHeaders->begin(), indentableHeaders->end(), sortOnName);
 }
 
@@ -359,11 +356,12 @@ void ASResource::buildIndentableMacros( vector<const pair<const string, const st
         macro_pair( "BEGIN_MESSAGE_MAP",   "END_MESSAGE_MAP" ),
         macro_pair( "BEGIN_PROPPAGEIDS",   "END_PROPPAGEIDS" ),
     };
-
     size_t entries = sizeof( macros ) / sizeof( macros[0] );
 
     for ( size_t i = 0; i < entries; i++ )
+    {
         indentableMacros->emplace_back( &macros[i] );
+    }
 
     assert( indentableMacros->size() < elements );
 }
@@ -399,7 +397,6 @@ void ASResource::buildNonAssignmentOperators( vector<const string*>* nonAssignme
     nonAssignmentOperators->emplace_back( &AS_AND );
     nonAssignmentOperators->emplace_back( &AS_OR );
     nonAssignmentOperators->emplace_back( &AS_LAMBDA );
-
     assert( nonAssignmentOperators->size() < elements );
     sort( nonAssignmentOperators->begin(), nonAssignmentOperators->end(), sortOnLength );
 }
@@ -438,7 +435,9 @@ void ASResource::buildNonParenHeaders( vector<const string*>* nonParenHeaders, i
     }
 
     if ( fileType == JAVA_TYPE )
+    {
         nonParenHeaders->emplace_back( &AS_FINALLY );
+    }
 
     if ( fileType == SHARP_TYPE )
     {
@@ -452,10 +451,14 @@ void ASResource::buildNonParenHeaders( vector<const string*>* nonParenHeaders, i
     if ( beautifier )
     {
         if ( fileType == C_TYPE )
+        {
             nonParenHeaders->emplace_back( &AS_TEMPLATE );
+        }
 
         if ( fileType == JAVA_TYPE )
+        {
             nonParenHeaders->emplace_back( &AS_STATIC );
+        }
     }
 
     assert( nonParenHeaders->size() < elements );
@@ -478,7 +481,6 @@ void ASResource::buildOperators( vector<const string*>* operators, int fileType 
         operators->reserve( elements );
         reserved = true;
     }
-
 
     operators->emplace_back( &AS_PLUS_ASSIGN );
     operators->emplace_back( &AS_MINUS_ASSIGN );
@@ -614,10 +616,14 @@ void ASResource::buildPreCommandHeaders( vector<const string*>* preCommandHeader
     }
 
     if ( fileType == JAVA_TYPE )
+    {
         preCommandHeaders->emplace_back( &AS_THROWS );
+    }
 
     if ( fileType == SHARP_TYPE )
+    {
         preCommandHeaders->emplace_back( &AS_WHERE );
+    }
 
     assert( preCommandHeaders->size() < elements );
     sort( preCommandHeaders->begin(), preCommandHeaders->end(), sortOnName );
@@ -654,7 +660,9 @@ void ASResource::buildPreDefinitionHeaders( vector<const string*>* preDefinition
     }
 
     if ( fileType == JAVA_TYPE )
+    {
         preDefinitionHeaders->emplace_back( &AS_INTERFACE );
+    }
 
     if ( fileType == SHARP_TYPE )
     {
@@ -685,28 +693,40 @@ const string* ASBase::findHeader( const string& line, int i,
         const size_t wordEnd = i + header->length();
 
         if ( wordEnd > line.length() )
+        {
             continue;
+        }
 
         int result = ( line.compare( i, header->length(), *header ) );
 
         if ( result > 0 )
+        {
             continue;
+        }
 
         if ( result < 0 )
+        {
             break;
+        }
 
         // check that this is not part of a longer word
         if ( wordEnd == line.length() )
+        {
             return header;
+        }
 
         if ( isLegalNameChar( line[wordEnd] ) )
+        {
             continue;
+        }
 
         const char peekChar = peekNextChar( line, wordEnd - 1 );
 
         // is not a header if part of a definition
         if ( peekChar == ',' || peekChar == ')' )
+        {
             break;
+        }
         // the following accessor definitions are NOT headers
         // goto default; is NOT a header
         // default(int) keyword in C# is NOT a header
@@ -714,7 +734,9 @@ const string* ASBase::findHeader( const string& line, int i,
                     || header == &AS_SET
                     || header == &AS_DEFAULT )
                   && ( peekChar == ';' || peekChar == '(' || peekChar == '=' ) )
+        {
             break;
+        }
 
         return header;
     }
@@ -731,23 +753,33 @@ bool ASBase::findKeyword( const string& line, int i, const string& keyword ) con
     const size_t wordEnd = i + keywordLength;
 
     if ( wordEnd > line.length() )
+    {
         return false;
+    }
 
     if ( line.compare( i, keywordLength, keyword ) != 0 )
+    {
         return false;
+    }
 
     // check that this is not part of a longer word
     if ( wordEnd == line.length() )
+    {
         return true;
+    }
 
     if ( isLegalNameChar( line[wordEnd] ) )
+    {
         return false;
+    }
 
     // is not a keyword if part of a definition
     const char peekChar = peekNextChar( line, ( int ) wordEnd - 1 );
 
     if ( peekChar == ',' || peekChar == ')' )
+    {
         return false;
+    }
 
     return true;
 }
@@ -767,10 +799,14 @@ const string* ASBase::findOperator( const string& line, int i,
         const size_t wordEnd = i + ( *( *possibleOperators )[p] ).length();
 
         if ( wordEnd > line.length() )
+        {
             continue;
+        }
 
         if ( line.compare( i, ( *( *possibleOperators )[p] ).length(), *( *possibleOperators )[p] ) == 0 )
+        {
             return ( *possibleOperators )[p];
+        }
     }
 
     return nullptr;
@@ -787,7 +823,9 @@ string ASBase::getCurrentWord( const string& line, size_t index ) const
     for ( i = index; i < lineLength; i++ )
     {
         if ( !isLegalNameChar( line[i] ) )
+        {
             break;
+        }
     }
 
     return line.substr( index, i - index );
@@ -797,10 +835,14 @@ string ASBase::getCurrentWord( const string& line, size_t index ) const
 bool ASBase::isLegalNameChar( char ch ) const
 {
     if ( isWhiteSpace( ch ) )
+    {
         return false;
+    }
 
     if ( ( unsigned char ) ch > 127 )
+    {
         return false;
+    }
 
     return ( isalnum( ( unsigned char ) ch )
              || ch == '.' || ch == '_'
@@ -815,13 +857,19 @@ bool ASBase::isCharPotentialHeader( const string& line, size_t i ) const
     char prevCh = ' ';
 
     if ( i > 0 )
+    {
         prevCh = line[i - 1];
+    }
 
     if ( i > 1 && line[i - 2] == '\\' )
+    {
         prevCh = ' ';
+    }
 
     if ( !isLegalNameChar( prevCh ) && isLegalNameChar( line[i] ) )
+    {
         return true;
+    }
 
     return false;
 }
@@ -832,7 +880,9 @@ bool ASBase::isCharPotentialOperator( char ch ) const
     assert( !isWhiteSpace( ch ) );
 
     if ( ( unsigned ) ch > 127 )
+    {
         return false;
+    }
 
     return ( ispunct( ( unsigned char ) ch )
              && ch != '{' && ch != '}'
@@ -870,7 +920,9 @@ char ASBase::peekNextChar( const string& line, int i ) const
     size_t peekNum = line.find_first_not_of( " \t", i + 1 );
 
     if ( peekNum == string::npos )
+    {
         return ch;
+    }
 
     ch = line[peekNum];
     return ch;

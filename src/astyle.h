@@ -219,7 +219,10 @@ public:
 
     ~ASPeekStream()
     {
-        if ( needReset ) sourceIterator->peekReset();
+        if ( needReset )
+        {
+            sourceIterator->peekReset();
+        }
     }
 
     bool hasMoreLines() const
