@@ -111,8 +111,7 @@ typedef char* ( STDCALL* fpAlloc )( unsigned long memoryNeeded );
 // astyle namespace
 //----------------------------------------------------------------------------
 
-namespace astyle
-{
+namespace astyle {
 //
 //----------------------------------------------------------------------------
 // ASStreamIterator class
@@ -122,9 +121,8 @@ namespace astyle
 //----------------------------------------------------------------------------
 
 template<typename T>
-class ASStreamIterator : public ASSourceIterator
-{
-public:
+class ASStreamIterator : public ASSourceIterator {
+  public:
     bool checkForEmptyLine;
 
     // function declarations
@@ -138,9 +136,11 @@ public:
     void saveLastInputLine();
     streamoff tellg();
 
-private:
-    ASStreamIterator( const ASStreamIterator& copy );     // copy constructor not to be implemented
-    ASStreamIterator& operator=( ASStreamIterator& );     // assignment operator not to be implemented
+  private:
+    ASStreamIterator( const ASStreamIterator&
+                      copy );     // copy constructor not to be implemented
+    ASStreamIterator& operator=
+    ( ASStreamIterator& );     // assignment operator not to be implemented
     T* inStream;            // pointer to the input stream
     string buffer;          // current input line
     string prevBuffer;      // previous input line
@@ -152,21 +152,17 @@ private:
     streamoff peekStart;    // starting position for peekNextLine
     bool prevLineDeleted;   // the previous input line was deleted
 
-public: // inline functions
-    bool compareToInputBuffer( const string& nextLine_ ) const
-    {
+  public: // inline functions
+    bool compareToInputBuffer( const string& nextLine_ ) const {
         return ( nextLine_ == prevBuffer );
     }
-    const string& getOutputEOL() const
-    {
+    const string& getOutputEOL() const {
         return outputEOL;
     }
-    streamoff getPeekStart() const
-    {
+    streamoff getPeekStart() const {
         return peekStart;
     }
-    bool hasMoreLines() const
-    {
+    bool hasMoreLines() const {
         return !inStream->eof();
     }
 };
@@ -176,9 +172,8 @@ public: // inline functions
 // used by both console and library builds
 //----------------------------------------------------------------------------
 
-class ASEncoding
-{
-private:
+class ASEncoding {
+  private:
     typedef char16_t utf16;       // 16 bits unsigned
     typedef unsigned char utf8;   // 8 bits
     typedef unsigned char ubyte;  // 8 bits
@@ -189,12 +184,14 @@ private:
     enum { SURROGATE_FIRST_VALUE = 0x10000 };
     enum eState { eStart, eSecondOf4Bytes, ePenultimate, eFinal };
 
-public:
+  public:
     bool   getBigEndian() const;
     int    swap16bit( int value ) const;
     size_t utf16len( const utf16* utf16In ) const;
-    size_t utf8LengthFromUtf16( const char* utf16In, size_t inLen, bool isBigEndian ) const;
-    size_t utf8ToUtf16( char* utf8In, size_t inLen, bool isBigEndian, char* utf16Out ) const;
+    size_t utf8LengthFromUtf16( const char* utf16In, size_t inLen,
+                                bool isBigEndian ) const;
+    size_t utf8ToUtf16( char* utf8In, size_t inLen, bool isBigEndian,
+                        char* utf16Out ) const;
     size_t utf16LengthFromUtf8( const char* utf8In, size_t len ) const;
     size_t utf16ToUtf8( char* utf16In, size_t inLen, bool isBigEndian,
                         bool firstBlock, char* utf8Out ) const;
@@ -206,9 +203,8 @@ public:
 //----------------------------------------------------------------------------
 class ASConsole;
 
-class ASOptions
-{
-public:
+class ASOptions {
+  public:
 #ifdef ASTYLE_LIB
     ASOptions( ASFormatter& formatterArg );
 #else
@@ -218,7 +214,7 @@ public:
     void importOptions( stringstream& in, vector<string>& optionsVector );
     bool parseOptions( vector<string>& optionsVector, const string& errorInfo );
 
-private:
+  private:
     // variables
     ASFormatter& formatter;
     stringstream optionErrors;      // option error messages
@@ -228,14 +224,16 @@ private:
 
     // functions
     ASOptions( const ASOptions& );         // copy constructor not to be implemented
-    ASOptions& operator=( ASOptions& );    // assignment operator not to be implemented
+    ASOptions& operator=
+    ( ASOptions& );    // assignment operator not to be implemented
     string getParam( const string& arg, const char* op );
     string getParam( const string& arg, const char* op1, const char* op2 );
     bool isOption( const string& arg, const char* op );
     bool isOption( const string& arg, const char* op1, const char* op2 );
     void isOptionError( const string& arg, const string& errorInfo );
     bool isParamOption( const string& arg, const char* option );
-    bool isParamOption( const string& arg, const char* option1, const char* option2 );
+    bool isParamOption( const string& arg, const char* option1,
+                        const char* option2 );
     void parseOption( const string& arg, const string& errorInfo );
 };
 
@@ -245,9 +243,8 @@ private:
 // ASConsole class for console build
 //----------------------------------------------------------------------------
 
-class ASConsole
-{
-private:    // variables
+class ASConsole {
+  private:    // variables
     ASFormatter& formatter;             // reference to the ASFormatter object
     ASEncoding encode;                  // file encoding conversion
     ASLocalizer localizer;              // language translation
@@ -285,13 +282,15 @@ private:    // variables
 
     vector<string> excludeVector;       // exclude from wildcard hits
     vector<bool>   excludeHitsVector;   // exclude flags for error reporting
-    vector<string> fileNameVector;      // file paths and names from the command line
+    vector<string>
+    fileNameVector;      // file paths and names from the command line
     vector<string> optionsVector;       // options from the command line
-    vector<string> projectOptionsVector;// project options from the project options file
+    vector<string>
+    projectOptionsVector;// project options from the project options file
     vector<string> fileOptionsVector;   // options from the options file
     vector<string> fileName;            // files to be processed including path
 
-public:     // functions
+  public:     // functions
     explicit ASConsole( ASFormatter& formatterArg );
     ~ASConsole();
     void convertLineEnds( ostringstream& out, int lineEnd );
@@ -317,13 +316,15 @@ public:     // functions
     bool getPreserveDate() const;
     string getLanguageID() const;
     string getNumberFormat( int num, size_t lcid = 0 ) const;
-    string getNumberFormat( int num, const char* groupingArg, const char* separator ) const;
+    string getNumberFormat( int num, const char* groupingArg,
+                            const char* separator ) const;
     string getOptionFileName() const;
     string getOrigSuffix() const;
     string getProjectOptionFileName() const;
     string getStdPathIn() const;
     string getStdPathOut() const;
-    void getTargetFilenames( string& targetFilename_, vector<string>& targetFilenameVector ) const;
+    void getTargetFilenames( string& targetFilename_,
+                             vector<string>& targetFilenameVector ) const;
     void processFiles();
     void processOptions( const vector<string>& argvOptions );
     void setBypassBrowserOpen( bool state );
@@ -342,7 +343,8 @@ public:     // functions
     void setProjectOptionFileName( const string& optfilepath );
     void setStdPathIn( const string& path );
     void setStdPathOut( const string& path );
-    void standardizePath( string& path, bool removeBeginningSeparator = false ) const;
+    void standardizePath( string& path,
+                          bool removeBeginningSeparator = false ) const;
     bool stringEndsWith( const string& str, const string& suffix ) const;
     void updateExcludeVector( const string& suffixParam );
     vector<string> getExcludeVector() const;
@@ -353,9 +355,10 @@ public:     // functions
     vector<string> getFileOptionsVector() const;
     vector<string> getFileName() const;
 
-private:    // functions
+  private:    // functions
     ASConsole( const ASConsole& );         // copy constructor not to be implemented
-    ASConsole& operator=( ASConsole& );    // assignment operator not to be implemented
+    ASConsole& operator=
+    ( ASConsole& );    // assignment operator not to be implemented
     void correctMixedLineEnds( ostringstream& out );
     void formatFile( const string& fileName_ );
     string getParentDirectory( const string& absPath ) const;
@@ -379,12 +382,14 @@ private:    // functions
     void printVerboseStats( clock_t startTime ) const;
     FileEncoding readFile( const string& fileName_, stringstream& in ) const;
     void removeFile( const char* fileName_, const char* errMsg ) const;
-    void renameFile( const char* oldFileName, const char* newFileName, const char* errMsg ) const;
+    void renameFile( const char* oldFileName, const char* newFileName,
+                     const char* errMsg ) const;
     void setOutputEOL( LineEndFormat lineEndFormat, const string& currentEOL );
     void sleep( int seconds ) const;
     int  waitForRemove( const char* newFileName ) const;
     int  wildcmp( const char* wild, const char* data ) const;
-    void writeFile( const string& fileName_, FileEncoding encoding, ostringstream& out ) const;
+    void writeFile( const string& fileName_, FileEncoding encoding,
+                    ostringstream& out ) const;
 #ifdef _WIN32
     void displayLastError();
 #endif
@@ -395,20 +400,21 @@ private:    // functions
 // ASLibrary class for library build
 //----------------------------------------------------------------------------
 
-class ASLibrary
-{
-public:
+class ASLibrary {
+  public:
     ASLibrary() {}
     virtual ~ASLibrary() {}
     // virtual functions are mocked in testing
-    char16_t* formatUtf16( const char16_t*, const char16_t*, fpError, fpAlloc ) const;
-    virtual char16_t* convertUtf8ToUtf16( const char* utf8In, fpAlloc fpMemoryAlloc ) const;
+    char16_t* formatUtf16( const char16_t*, const char16_t*, fpError,
+                           fpAlloc ) const;
+    virtual char16_t* convertUtf8ToUtf16( const char* utf8In,
+                                          fpAlloc fpMemoryAlloc ) const;
     virtual char* convertUtf16ToUtf8( const char16_t* utf16In ) const;
 
-private:
+  private:
     static char* STDCALL tempMemoryAllocation( unsigned long memoryNeeded );
 
-private:
+  private:
     ASEncoding encode;             // file encoding conversion
 };
 

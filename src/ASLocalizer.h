@@ -17,8 +17,7 @@
 #endif
 #endif  //  ASTYLE_JNI
 
-namespace astyle
-{
+namespace astyle {
 
 using namespace std;
 
@@ -31,9 +30,8 @@ using namespace std;
 //-----------------------------------------------------------------------------
 class Translation;
 
-class ASLocalizer
-{
-public:     // functions
+class ASLocalizer {
+  public:     // functions
     ASLocalizer();
     virtual ~ASLocalizer();
     string getLanguageID() const;
@@ -44,10 +42,10 @@ public:     // functions
     void setLanguageFromName( const char* langID );
     const char* settext( const char* textIn ) const;
 
-private:    // functions
+  private:    // functions
     void setTranslationClass();
 
-private:    // variables
+  private:    // variables
     Translation* m_translation;     // pointer to a polymorphic Translation class
     string m_langID;                // language identifier from the locale
     string m_subLangID;             // sub language identifier, if needed
@@ -67,7 +65,7 @@ class Translation
 // NOTE: This class must have virtual methods for typeid() to work.
 //       typeid() is used by AStyleTestI18n_Localizer.cpp.
 {
-public:
+  public:
     Translation() {}
     virtual ~Translation() {}
     string convertToMultiByte( const wstring& wideStr ) const;
@@ -76,12 +74,12 @@ public:
     bool getWideTranslation( const string& stringIn, wstring& wideOut ) const;
     string& translate( const string& stringIn ) const;
 
-protected:
+  protected:
     void addPair( const string& english, const wstring& translated );
     // variables
     vector<pair<string, wstring> > m_translation;       // translation vector
 
-private:
+  private:
     mutable string m_mbTranslation;
 };
 
@@ -91,141 +89,118 @@ private:
 // These classes have only a constructor which builds the language vector.
 //----------------------------------------------------------------------------
 
-class Bulgarian : public Translation
-{
-public:
+class Bulgarian : public Translation {
+  public:
     Bulgarian();
 };
 
-class ChineseSimplified : public Translation
-{
-public:
+class ChineseSimplified : public Translation {
+  public:
     ChineseSimplified();
 };
 
-class ChineseTraditional : public Translation
-{
-public:
+class ChineseTraditional : public Translation {
+  public:
     ChineseTraditional();
 };
 
-class Dutch : public Translation
-{
-public:
+class Dutch : public Translation {
+  public:
     Dutch();
 };
 
-class English : public Translation
-{
-public:
+class English : public Translation {
+  public:
     English();
 };
 
-class Estonian : public Translation
-{
-public:
+class Estonian : public Translation {
+  public:
     Estonian();
 };
 
-class Finnish : public Translation
-{
-public:
+class Finnish : public Translation {
+  public:
     Finnish();
 };
 
-class French : public Translation
-{
-public:
+class French : public Translation {
+  public:
     French();
 };
 
-class German : public Translation
-{
-public:
+class German : public Translation {
+  public:
     German();
 };
 
-class Greek : public Translation
-{
-public:
+class Greek : public Translation {
+  public:
     Greek();
 };
 
-class Hindi : public Translation
-{
-public:
+class Hindi : public Translation {
+  public:
     Hindi();
 };
 
-class Hungarian : public Translation
-{
-public:
+class Hungarian : public Translation {
+  public:
     Hungarian();
 };
 
-class Italian : public Translation
-{
-public:
+class Italian : public Translation {
+  public:
     Italian();
 };
 
-class Japanese : public Translation
-{
-public:
+class Japanese : public Translation {
+  public:
     Japanese();
 };
 
-class Korean : public Translation
-{
-public:
+class Korean : public Translation {
+  public:
     Korean();
 };
 
-class Norwegian : public Translation
-{
-public:
+class Norwegian : public Translation {
+  public:
     Norwegian();
 };
 
-class Polish : public Translation
-{
-public:
+class Polish : public Translation {
+  public:
     Polish();
 };
 
-class Portuguese : public Translation
-{
-public:
+class Portuguese : public Translation {
+  public:
     Portuguese();
 };
 
-class Romanian : public Translation
-{
-public:
+class Romanian : public Translation {
+  public:
     Romanian();
 };
 
-class Russian : public Translation
-{
-public:
+class Russian : public Translation {
+  public:
     Russian();
 };
 
-class Spanish : public Translation
-{
-public:
+class Spanish : public Translation {
+  public:
     Spanish();
 };
 
-class Swedish : public Translation
-{
-public:
+class Swedish : public Translation {
+  public:
     Swedish();
 };
 
-class Ukrainian : public Translation
-{
-public:
+class Ukrainian : public Translation {
+  public:
     Ukrainian();
 };
 

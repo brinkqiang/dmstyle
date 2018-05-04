@@ -74,8 +74,7 @@ int _CRT_glob = 0;
 // astyle namespace
 //----------------------------------------------------------------------------
 
-namespace astyle
-{
+namespace astyle {
 //
 // console build variables
 #ifndef ASTYLE_LIB
@@ -104,8 +103,7 @@ const char* g_version = "3.1";
 //-----------------------------------------------------------------------------
 
 template<typename T>
-ASStreamIterator<T>::ASStreamIterator( T* in )
-{
+ASStreamIterator<T>::ASStreamIterator( T* in ) {
     inStream = in;
     buffer.reserve( 200 );
     eolWindows = 0;
@@ -121,8 +119,7 @@ ASStreamIterator<T>::ASStreamIterator( T* in )
 }
 
 template<typename T>
-ASStreamIterator<T>::~ASStreamIterator()
-{
+ASStreamIterator<T>::~ASStreamIterator() {
 }
 
 /**
@@ -132,8 +129,7 @@ ASStreamIterator<T>::~ASStreamIterator()
 * @return     length of the input file stream, converted to an int.
 */
 template<typename T>
-int ASStreamIterator<T>::getStreamLength() const
-{
+int ASStreamIterator<T>::getStreamLength() const {
     return static_cast<int>( streamLength );
 }
 
@@ -144,25 +140,21 @@ int ASStreamIterator<T>::getStreamLength() const
  * @return        string containing the next input line minus any end of line characters
  */
 template<typename T>
-string ASStreamIterator<T>::nextLine( bool emptyLineWasDeleted )
-{
+string ASStreamIterator<T>::nextLine( bool emptyLineWasDeleted ) {
     // verify that the current position is correct
     assert( peekStart == 0 );
 
     // a deleted line may be replaced if break-blocks is requested
     // this sets up the compare to check for a replaced empty line
-    if ( prevLineDeleted )
-    {
+    if ( prevLineDeleted ) {
         prevLineDeleted = false;
         checkForEmptyLine = true;
     }
 
-    if ( !emptyLineWasDeleted )
-    {
+    if ( !emptyLineWasDeleted ) {
         prevBuffer = buffer;
     }
-    else
-    {
+    else {
         prevLineDeleted = true;
     }
 
@@ -171,55 +163,44 @@ string ASStreamIterator<T>::nextLine( bool emptyLineWasDeleted )
     char ch;
     inStream->get( ch );
 
-    while ( !inStream->eof() && ch != '\n' && ch != '\r' )
-    {
+    while ( !inStream->eof() && ch != '\n' && ch != '\r' ) {
         buffer.append( 1, ch );
         inStream->get( ch );
     }
 
-    if ( inStream->eof() )
-    {
+    if ( inStream->eof() ) {
         return buffer;
     }
 
     int peekCh = inStream->peek();
 
     // find input end-of-line characters
-    if ( !inStream->eof() )
-    {
-        if ( ch == '\r' )       // CR+LF is windows otherwise Mac OS 9
-        {
-            if ( peekCh == '\n' )
-            {
+    if ( !inStream->eof() ) {
+        if ( ch == '\r' ) {     // CR+LF is windows otherwise Mac OS 9
+            if ( peekCh == '\n' ) {
                 inStream->get();
                 eolWindows++;
             }
-            else
-            {
+            else {
                 eolMacOld++;
             }
         }
-        else                    // LF is Linux, allow for improbable LF/CR
-        {
-            if ( peekCh == '\r' )
-            {
+        else {                  // LF is Linux, allow for improbable LF/CR
+            if ( peekCh == '\r' ) {
                 inStream->get();
                 eolWindows++;
             }
-            else
-            {
+            else {
                 eolLinux++;
             }
         }
     }
-    else
-    {
+    else {
         inStream->clear();
     }
 
     // has not detected an input end of line
-    if ( !eolWindows && !eolLinux && !eolMacOld )
-    {
+    if ( !eolWindows && !eolLinux && !eolMacOld ) {
 #ifdef _WIN32
         eolWindows++;
 #else
@@ -228,23 +209,18 @@ string ASStreamIterator<T>::nextLine( bool emptyLineWasDeleted )
     }
 
     // set output end of line characters
-    if ( eolWindows >= eolLinux )
-    {
-        if ( eolWindows >= eolMacOld )
-        {
+    if ( eolWindows >= eolLinux ) {
+        if ( eolWindows >= eolMacOld ) {
             outputEOL = "\r\n";    // Windows (CR+LF)
         }
-        else
-        {
+        else {
             outputEOL = "\r";    // MacOld (CR)
         }
     }
-    else if ( eolLinux >= eolMacOld )
-    {
+    else if ( eolLinux >= eolMacOld ) {
         outputEOL = "\n";    // Linux (LF)
     }
-    else
-    {
+    else {
         outputEOL = "\r";    // MacOld (CR)
     }
 
@@ -256,38 +232,32 @@ string ASStreamIterator<T>::nextLine( bool emptyLineWasDeleted )
 // when finished peeking you MUST call peekReset()
 // call this function from ASFormatter ONLY
 template<typename T>
-string ASStreamIterator<T>::peekNextLine()
-{
+string ASStreamIterator<T>::peekNextLine() {
     assert( hasMoreLines() );
     string nextLine_;
     char ch;
 
-    if ( peekStart == 0 )
-    {
+    if ( peekStart == 0 ) {
         peekStart = inStream->tellg();
     }
 
     // read the next record
     inStream->get( ch );
 
-    while ( !inStream->eof() && ch != '\n' && ch != '\r' )
-    {
+    while ( !inStream->eof() && ch != '\n' && ch != '\r' ) {
         nextLine_.append( 1, ch );
         inStream->get( ch );
     }
 
-    if ( inStream->eof() )
-    {
+    if ( inStream->eof() ) {
         return nextLine_;
     }
 
     int peekCh = inStream->peek();
 
     // remove end-of-line characters
-    if ( !inStream->eof() )
-    {
-        if ( ( peekCh == '\n' || peekCh == '\r' ) && peekCh != ch )
-        {
+    if ( !inStream->eof() ) {
+        if ( ( peekCh == '\n' || peekCh == '\r' ) && peekCh != ch ) {
             inStream->get();
         }
     }
@@ -297,8 +267,7 @@ string ASStreamIterator<T>::peekNextLine()
 
 // reset current position and EOF for peekNextLine()
 template<typename T>
-void ASStreamIterator<T>::peekReset()
-{
+void ASStreamIterator<T>::peekReset() {
     assert( peekStart != 0 );
     inStream->clear();
     inStream->seekg( peekStart );
@@ -307,53 +276,43 @@ void ASStreamIterator<T>::peekReset()
 
 // save the last input line after input has reached EOF
 template<typename T>
-void ASStreamIterator<T>::saveLastInputLine()
-{
+void ASStreamIterator<T>::saveLastInputLine() {
     assert( inStream->eof() );
     prevBuffer = buffer;
 }
 
 // return position of the get pointer
 template<typename T>
-streamoff ASStreamIterator<T>::tellg()
-{
+streamoff ASStreamIterator<T>::tellg() {
     return inStream->tellg();
 }
 
 // check for a change in line ends
 template<typename T>
-bool ASStreamIterator<T>::getLineEndChange( int lineEndFormat ) const
-{
+bool ASStreamIterator<T>::getLineEndChange( int lineEndFormat ) const {
     assert( lineEndFormat == LINEEND_DEFAULT
             || lineEndFormat == LINEEND_WINDOWS
             || lineEndFormat == LINEEND_LINUX
             || lineEndFormat == LINEEND_MACOLD );
     bool lineEndChange = false;
 
-    if ( lineEndFormat == LINEEND_WINDOWS )
-    {
+    if ( lineEndFormat == LINEEND_WINDOWS ) {
         lineEndChange = ( eolLinux + eolMacOld != 0 );
     }
-    else if ( lineEndFormat == LINEEND_LINUX )
-    {
+    else if ( lineEndFormat == LINEEND_LINUX ) {
         lineEndChange = ( eolWindows + eolMacOld != 0 );
     }
-    else if ( lineEndFormat == LINEEND_MACOLD )
-    {
+    else if ( lineEndFormat == LINEEND_MACOLD ) {
         lineEndChange = ( eolWindows + eolLinux != 0 );
     }
-    else
-    {
-        if ( eolWindows > 0 )
-        {
+    else {
+        if ( eolWindows > 0 ) {
             lineEndChange = ( eolLinux + eolMacOld != 0 );
         }
-        else if ( eolLinux > 0 )
-        {
+        else if ( eolLinux > 0 ) {
             lineEndChange = ( eolWindows + eolMacOld != 0 );
         }
-        else if ( eolMacOld > 0 )
-        {
+        else if ( eolMacOld > 0 ) {
             lineEndChange = ( eolWindows + eolLinux != 0 );
         }
     }
@@ -368,8 +327,7 @@ bool ASStreamIterator<T>::getLineEndChange( int lineEndFormat ) const
 
 #ifndef ASTYLE_LIB
 
-ASConsole::ASConsole( ASFormatter& formatterArg ) : formatter( formatterArg )
-{
+ASConsole::ASConsole( ASFormatter& formatterArg ) : formatter( formatterArg ) {
     errorStream = &cerr;
     // command line options
     isRecursive = false;
@@ -398,83 +356,68 @@ ASConsole::~ASConsole()
 {}
 
 // rewrite a stringstream converting the line ends
-void ASConsole::convertLineEnds( ostringstream& out, int lineEnd )
-{
-    assert( lineEnd == LINEEND_WINDOWS || lineEnd == LINEEND_LINUX || lineEnd == LINEEND_MACOLD );
+void ASConsole::convertLineEnds( ostringstream& out, int lineEnd ) {
+    assert( lineEnd == LINEEND_WINDOWS || lineEnd == LINEEND_LINUX ||
+            lineEnd == LINEEND_MACOLD );
     const string& inStr = out.str();    // avoids strange looking syntax
     string outStr;                      // the converted output
     int inLength = ( int ) inStr.length();
 
-    for ( int pos = 0; pos < inLength; pos++ )
-    {
-        if ( inStr[pos] == '\r' )
-        {
-            if ( inStr[pos + 1] == '\n' )
-            {
+    for ( int pos = 0; pos < inLength; pos++ ) {
+        if ( inStr[pos] == '\r' ) {
+            if ( inStr[pos + 1] == '\n' ) {
                 // CRLF
-                if ( lineEnd == LINEEND_CR )
-                {
+                if ( lineEnd == LINEEND_CR ) {
                     outStr += inStr[pos];       // Delete the LF
                     pos++;
                     continue;
                 }
-                else if ( lineEnd == LINEEND_LF )
-                {
+                else if ( lineEnd == LINEEND_LF ) {
                     outStr += inStr[pos + 1];       // Delete the CR
                     pos++;
                     continue;
                 }
-                else
-                {
+                else {
                     outStr += inStr[pos];       // Do not change
                     outStr += inStr[pos + 1];
                     pos++;
                     continue;
                 }
             }
-            else
-            {
+            else {
                 // CR
-                if ( lineEnd == LINEEND_CRLF )
-                {
+                if ( lineEnd == LINEEND_CRLF ) {
                     outStr += inStr[pos];       // Insert the CR
                     outStr += '\n';             // Insert the LF
                     continue;
                 }
-                else if ( lineEnd == LINEEND_LF )
-                {
+                else if ( lineEnd == LINEEND_LF ) {
                     outStr += '\n';             // Insert the LF
                     continue;
                 }
-                else
-                {
+                else {
                     outStr += inStr[pos];       // Do not change
                     continue;
                 }
             }
         }
-        else if ( inStr[pos] == '\n' )
-        {
+        else if ( inStr[pos] == '\n' ) {
             // LF
-            if ( lineEnd == LINEEND_CRLF )
-            {
+            if ( lineEnd == LINEEND_CRLF ) {
                 outStr += '\r';             // Insert the CR
                 outStr += inStr[pos];       // Insert the LF
                 continue;
             }
-            else if ( lineEnd == LINEEND_CR )
-            {
+            else if ( lineEnd == LINEEND_CR ) {
                 outStr += '\r';             // Insert the CR
                 continue;
             }
-            else
-            {
+            else {
                 outStr += inStr[pos];       // Do not change
                 continue;
             }
         }
-        else
-        {
+        else {
             outStr += inStr[pos];       // Write the current char
         }
     }
@@ -483,22 +426,18 @@ void ASConsole::convertLineEnds( ostringstream& out, int lineEnd )
     out.str( outStr );
 }
 
-void ASConsole::correctMixedLineEnds( ostringstream& out )
-{
+void ASConsole::correctMixedLineEnds( ostringstream& out ) {
     LineEndFormat lineEndFormat = LINEEND_DEFAULT;
 
-    if ( outputEOL == "\r\n" )
-    {
+    if ( outputEOL == "\r\n" ) {
         lineEndFormat = LINEEND_WINDOWS;
     }
 
-    if ( outputEOL == "\n" )
-    {
+    if ( outputEOL == "\n" ) {
         lineEndFormat = LINEEND_LINUX;
     }
 
-    if ( outputEOL == "\r" )
-    {
+    if ( outputEOL == "\r" ) {
         lineEndFormat = LINEEND_MACOLD;
     }
 
@@ -508,28 +447,23 @@ void ASConsole::correctMixedLineEnds( ostringstream& out )
 // check files for 16 or 32 bit encoding
 // the file must have a Byte Order Mark (BOM)
 // NOTE: some string functions don't work with NULLs (e.g. length())
-FileEncoding ASConsole::detectEncoding( const char* data, size_t dataSize ) const
-{
+FileEncoding ASConsole::detectEncoding( const char* data,
+                                        size_t dataSize ) const {
     FileEncoding encoding = ENCODING_8BIT;
 
-    if ( dataSize >= 3 && memcmp( data, "\xEF\xBB\xBF", 3 ) == 0 )
-    {
+    if ( dataSize >= 3 && memcmp( data, "\xEF\xBB\xBF", 3 ) == 0 ) {
         encoding = UTF_8BOM;
     }
-    else if ( dataSize >= 4 && memcmp( data, "\x00\x00\xFE\xFF", 4 ) == 0 )
-    {
+    else if ( dataSize >= 4 && memcmp( data, "\x00\x00\xFE\xFF", 4 ) == 0 ) {
         encoding = UTF_32BE;
     }
-    else if ( dataSize >= 4 && memcmp( data, "\xFF\xFE\x00\x00", 4 ) == 0 )
-    {
+    else if ( dataSize >= 4 && memcmp( data, "\xFF\xFE\x00\x00", 4 ) == 0 ) {
         encoding = UTF_32LE;
     }
-    else if ( dataSize >= 2 && memcmp( data, "\xFE\xFF", 2 ) == 0 )
-    {
+    else if ( dataSize >= 2 && memcmp( data, "\xFE\xFF", 2 ) == 0 ) {
         encoding = UTF_16BE;
     }
-    else if ( dataSize >= 2 && memcmp( data, "\xFF\xFE", 2 ) == 0 )
-    {
+    else if ( dataSize >= 2 && memcmp( data, "\xFF\xFE", 2 ) == 0 ) {
         encoding = UTF_16LE;
     }
 
@@ -537,15 +471,13 @@ FileEncoding ASConsole::detectEncoding( const char* data, size_t dataSize ) cons
 }
 
 // error exit without a message
-void ASConsole::error() const
-{
+void ASConsole::error() const {
     ( *errorStream ) << _( "Artistic Style has terminated\n" ) << endl;
     exit( EXIT_FAILURE );
 }
 
 // error exit with a message
-void ASConsole::error( const char* why, const char* what ) const
-{
+void ASConsole::error( const char* why, const char* what ) const {
     ( *errorStream ) << why << ' ' << what << endl;
     error();
 }
@@ -556,21 +488,16 @@ void ASConsole::error( const char* why, const char* what ) const
  * This is used to format text for text editors.
  * Do NOT display any console messages when this function is used.
  */
-void ASConsole::formatCinToCout()
-{
+void ASConsole::formatCinToCout() {
     // check for files from --stdin= and --stdout=
-    if ( !stdPathIn.empty() )
-    {
-        if ( !freopen( stdPathIn.c_str(), "r", stdin ) )
-        {
+    if ( !stdPathIn.empty() ) {
+        if ( !freopen( stdPathIn.c_str(), "r", stdin ) ) {
             error( "Cannot open input file", stdPathIn.c_str() );
         }
     }
 
-    if ( !stdPathOut.empty() )
-    {
-        if ( !freopen( stdPathOut.c_str(), "w", stdout ) )
-        {
+    if ( !stdPathOut.empty() ) {
+        if ( !freopen( stdPathOut.c_str(), "w", stdout ) ) {
             error( "Cannot open output file", stdPathOut.c_str() );
         }
     }
@@ -586,8 +513,7 @@ void ASConsole::formatCinToCout()
     char ch;
     inStream->get( ch );
 
-    while ( !inStream->eof() && !inStream->fail() )
-    {
+    while ( !inStream->eof() && !inStream->fail() ) {
         outStream.put( ch );
         inStream->get( ch );
     }
@@ -603,20 +529,16 @@ void ASConsole::formatCinToCout()
     initializeOutputEOL( lineEndFormat );
     formatter.init( &streamIterator );
 
-    while ( formatter.hasMoreLines() )
-    {
+    while ( formatter.hasMoreLines() ) {
         cout << formatter.nextLine();
 
-        if ( formatter.hasMoreLines() )
-        {
+        if ( formatter.hasMoreLines() ) {
             setOutputEOL( lineEndFormat, streamIterator.getOutputEOL() );
             cout << outputEOL;
         }
-        else
-        {
+        else {
             // this can happen if the file if missing a closing brace and break-blocks is requested
-            if ( formatter.getIsLineReady() )
-            {
+            if ( formatter.getIsLineReady() ) {
                 setOutputEOL( lineEndFormat, streamIterator.getOutputEOL() );
                 cout << outputEOL;
                 cout << formatter.nextLine();
@@ -632,26 +554,21 @@ void ASConsole::formatCinToCout()
  *
  * @param fileName_     The path and name of the file to be processed.
  */
-void ASConsole::formatFile( const string& fileName_ )
-{
+void ASConsole::formatFile( const string& fileName_ ) {
     stringstream in;
     ostringstream out;
     FileEncoding encoding = readFile( fileName_, in );
 
     // Unless a specific language mode has been set, set the language mode
     // according to the file's suffix.
-    if ( !formatter.getModeManuallySet() )
-    {
-        if ( stringEndsWith( fileName_, string( ".java" ) ) )
-        {
+    if ( !formatter.getModeManuallySet() ) {
+        if ( stringEndsWith( fileName_, string( ".java" ) ) ) {
             formatter.setJavaStyle();
         }
-        else if ( stringEndsWith( fileName_, string( ".cs" ) ) )
-        {
+        else if ( stringEndsWith( fileName_, string( ".cs" ) ) ) {
             formatter.setSharpStyle();
         }
-        else
-        {
+        else {
             formatter.setCStyle();
         }
     }
@@ -666,24 +583,20 @@ void ASConsole::formatFile( const string& fileName_ )
     formatter.init( &streamIterator );
 
     // format the file
-    while ( formatter.hasMoreLines() )
-    {
+    while ( formatter.hasMoreLines() ) {
         nextLine = formatter.nextLine();
         out << nextLine;
         linesOut++;
 
-        if ( formatter.hasMoreLines() )
-        {
+        if ( formatter.hasMoreLines() ) {
             setOutputEOL( lineEndFormat, streamIterator.getOutputEOL() );
             out << outputEOL;
         }
-        else
-        {
+        else {
             streamIterator.saveLastInputLine();     // to compare the last input line
 
             // this can happen if the file if missing a closing brace and break-blocks is requested
-            if ( formatter.getIsLineReady() )
-            {
+            if ( formatter.getIsLineReady() ) {
                 setOutputEOL( lineEndFormat, streamIterator.getOutputEOL() );
                 out << outputEOL;
                 nextLine = formatter.nextLine();
@@ -693,17 +606,13 @@ void ASConsole::formatFile( const string& fileName_ )
             }
         }
 
-        if ( filesAreIdentical )
-        {
-            if ( streamIterator.checkForEmptyLine )
-            {
-                if ( nextLine.find_first_not_of( " \t" ) != string::npos )
-                {
+        if ( filesAreIdentical ) {
+            if ( streamIterator.checkForEmptyLine ) {
+                if ( nextLine.find_first_not_of( " \t" ) != string::npos ) {
                     filesAreIdentical = false;
                 }
             }
-            else if ( !streamIterator.compareToInputBuffer( nextLine ) )
-            {
+            else if ( !streamIterator.compareToInputBuffer( nextLine ) ) {
                 filesAreIdentical = false;
             }
 
@@ -712,8 +621,7 @@ void ASConsole::formatFile( const string& fileName_ )
     }
 
     // correct for mixed line ends
-    if ( lineEndsMixed )
-    {
+    if ( lineEndsMixed ) {
         correctMixedLineEnds( out );
         filesAreIdentical = false;
     }
@@ -721,30 +629,24 @@ void ASConsole::formatFile( const string& fileName_ )
     // remove targetDirectory from filename if required by print
     string displayName;
 
-    if ( hasWildcard )
-    {
+    if ( hasWildcard ) {
         displayName = fileName_.substr( targetDirectory.length() + 1 );
     }
-    else
-    {
+    else {
         displayName = fileName_;
     }
 
     // if file has changed, write the new file
-    if ( !filesAreIdentical || streamIterator.getLineEndChange( lineEndFormat ) )
-    {
-        if ( !isDryRun )
-        {
+    if ( !filesAreIdentical || streamIterator.getLineEndChange( lineEndFormat ) ) {
+        if ( !isDryRun ) {
             writeFile( fileName_, encoding, out );
         }
 
         printMsg( _( "Formatted  %s\n" ), displayName );
         filesFormatted++;
     }
-    else
-    {
-        if ( !isFormattedOnly )
-        {
+    else {
+        if ( !isFormattedOnly ) {
             printMsg( _( "Unchanged  %s\n" ), displayName );
         }
 
@@ -765,45 +667,36 @@ void ASConsole::formatFile( const string& fileName_ )
  *                      nearest parent directory if found, otherwise an empty
  *                      string.
  */
-string ASConsole::findProjectOptionFilePath( const string& fileName_ ) const
-{
+string ASConsole::findProjectOptionFilePath( const string& fileName_ ) const {
     string parent;
 
-    if ( !fileNameVector.empty() )
-    {
+    if ( !fileNameVector.empty() ) {
         parent = getFullPathName( fileNameVector.front() );
     }
-    else if ( !stdPathIn.empty() )
-    {
+    else if ( !stdPathIn.empty() ) {
         parent = getFullPathName( stdPathIn );
     }
-    else
-    {
+    else {
         parent = getFullPathName( getCurrentDirectory( fileName_ ) );
     }
 
     // remove filename from path
     size_t endPath = parent.find_last_of( g_fileSeparator );
 
-    if ( endPath != string::npos )
-    {
+    if ( endPath != string::npos ) {
         parent = parent.substr( 0, endPath + 1 );
     }
 
-    while ( !parent.empty() )
-    {
+    while ( !parent.empty() ) {
         string filepath = parent + fileName_;
 
-        if ( fileExists( filepath.c_str() ) )
-        {
+        if ( fileExists( filepath.c_str() ) ) {
             return filepath;
         }
-        else if ( fileName_ == ".astylerc" )
-        {
+        else if ( fileName_ == ".astylerc" ) {
             filepath = parent + "_astylerc";
 
-            if ( fileExists( filepath.c_str() ) )
-            {
+            if ( fileExists( filepath.c_str() ) ) {
                 return filepath;
             }
         }
@@ -815,140 +708,117 @@ string ASConsole::findProjectOptionFilePath( const string& fileName_ ) const
 }
 
 // for unit testing
-vector<bool> ASConsole::getExcludeHitsVector() const
-{
+vector<bool> ASConsole::getExcludeHitsVector() const {
     return excludeHitsVector;
 }
 
 // for unit testing
-vector<string> ASConsole::getExcludeVector() const
-{
+vector<string> ASConsole::getExcludeVector() const {
     return excludeVector;
 }
 
 // for unit testing
-vector<string> ASConsole::getFileName() const
-{
+vector<string> ASConsole::getFileName() const {
     return fileName;
 }
 
 // for unit testing
-vector<string> ASConsole::getFileNameVector() const
-{
+vector<string> ASConsole::getFileNameVector() const {
     return fileNameVector;
 }
 
 // for unit testing
-vector<string> ASConsole::getFileOptionsVector() const
-{
+vector<string> ASConsole::getFileOptionsVector() const {
     return fileOptionsVector;
 }
 
 // for unit testing
-bool ASConsole::getFilesAreIdentical() const
-{
+bool ASConsole::getFilesAreIdentical() const {
     return filesAreIdentical;
 }
 
 // for unit testing
-int ASConsole::getFilesFormatted() const
-{
+int ASConsole::getFilesFormatted() const {
     return filesFormatted;
 }
 
 // for unit testing
-bool ASConsole::getIgnoreExcludeErrors() const
-{
+bool ASConsole::getIgnoreExcludeErrors() const {
     return ignoreExcludeErrors;
 }
 
 // for unit testing
-bool ASConsole::getIgnoreExcludeErrorsDisplay() const
-{
+bool ASConsole::getIgnoreExcludeErrorsDisplay() const {
     return ignoreExcludeErrorsDisplay;
 }
 
 // for unit testing
-bool ASConsole::getIsDryRun() const
-{
+bool ASConsole::getIsDryRun() const {
     return isDryRun;
 }
 
 // for unit testing
-bool ASConsole::getIsFormattedOnly() const
-{
+bool ASConsole::getIsFormattedOnly() const {
     return isFormattedOnly;
 }
 
 // for unit testing
-string ASConsole::getLanguageID() const
-{
+string ASConsole::getLanguageID() const {
     return localizer.getLanguageID();
 }
 
 // for unit testing
-bool ASConsole::getIsQuiet() const
-{
+bool ASConsole::getIsQuiet() const {
     return isQuiet;
 }
 
 // for unit testing
-bool ASConsole::getIsRecursive() const
-{
+bool ASConsole::getIsRecursive() const {
     return isRecursive;
 }
 
 // for unit testing
-bool ASConsole::getIsVerbose() const
-{
+bool ASConsole::getIsVerbose() const {
     return isVerbose;
 }
 
 // for unit testing
-bool ASConsole::getLineEndsMixed() const
-{
+bool ASConsole::getLineEndsMixed() const {
     return lineEndsMixed;
 }
 
 // for unit testing
-bool ASConsole::getNoBackup() const
-{
+bool ASConsole::getNoBackup() const {
     return noBackup;
 }
 
 // for unit testing
-string ASConsole::getOptionFileName() const
-{
+string ASConsole::getOptionFileName() const {
     return optionFileName;
 }
 
 // for unit testing
-vector<string> ASConsole::getOptionsVector() const
-{
+vector<string> ASConsole::getOptionsVector() const {
     return optionsVector;
 }
 
 // for unit testing
-string ASConsole::getOrigSuffix() const
-{
+string ASConsole::getOrigSuffix() const {
     return origSuffix;
 }
 
 // for unit testing
-bool ASConsole::getPreserveDate() const
-{
+bool ASConsole::getPreserveDate() const {
     return preserveDate;
 }
 
 // for unit testing
-string ASConsole::getProjectOptionFileName() const
-{
+string ASConsole::getProjectOptionFileName() const {
     assert( projectOptionFileName.length() > 0 );
     // remove the directory path
     size_t start = projectOptionFileName.find_last_of( g_fileSeparator );
 
-    if ( start == string::npos )
-    {
+    if ( start == string::npos ) {
         start = 0;
     }
 
@@ -956,72 +826,60 @@ string ASConsole::getProjectOptionFileName() const
 }
 
 // for unit testing
-vector<string> ASConsole::getProjectOptionsVector() const
-{
+vector<string> ASConsole::getProjectOptionsVector() const {
     return projectOptionsVector;
 }
 
 // for unit testing
-string ASConsole::getStdPathIn() const
-{
+string ASConsole::getStdPathIn() const {
     return stdPathIn;
 }
 
 // for unit testing
-string ASConsole::getStdPathOut() const
-{
+string ASConsole::getStdPathOut() const {
     return stdPathOut;
 }
 
 // for unit testing
-void ASConsole::setBypassBrowserOpen( bool state )
-{
+void ASConsole::setBypassBrowserOpen( bool state ) {
     bypassBrowserOpen = state;
 }
 
 // for unit testing
-ostream* ASConsole::getErrorStream() const
-{
+ostream* ASConsole::getErrorStream() const {
     return errorStream;
 }
 
-void ASConsole::setErrorStream( ostream* errStreamPtr )
-{
+void ASConsole::setErrorStream( ostream* errStreamPtr ) {
     errorStream = errStreamPtr;
 }
 
 // build a vector of argv options
 // the program path argv[0] is excluded
-vector<string> ASConsole::getArgvOptions( int argc, char** argv ) const
-{
+vector<string> ASConsole::getArgvOptions( int argc, char** argv ) const {
     vector<string> argvOptions;
 
-    for ( int i = 1; i < argc; i++ )
-    {
+    for ( int i = 1; i < argc; i++ ) {
         argvOptions.emplace_back( string( argv[i] ) );
     }
 
     return argvOptions;
 }
 
-string ASConsole::getParam( const string& arg, const char* op )
-{
+string ASConsole::getParam( const string& arg, const char* op ) {
     return arg.substr( strlen( op ) );
 }
 
 void ASConsole::getTargetFilenames( string& targetFilename_,
-                                    vector<string>& targetFilenameVector ) const
-{
+                                    vector<string>& targetFilenameVector ) const {
     size_t beg = 0;
     size_t sep = 0;
 
-    while ( beg < targetFilename_.length() )
-    {
+    while ( beg < targetFilename_.length() ) {
         // find next target
         sep = targetFilename_.find_first_of( ",;", beg );
 
-        if ( sep == string::npos )
-        {
+        if ( sep == string::npos ) {
             sep = targetFilename_.length();
         }
 
@@ -1030,34 +888,29 @@ void ASConsole::getTargetFilenames( string& targetFilename_,
 
         // remove whitespace
         while ( fileExtension.length() > 0
-                && ( fileExtension[0] == ' ' || fileExtension[0] == '\t' ) )
-        {
+                && ( fileExtension[0] == ' ' || fileExtension[0] == '\t' ) ) {
             fileExtension = fileExtension.erase( 0, 1 );
         }
 
         while ( fileExtension.length() > 0
                 && ( fileExtension[fileExtension.length() - 1] == ' '
-                     || fileExtension[fileExtension.length() - 1] == '\t' ) )
-        {
+                     || fileExtension[fileExtension.length() - 1] == '\t' ) ) {
             fileExtension = fileExtension.erase( fileExtension.length() - 1, 1 );
         }
 
-        if ( fileExtension.length() > 0 )
-        {
+        if ( fileExtension.length() > 0 ) {
             targetFilenameVector.emplace_back( fileExtension );
         }
     }
 
-    if ( targetFilenameVector.size() == 0 )
-    {
+    if ( targetFilenameVector.size() == 0 ) {
         fprintf( stderr, _( "Missing filename in %s\n" ), targetFilename_.c_str() );
         error();
     }
 }
 
 // initialize output end of line
-void ASConsole::initializeOutputEOL( LineEndFormat lineEndFormat )
-{
+void ASConsole::initializeOutputEOL( LineEndFormat lineEndFormat ) {
     assert( lineEndFormat == LINEEND_DEFAULT
             || lineEndFormat == LINEEND_WINDOWS
             || lineEndFormat == LINEEND_LINUX
@@ -1066,87 +919,75 @@ void ASConsole::initializeOutputEOL( LineEndFormat lineEndFormat )
     prevEOL.clear();            // previous line end
     lineEndsMixed = false;      // output has mixed line ends, LINEEND_DEFAULT only
 
-    if ( lineEndFormat == LINEEND_WINDOWS )
-    {
+    if ( lineEndFormat == LINEEND_WINDOWS ) {
         outputEOL = "\r\n";
     }
-    else if ( lineEndFormat == LINEEND_LINUX )
-    {
+    else if ( lineEndFormat == LINEEND_LINUX ) {
         outputEOL = "\n";
     }
-    else if ( lineEndFormat == LINEEND_MACOLD )
-    {
+    else if ( lineEndFormat == LINEEND_MACOLD ) {
         outputEOL = "\r";
     }
-    else
-    {
+    else {
         outputEOL.clear();
     }
 }
 
 // read a file into the stringstream 'in'
-FileEncoding ASConsole::readFile( const string& fileName_, stringstream& in ) const
-{
+FileEncoding ASConsole::readFile( const string& fileName_,
+                                  stringstream& in ) const {
     const int blockSize = 65536;    // 64 KB
     ifstream fin( fileName_.c_str(), ios::binary );
 
-    if ( !fin )
-    {
+    if ( !fin ) {
         error( "Cannot open file", fileName_.c_str() );
     }
 
     char* data = new ( nothrow ) char[blockSize];
 
-    if ( data == nullptr )
-    {
+    if ( data == nullptr ) {
         error( "Cannot allocate memory to open file", fileName_.c_str() );
     }
 
     fin.read( data, blockSize );
 
-    if ( fin.bad() )
-    {
+    if ( fin.bad() ) {
         error( "Cannot read file", fileName_.c_str() );
     }
 
     size_t dataSize = static_cast<size_t>( fin.gcount() );
     FileEncoding encoding = detectEncoding( data, dataSize );
 
-    if ( encoding == UTF_32BE || encoding == UTF_32LE )
-    {
+    if ( encoding == UTF_32BE || encoding == UTF_32LE ) {
         error( _( "Cannot process UTF-32 encoding" ), fileName_.c_str() );
     }
 
     bool firstBlock = true;
     bool isBigEndian = ( encoding == UTF_16BE );
 
-    while ( dataSize != 0 )
-    {
-        if ( encoding == UTF_16LE || encoding == UTF_16BE )
-        {
+    while ( dataSize != 0 ) {
+        if ( encoding == UTF_16LE || encoding == UTF_16BE ) {
             // convert utf-16 to utf-8
             size_t utf8Size = encode.utf8LengthFromUtf16( data, dataSize, isBigEndian );
             char* utf8Out = new ( nothrow ) char[utf8Size];
 
-            if ( utf8Out == nullptr )
-            {
+            if ( utf8Out == nullptr ) {
                 error( "Cannot allocate memory for utf-8 conversion", fileName_.c_str() );
             }
 
-            size_t utf8Len = encode.utf16ToUtf8( data, dataSize, isBigEndian, firstBlock, utf8Out );
+            size_t utf8Len = encode.utf16ToUtf8( data, dataSize, isBigEndian, firstBlock,
+                                                 utf8Out );
             assert( utf8Len <= utf8Size );
             in << string( utf8Out, utf8Len );
             delete[] utf8Out;
         }
-        else
-        {
+        else {
             in << string( data, dataSize );
         }
 
         fin.read( data, blockSize );
 
-        if ( fin.bad() )
-        {
+        if ( fin.bad() ) {
             error( "Cannot read file", fileName_.c_str() );
         }
 
@@ -1159,102 +1000,83 @@ FileEncoding ASConsole::readFile( const string& fileName_, stringstream& in ) co
     return encoding;
 }
 
-void ASConsole::setIgnoreExcludeErrors( bool state )
-{
+void ASConsole::setIgnoreExcludeErrors( bool state ) {
     ignoreExcludeErrors = state;
 }
 
-void ASConsole::setIgnoreExcludeErrorsAndDisplay( bool state )
-{
+void ASConsole::setIgnoreExcludeErrorsAndDisplay( bool state ) {
     ignoreExcludeErrors = state;
     ignoreExcludeErrorsDisplay = state;
 }
 
-void ASConsole::setIsFormattedOnly( bool state )
-{
+void ASConsole::setIsFormattedOnly( bool state ) {
     isFormattedOnly = state;
 }
 
-void ASConsole::setIsQuiet( bool state )
-{
+void ASConsole::setIsQuiet( bool state ) {
     isQuiet = state;
 }
 
-void ASConsole::setIsRecursive( bool state )
-{
+void ASConsole::setIsRecursive( bool state ) {
     isRecursive = state;
 }
 
-void ASConsole::setIsDryRun( bool state )
-{
+void ASConsole::setIsDryRun( bool state ) {
     isDryRun = state;
 }
 
-void ASConsole::setIsVerbose( bool state )
-{
+void ASConsole::setIsVerbose( bool state ) {
     isVerbose = state;
 }
 
-void ASConsole::setNoBackup( bool state )
-{
+void ASConsole::setNoBackup( bool state ) {
     noBackup = state;
 }
 
-void ASConsole::setOptionFileName( const string& name )
-{
+void ASConsole::setOptionFileName( const string& name ) {
     optionFileName = name;
 }
 
-void ASConsole::setOrigSuffix( const string& suffix )
-{
+void ASConsole::setOrigSuffix( const string& suffix ) {
     origSuffix = suffix;
 }
 
-void ASConsole::setPreserveDate( bool state )
-{
+void ASConsole::setPreserveDate( bool state ) {
     preserveDate = state;
 }
 
-void ASConsole::setProjectOptionFileName( const string& optfilepath )
-{
+void ASConsole::setProjectOptionFileName( const string& optfilepath ) {
     projectOptionFileName = optfilepath;
 }
 
-void ASConsole::setStdPathIn( const string& path )
-{
+void ASConsole::setStdPathIn( const string& path ) {
     stdPathIn = path;
 }
 
-void ASConsole::setStdPathOut( const string& path )
-{
+void ASConsole::setStdPathOut( const string& path ) {
     stdPathOut = path;
 }
 
 // set outputEOL variable
-void ASConsole::setOutputEOL( LineEndFormat lineEndFormat, const string& currentEOL )
-{
-    if ( lineEndFormat == LINEEND_DEFAULT )
-    {
+void ASConsole::setOutputEOL( LineEndFormat lineEndFormat,
+                              const string& currentEOL ) {
+    if ( lineEndFormat == LINEEND_DEFAULT ) {
         outputEOL = currentEOL;
 
-        if ( prevEOL.empty() )
-        {
+        if ( prevEOL.empty() ) {
             prevEOL = outputEOL;
         }
 
-        if ( prevEOL != outputEOL )
-        {
+        if ( prevEOL != outputEOL ) {
             lineEndsMixed = true;
             filesAreIdentical = false;
             prevEOL = outputEOL;
         }
     }
-    else
-    {
+    else {
         prevEOL = currentEOL;
 
-        if ( prevEOL != outputEOL )
-        {
+        if ( prevEOL != outputEOL ) {
             filesAreIdentical = false;
         }
     }
@@ -1265,8 +1087,7 @@ void ASConsole::setOutputEOL( LineEndFormat lineEndFormat, const string& current
 /**
  * WINDOWS function to display the last system error.
  */
-void ASConsole::displayLastError()
-{
+void ASConsole::displayLastError() {
     LPSTR msgBuf;
     DWORD lastError = GetLastError();
     FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
@@ -1290,13 +1111,11 @@ void ASConsole::displayLastError()
  *
  * @return              The path of the current directory
  */
-string ASConsole::getCurrentDirectory( const string& fileName_ ) const
-{
+string ASConsole::getCurrentDirectory( const string& fileName_ ) const {
     char currdir[MAX_PATH];
     currdir[0] = '\0';
 
-    if ( !GetCurrentDirectory( sizeof( currdir ), currdir ) )
-    {
+    if ( !GetCurrentDirectory( sizeof( currdir ), currdir ) ) {
         error( "Cannot find file", fileName_.c_str() );
     }
 
@@ -1310,8 +1129,8 @@ string ASConsole::getCurrentDirectory( const string& fileName_ ) const
  * @param directory     The path of the directory to be processed.
  * @param wildcards     A vector of wildcards to be processed (e.g. *.cpp).
  */
-void ASConsole::getFileNames( const string& directory, const vector<string>& wildcards )
-{
+void ASConsole::getFileNames( const string& directory,
+                              const vector<string>& wildcards ) {
     vector<string> subDirectory;    // sub directories of directory
     WIN32_FIND_DATA findFileData;   // for FindFirstFile and FindNextFile
     // Find the first file in the directory
@@ -1319,8 +1138,7 @@ void ASConsole::getFileNames( const string& directory, const vector<string>& wil
     string firstFile = directory + "\\*";
     HANDLE hFind = FindFirstFile( firstFile.c_str(), &findFileData );
 
-    if ( hFind == INVALID_HANDLE_VALUE )
-    {
+    if ( hFind == INVALID_HANDLE_VALUE ) {
         // Error (3) The system cannot find the path specified.
         // Error (123) The filename, directory name, or volume label syntax is incorrect.
         // ::FindClose(hFind); before exiting
@@ -1329,33 +1147,28 @@ void ASConsole::getFileNames( const string& directory, const vector<string>& wil
     }
 
     // save files and sub directories
-    do
-    {
+    do {
         // skip hidden or read only
         if ( findFileData.cFileName[0] == '.'
                 || ( findFileData.dwFileAttributes & FILE_ATTRIBUTE_HIDDEN )
-                || ( findFileData.dwFileAttributes & FILE_ATTRIBUTE_READONLY ) )
-        {
+                || ( findFileData.dwFileAttributes & FILE_ATTRIBUTE_READONLY ) ) {
             continue;
         }
 
         // is this a sub directory
-        if ( findFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY )
-        {
-            if ( !isRecursive )
-            {
+        if ( findFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ) {
+            if ( !isRecursive ) {
                 continue;
             }
 
             // if a sub directory and recursive, save sub directory
             string subDirectoryPath = directory + g_fileSeparator + findFileData.cFileName;
 
-            if ( isPathExclued( subDirectoryPath ) )
-            {
-                printMsg( _( "Exclude  %s\n" ), subDirectoryPath.substr( mainDirectoryLength ) );
+            if ( isPathExclued( subDirectoryPath ) ) {
+                printMsg( _( "Exclude  %s\n" ),
+                          subDirectoryPath.substr( mainDirectoryLength ) );
             }
-            else
-            {
+            else {
                 subDirectory.emplace_back( subDirectoryPath );
             }
 
@@ -1367,16 +1180,12 @@ void ASConsole::getFileNames( const string& directory, const vector<string>& wil
         bool isExcluded = isPathExclued( filePathName );
 
         // save file name if wildcard match
-        for ( size_t i = 0; i < wildcards.size(); i++ )
-        {
-            if ( wildcmp( wildcards[i].c_str(), findFileData.cFileName ) )
-            {
-                if ( isExcluded )
-                {
+        for ( size_t i = 0; i < wildcards.size(); i++ ) {
+            if ( wildcmp( wildcards[i].c_str(), findFileData.cFileName ) ) {
+                if ( isExcluded ) {
                     printMsg( _( "Exclude  %s\n" ), filePathName.substr( mainDirectoryLength ) );
                 }
-                else
-                {
+                else {
                     fileName.emplace_back( filePathName );
                 }
 
@@ -1390,15 +1199,13 @@ void ASConsole::getFileNames( const string& directory, const vector<string>& wil
     ::FindClose( hFind );
     DWORD dwError = GetLastError();
 
-    if ( dwError != ERROR_NO_MORE_FILES )
-    {
+    if ( dwError != ERROR_NO_MORE_FILES ) {
         error( "Error processing directory", directory.c_str() );
     }
 
     // recurse into sub directories
     // if not doing recursive subDirectory is empty
-    for ( unsigned i = 0; i < subDirectory.size(); i++ )
-    {
+    for ( unsigned i = 0; i < subDirectory.size(); i++ ) {
         getFileNames( subDirectory[i], wildcards );
     }
 
@@ -1407,8 +1214,7 @@ void ASConsole::getFileNames( const string& directory, const vector<string>& wil
 
 // WINDOWS function to get the full path name from the relative path name
 // Return the full path name or an empty string if failed.
-string ASConsole::getFullPathName( const string& relativePath ) const
-{
+string ASConsole::getFullPathName( const string& relativePath ) const {
     char fullPath[MAX_PATH];
     GetFullPathName( relativePath.c_str(), MAX_PATH, fullPath, NULL );
     return fullPath;
@@ -1422,8 +1228,7 @@ string ASConsole::getFullPathName( const string& relativePath ) const
  * @param lcid      The LCID of the locale to be used for testing.
  * @return          The formatted number.
  */
-string ASConsole::getNumberFormat( int num, size_t lcid ) const
-{
+string ASConsole::getNumberFormat( int num, size_t lcid ) const {
 #if defined(_MSC_VER) || defined(__MINGW32__) || defined(__BORLANDC__) || defined(__GNUC__)
     // Compilers that don't support C++ locales should still support this assert.
     // The C locale should be set but not the C++.
@@ -1436,22 +1241,19 @@ string ASConsole::getNumberFormat( int num, size_t lcid ) const
     alphaNum << num;
     string number = alphaNum.str();
 
-    if ( useAscii )
-    {
+    if ( useAscii ) {
         return number;
     }
 
     // format the number using the Windows API
-    if ( lcid == 0 )
-    {
+    if ( lcid == 0 ) {
         lcid = LOCALE_USER_DEFAULT;
     }
 
     int outSize = ::GetNumberFormat( lcid, 0, number.c_str(), nullptr, nullptr, 0 );
     char* outBuf = new ( nothrow ) char[outSize];
 
-    if ( outBuf == nullptr )
-    {
+    if ( outBuf == nullptr ) {
         return number;
     }
 
@@ -1462,8 +1264,7 @@ string ASConsole::getNumberFormat( int num, size_t lcid ) const
     int decSize = ::GetLocaleInfo( lcid, LOCALE_SDECIMAL, nullptr, 0 );
     char* decBuf = new ( nothrow ) char[decSize];
 
-    if ( decBuf == nullptr )
-    {
+    if ( decBuf == nullptr ) {
         return number;
     }
 
@@ -1471,13 +1272,11 @@ string ASConsole::getNumberFormat( int num, size_t lcid ) const
     size_t i = formattedNum.rfind( decBuf );
     delete[] decBuf;
 
-    if ( i != string::npos )
-    {
+    if ( i != string::npos ) {
         formattedNum.erase( i );
     }
 
-    if ( !formattedNum.length() )
-    {
+    if ( !formattedNum.length() ) {
         formattedNum = "0";
     }
 
@@ -1491,22 +1290,18 @@ string ASConsole::getNumberFormat( int num, size_t lcid ) const
  * @returns             true if absPath is HOME or is an invalid absolute
  *                      path, false otherwise.
  */
-bool ASConsole::isHomeOrInvalidAbsPath( const string& absPath ) const
-{
+bool ASConsole::isHomeOrInvalidAbsPath( const string& absPath ) const {
     char* env = getenv( "USERPROFILE" );
 
-    if ( env == nullptr )
-    {
+    if ( env == nullptr ) {
         return true;
     }
 
-    if ( absPath.c_str() == env )
-    {
+    if ( absPath.c_str() == env ) {
         return true;
     }
 
-    if ( absPath.compare( 0, strlen( env ), env ) != 0 )
-    {
+    if ( absPath.compare( 0, strlen( env ), env ) != 0 ) {
         return true;
     }
 
@@ -1516,34 +1311,31 @@ bool ASConsole::isHomeOrInvalidAbsPath( const string& absPath ) const
 /**
  * WINDOWS function to open a HTML file in the default browser.
  */
-void ASConsole::launchDefaultBrowser( const char* filePathIn /*nullptr*/ ) const
-{
+void ASConsole::launchDefaultBrowser( const char* filePathIn /*nullptr*/ )
+const {
     struct stat statbuf;
     const char* envPaths[] = { "PROGRAMFILES(X86)", "PROGRAMFILES" };
     size_t pathsLen = sizeof( envPaths ) / sizeof( envPaths[0] );
     string htmlDefaultPath;
 
-    for ( size_t i = 0; i < pathsLen; i++ )
-    {
+    for ( size_t i = 0; i < pathsLen; i++ ) {
         const char* envPath = getenv( envPaths[i] );
 
-        if ( envPath == nullptr )
-        {
+        if ( envPath == nullptr ) {
             continue;
         }
 
         htmlDefaultPath = envPath;
 
         if ( htmlDefaultPath.length() > 0
-                && htmlDefaultPath[htmlDefaultPath.length() - 1] == g_fileSeparator )
-        {
+                && htmlDefaultPath[htmlDefaultPath.length() - 1] == g_fileSeparator ) {
             htmlDefaultPath.erase( htmlDefaultPath.length() - 1 );
         }
 
         htmlDefaultPath.append( "\\AStyle\\doc" );
 
-        if ( stat( htmlDefaultPath.c_str(), &statbuf ) == 0 && statbuf.st_mode & S_IFDIR )
-        {
+        if ( stat( htmlDefaultPath.c_str(), &statbuf ) == 0 &&
+                statbuf.st_mode & S_IFDIR ) {
             break;
         }
     }
@@ -1552,26 +1344,22 @@ void ASConsole::launchDefaultBrowser( const char* filePathIn /*nullptr*/ ) const
     // build file path
     string htmlFilePath;
 
-    if ( filePathIn == nullptr )
-    {
+    if ( filePathIn == nullptr ) {
         htmlFilePath = htmlDefaultPath + "astyle.html";
     }
-    else
-    {
-        if ( strpbrk( filePathIn, "\\/" ) == nullptr )
-        {
+    else {
+        if ( strpbrk( filePathIn, "\\/" ) == nullptr ) {
             htmlFilePath = htmlDefaultPath + filePathIn;
         }
-        else
-        {
+        else {
             htmlFilePath = filePathIn;
         }
     }
 
     standardizePath( htmlFilePath );
 
-    if ( stat( htmlFilePath.c_str(), &statbuf ) != 0 || !( statbuf.st_mode & S_IFREG ) )
-    {
+    if ( stat( htmlFilePath.c_str(), &statbuf ) != 0 ||
+            !( statbuf.st_mode & S_IFREG ) ) {
         printf( _( "Cannot open HTML file %s\n" ), htmlFilePath.c_str() );
         return;
     }
@@ -1584,12 +1372,10 @@ void ASConsole::launchDefaultBrowser( const char* filePathIn /*nullptr*/ ) const
     // browser open will be bypassed in test programs
     printf( _( "Opening HTML documentation %s\n" ), htmlFilePath.c_str() );
 
-    if ( !bypassBrowserOpen )
-    {
+    if ( !bypassBrowserOpen ) {
         int ret = ShellExecuteEx( &sei );
 
-        if ( !ret )
-        {
+        if ( !ret ) {
             error( _( "Command execute failure" ), htmlFilePath.c_str() );
         }
     }
@@ -1605,12 +1391,10 @@ void ASConsole::launchDefaultBrowser( const char* filePathIn /*nullptr*/ ) const
  * @param fileName_     The filename is used only for  the error message.
  * @return              The path of the current directory
  */
-string ASConsole::getCurrentDirectory( const string& fileName_ ) const
-{
+string ASConsole::getCurrentDirectory( const string& fileName_ ) const {
     char* currdir = getenv( "PWD" );
 
-    if ( currdir == nullptr )
-    {
+    if ( currdir == nullptr ) {
         error( "Cannot find file", fileName_.c_str() );
     }
 
@@ -1624,8 +1408,8 @@ string ASConsole::getCurrentDirectory( const string& fileName_ ) const
  * @param directory     The path of the directory to be processed.
  * @param wildcards     A vector of wildcards to be processed (e.g. *.cpp).
  */
-void ASConsole::getFileNames( const string& directory, const vector<string>& wildcards )
-{
+void ASConsole::getFileNames( const string& directory,
+                              const vector<string>& wildcards ) {
     struct dirent* entry;           // entry from readdir()
     struct stat statbuf;            // entry from stat()
     vector<string> subDirectory;    // sub directories of this directory
@@ -1633,8 +1417,7 @@ void ASConsole::getFileNames( const string& directory, const vector<string>& wil
     errno = 0;
     DIR* dp = opendir( directory.c_str() );
 
-    if ( dp == nullptr )
-    {
+    if ( dp == nullptr ) {
         error( _( "Cannot open directory" ), directory.c_str() );
     }
 
@@ -1642,15 +1425,12 @@ void ASConsole::getFileNames( const string& directory, const vector<string>& wil
     const unsigned firstEntry = fileName.size();
 
     // save files and sub directories
-    while ( ( entry = readdir( dp ) ) != nullptr )
-    {
+    while ( ( entry = readdir( dp ) ) != nullptr ) {
         // get file status
         string entryFilepath = directory + g_fileSeparator + entry->d_name;
 
-        if ( stat( entryFilepath.c_str(), &statbuf ) != 0 )
-        {
-            if ( errno == EOVERFLOW )       // file over 2 GB is OK
-            {
+        if ( stat( entryFilepath.c_str(), &statbuf ) != 0 ) {
+            if ( errno == EOVERFLOW ) {     // file over 2 GB is OK
                 errno = 0;
                 continue;
             }
@@ -1660,20 +1440,16 @@ void ASConsole::getFileNames( const string& directory, const vector<string>& wil
         }
 
         // skip hidden or read only
-        if ( entry->d_name[0] == '.' || !( statbuf.st_mode & S_IWUSR ) )
-        {
+        if ( entry->d_name[0] == '.' || !( statbuf.st_mode & S_IWUSR ) ) {
             continue;
         }
 
         // if a sub directory and recursive, save sub directory
-        if ( S_ISDIR( statbuf.st_mode ) && isRecursive )
-        {
-            if ( isPathExclued( entryFilepath ) )
-            {
+        if ( S_ISDIR( statbuf.st_mode ) && isRecursive ) {
+            if ( isPathExclued( entryFilepath ) ) {
                 printMsg( _( "Exclude  %s\n" ), entryFilepath.substr( mainDirectoryLength ) );
             }
-            else
-            {
+            else {
                 subDirectory.emplace_back( entryFilepath );
             }
 
@@ -1681,22 +1457,17 @@ void ASConsole::getFileNames( const string& directory, const vector<string>& wil
         }
 
         // if a file, save file name
-        if ( S_ISREG( statbuf.st_mode ) )
-        {
+        if ( S_ISREG( statbuf.st_mode ) ) {
             // check exclude before wildcmp to avoid "unmatched exclude" error
             bool isExcluded = isPathExclued( entryFilepath );
 
             // save file name if wildcard match
-            for ( string wildcard : wildcards )
-            {
-                if ( wildcmp( wildcard.c_str(), entry->d_name ) != 0 )
-                {
-                    if ( isExcluded )
-                    {
+            for ( string wildcard : wildcards ) {
+                if ( wildcmp( wildcard.c_str(), entry->d_name ) != 0 ) {
+                    if ( isExcluded ) {
                         printMsg( _( "Exclude  %s\n" ), entryFilepath.substr( mainDirectoryLength ) );
                     }
-                    else
-                    {
+                    else {
                         fileName.emplace_back( entryFilepath );
                     }
 
@@ -1706,35 +1477,30 @@ void ASConsole::getFileNames( const string& directory, const vector<string>& wil
         }
     }
 
-    if ( closedir( dp ) != 0 )
-    {
+    if ( closedir( dp ) != 0 ) {
         perror( "errno message" );
         error( "Error reading directory", directory.c_str() );
     }
 
     // sort the current entries for fileName
-    if ( firstEntry < fileName.size() )
-    {
+    if ( firstEntry < fileName.size() ) {
         sort( &fileName[firstEntry], &fileName[fileName.size()] );
     }
 
     // recurse into sub directories
     // if not doing recursive, subDirectory is empty
-    if ( subDirectory.size() > 1 )
-    {
+    if ( subDirectory.size() > 1 ) {
         sort( subDirectory.begin(), subDirectory.end() );
     }
 
-    for ( unsigned i = 0; i < subDirectory.size(); i++ )
-    {
+    for ( unsigned i = 0; i < subDirectory.size(); i++ ) {
         getFileNames( subDirectory[i], wildcards );
     }
 }
 
 // LINUX function to get the full path name from the relative path name
 // Return the full path name or an empty string if failed.
-string ASConsole::getFullPathName( const string& relativePath ) const
-{
+string ASConsole::getFullPathName( const string& relativePath ) const {
     // ignore realPath attribute warning
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-result"
@@ -1752,8 +1518,7 @@ string ASConsole::getFullPathName( const string& relativePath ) const
  *                  size_t is for compatibility with the Windows function.
  * @return          The formatted number.
  */
-string ASConsole::getNumberFormat( int num, size_t /*lcid*/ ) const
-{
+string ASConsole::getNumberFormat( int num, size_t /*lcid*/ ) const {
 #if defined(_MSC_VER) || defined(__MINGW32__) || defined(__BORLANDC__) || defined(__GNUC__)
     // Compilers that don't support C++ locales should still support this assert.
     // The C locale should be set but not the C++.
@@ -1777,8 +1542,8 @@ string ASConsole::getNumberFormat( int num, size_t /*lcid*/ ) const
  * @param  separator    The thousands group separator from the locale.
  * @return              The formatted number.
  */
-string ASConsole::getNumberFormat( int num, const char* groupingArg, const char* separator ) const
-{
+string ASConsole::getNumberFormat( int num, const char* groupingArg,
+                                   const char* separator ) const {
     // convert num to a string
     stringstream alphaNum;
     alphaNum << num;
@@ -1790,22 +1555,18 @@ string ASConsole::getNumberFormat( int num, const char* groupingArg, const char*
     int i = number.length();
 
     // check for no grouping
-    if ( grouping == 0 )
-    {
+    if ( grouping == 0 ) {
         grouping = number.length();
     }
 
-    while ( i > 0 )
-    {
+    while ( i > 0 ) {
         // extract a group of numbers
         string group;
 
-        if ( i < grouping )
-        {
+        if ( i < grouping ) {
             group = number;
         }
-        else
-        {
+        else {
             group = number.substr( i - grouping );
         }
 
@@ -1813,13 +1574,11 @@ string ASConsole::getNumberFormat( int num, const char* groupingArg, const char*
         formattedNum.insert( 0, group );
         i -= grouping;
 
-        if ( i < 0 )
-        {
+        if ( i < 0 ) {
             i = 0;
         }
 
-        if ( i > 0 )
-        {
+        if ( i > 0 ) {
             formattedNum.insert( 0, separator );
         }
 
@@ -1827,8 +1586,7 @@ string ASConsole::getNumberFormat( int num, const char* groupingArg, const char*
 
         // update grouping
         if ( groupingArg[ig] != '\0'
-                && groupingArg[ig + 1] != '\0' )
-        {
+                && groupingArg[ig + 1] != '\0' ) {
             grouping = groupingArg[++ig];
         }
     }
@@ -1843,22 +1601,18 @@ string ASConsole::getNumberFormat( int num, const char* groupingArg, const char*
  * @returns             true if absPath is HOME or is an invalid absolute
  *                      path, false otherwise.
  */
-bool ASConsole::isHomeOrInvalidAbsPath( const string& absPath ) const
-{
+bool ASConsole::isHomeOrInvalidAbsPath( const string& absPath ) const {
     char* env = getenv( "HOME" );
 
-    if ( env == nullptr )
-    {
+    if ( env == nullptr ) {
         return true;
     }
 
-    if ( absPath.c_str() == env )
-    {
+    if ( absPath.c_str() == env ) {
         return true;
     }
 
-    if ( absPath.compare( 0, strlen( env ), env ) != 0 )
-    {
+    if ( absPath.compare( 0, strlen( env ), env ) != 0 ) {
         return true;
     }
 
@@ -1871,34 +1625,30 @@ bool ASConsole::isHomeOrInvalidAbsPath( const string& absPath ) const
  * see http://portland.freedesktop.org/wiki/
  * This is installed on most modern distributions.
  */
-void ASConsole::launchDefaultBrowser( const char* filePathIn /*nullptr*/ ) const
-{
+void ASConsole::launchDefaultBrowser( const char* filePathIn /*nullptr*/ )
+const {
     struct stat statbuf;
     string htmlDefaultPath = "/usr/share/doc/astyle/html/";
     string htmlDefaultFile = "astyle.html";
     // build file path
     string htmlFilePath;
 
-    if ( filePathIn == nullptr )
-    {
+    if ( filePathIn == nullptr ) {
         htmlFilePath = htmlDefaultPath + htmlDefaultFile;
     }
-    else
-    {
-        if ( strpbrk( filePathIn, "\\/" ) == nullptr )
-        {
+    else {
+        if ( strpbrk( filePathIn, "\\/" ) == nullptr ) {
             htmlFilePath = htmlDefaultPath + filePathIn;
         }
-        else
-        {
+        else {
             htmlFilePath = filePathIn;
         }
     }
 
     standardizePath( htmlFilePath );
 
-    if ( stat( htmlFilePath.c_str(), &statbuf ) != 0 || !( statbuf.st_mode & S_IFREG ) )
-    {
+    if ( stat( htmlFilePath.c_str(), &statbuf ) != 0 ||
+            !( statbuf.st_mode & S_IFREG ) ) {
         printf( _( "Cannot open HTML file %s\n" ), htmlFilePath.c_str() );
         return;
     }
@@ -1906,8 +1656,7 @@ void ASConsole::launchDefaultBrowser( const char* filePathIn /*nullptr*/ ) const
     // get search paths
     const char* envPaths = getenv( "PATH" );
 
-    if ( envPaths == nullptr )
-    {
+    if ( envPaths == nullptr ) {
         envPaths = "?";
     }
 
@@ -1924,20 +1673,18 @@ void ASConsole::launchDefaultBrowser( const char* filePathIn /*nullptr*/ ) const
     string searchPath;
     char* searchDir = strtok( paths, ":" );
 
-    while ( searchDir != nullptr )
-    {
+    while ( searchDir != nullptr ) {
         searchPath = searchDir;
 
         if ( searchPath.length() > 0
-                && searchPath[searchPath.length() - 1] != g_fileSeparator )
-        {
+                && searchPath[searchPath.length() - 1] != g_fileSeparator ) {
             searchPath.append( string( 1, g_fileSeparator ) );
         }
 
         searchPath.append( fileOpen );
 
-        if ( stat( searchPath.c_str(), &statbuf ) == 0 && ( statbuf.st_mode & S_IFREG ) )
-        {
+        if ( stat( searchPath.c_str(), &statbuf ) == 0 &&
+                ( statbuf.st_mode & S_IFREG ) ) {
             break;
         }
 
@@ -1946,16 +1693,14 @@ void ASConsole::launchDefaultBrowser( const char* filePathIn /*nullptr*/ ) const
 
     delete[] paths;
 
-    if ( searchDir == nullptr )
-    {
+    if ( searchDir == nullptr ) {
         error( _( "Command is not installed" ), fileOpen );
     }
 
     // browser open will be bypassed in test programs
     printf( _( "Opening HTML documentation %s\n" ), htmlFilePath.c_str() );
 
-    if ( !bypassBrowserOpen )
-    {
+    if ( !bypassBrowserOpen ) {
         execlp( fileOpen, fileOpen, htmlFilePath.c_str(), nullptr );
         // execlp will NOT return if successful
         error( _( "Command execute failure" ), fileOpen );
@@ -1972,24 +1717,20 @@ void ASConsole::launchDefaultBrowser( const char* filePathIn /*nullptr*/ ) const
  * @return              The parent directory of absPath, or an empty string if
  *                      one cannot be found.
  */
-string ASConsole::getParentDirectory( const string& absPath ) const
-{
-    if ( isHomeOrInvalidAbsPath( absPath ) )
-    {
+string ASConsole::getParentDirectory( const string& absPath ) const {
+    if ( isHomeOrInvalidAbsPath( absPath ) ) {
         return string();
     }
 
     size_t offset = absPath.size() - 1;
 
-    if ( absPath[absPath.size() - 1] == g_fileSeparator )
-    {
+    if ( absPath[absPath.size() - 1] == g_fileSeparator ) {
         offset -= 1;
     }
 
     size_t idx = absPath.rfind( g_fileSeparator, offset );
 
-    if ( idx == string::npos )
-    {
+    if ( idx == string::npos ) {
         return string();
     }
 
@@ -1998,8 +1739,7 @@ string ASConsole::getParentDirectory( const string& absPath ) const
 }
 
 // get individual file names from the command-line file path
-void ASConsole::getFilePaths( const string& filePath )
-{
+void ASConsole::getFilePaths( const string& filePath ) {
     fileName.clear();
     targetDirectory = string();
     targetFilename = string();
@@ -2007,22 +1747,21 @@ void ASConsole::getFilePaths( const string& filePath )
     // separate directory and file name
     size_t separator = filePath.find_last_of( g_fileSeparator );
 
-    if ( separator == string::npos )
-    {
+    if ( separator == string::npos ) {
         // if no directory is present, use the currently active directory
         targetDirectory = getCurrentDirectory( filePath );
         targetFilename  = filePath;
-        mainDirectoryLength = targetDirectory.length() + 1;    // +1 includes trailing separator
+        mainDirectoryLength = targetDirectory.length() +
+                              1;    // +1 includes trailing separator
     }
-    else
-    {
+    else {
         targetDirectory = filePath.substr( 0, separator );
         targetFilename  = filePath.substr( separator + 1 );
-        mainDirectoryLength = targetDirectory.length() + 1;    // +1 includes trailing separator
+        mainDirectoryLength = targetDirectory.length() +
+                              1;    // +1 includes trailing separator
     }
 
-    if ( targetFilename.length() == 0 )
-    {
+    if ( targetFilename.length() == 0 ) {
         fprintf( stderr, _( "Missing filename in %s\n" ), filePath.c_str() );
         error();
     }
@@ -2030,15 +1769,13 @@ void ASConsole::getFilePaths( const string& filePath )
     // check filename for wildcards
     hasWildcard = false;
 
-    if ( targetFilename.find_first_of( "*?" ) != string::npos )
-    {
+    if ( targetFilename.find_first_of( "*?" ) != string::npos ) {
         hasWildcard = true;
     }
 
     // If the filename is not quoted on Linux, bash will replace the
     // wildcard instead of passing it to the program.
-    if ( isRecursive && !hasWildcard )
-    {
+    if ( isRecursive && !hasWildcard ) {
         fprintf( stderr, "%s\n", _( "Recursive option with no wildcard" ) );
 #ifndef _WIN32
         fprintf( stderr, "%s\n", _( "Did you intend quote the filename" ) );
@@ -2048,40 +1785,36 @@ void ASConsole::getFilePaths( const string& filePath )
 
     bool hasMultipleTargets = false;
 
-    if ( targetFilename.find_first_of( ",;" ) != string::npos )
-    {
+    if ( targetFilename.find_first_of( ",;" ) != string::npos ) {
         hasMultipleTargets = true;
     }
 
     // display directory name for wildcard processing
-    if ( hasWildcard )
-    {
+    if ( hasWildcard ) {
         printSeparatingLine();
-        printMsg( _( "Directory  %s\n" ), targetDirectory + g_fileSeparator + targetFilename );
+        printMsg( _( "Directory  %s\n" ),
+                  targetDirectory + g_fileSeparator + targetFilename );
     }
 
     // clear exclude hits vector
     size_t excludeHitsVectorSize = excludeHitsVector.size();
 
-    for ( size_t ix = 0; ix < excludeHitsVectorSize; ix++ )
-    {
+    for ( size_t ix = 0; ix < excludeHitsVectorSize; ix++ ) {
         excludeHitsVector[ix] = false;
     }
 
     // create a vector of paths and file names to process
-    if ( hasWildcard || isRecursive || hasMultipleTargets )
-    {
+    if ( hasWildcard || isRecursive || hasMultipleTargets ) {
         getTargetFilenames( targetFilename, targetFilenameVector );
         getFileNames( targetDirectory, targetFilenameVector );
     }
-    else
-    {
+    else {
         // verify a single file is not a directory (needed on Linux)
         string entryFilepath = targetDirectory + g_fileSeparator + targetFilename;
         struct stat statbuf;
 
-        if ( stat( entryFilepath.c_str(), &statbuf ) == 0 && ( statbuf.st_mode & S_IFREG ) )
-        {
+        if ( stat( entryFilepath.c_str(), &statbuf ) == 0 &&
+                ( statbuf.st_mode & S_IFREG ) ) {
             fileName.emplace_back( entryFilepath );
         }
     }
@@ -2089,37 +1822,28 @@ void ASConsole::getFilePaths( const string& filePath )
     // check for unprocessed excludes
     bool excludeErr = false;
 
-    for ( size_t ix = 0; ix < excludeHitsVector.size(); ix++ )
-    {
-        if ( !excludeHitsVector[ix] )
-        {
+    for ( size_t ix = 0; ix < excludeHitsVector.size(); ix++ ) {
+        if ( !excludeHitsVector[ix] ) {
             excludeErr = true;
 
-            if ( !ignoreExcludeErrorsDisplay )
-            {
-                if ( ignoreExcludeErrors )
-                {
+            if ( !ignoreExcludeErrorsDisplay ) {
+                if ( ignoreExcludeErrors ) {
                     printMsg( _( "Exclude (unmatched)  %s\n" ), excludeVector[ix] );
                 }
-                else
-                {
+                else {
                     fprintf( stderr, _( "Exclude (unmatched)  %s\n" ), excludeVector[ix].c_str() );
                 }
             }
-            else
-            {
-                if ( !ignoreExcludeErrors )
-                {
+            else {
+                if ( !ignoreExcludeErrors ) {
                     fprintf( stderr, _( "Exclude (unmatched)  %s\n" ), excludeVector[ix].c_str() );
                 }
             }
         }
     }
 
-    if ( excludeErr && !ignoreExcludeErrors )
-    {
-        if ( hasWildcard && !isRecursive )
-        {
+    if ( excludeErr && !ignoreExcludeErrors ) {
+        if ( hasWildcard && !isRecursive ) {
             fprintf( stderr, "%s\n", _( "Did you intend to use --recursive" ) );
         }
 
@@ -2127,54 +1851,45 @@ void ASConsole::getFilePaths( const string& filePath )
     }
 
     // check if files were found (probably an input error if not)
-    if ( fileName.empty() )
-    {
+    if ( fileName.empty() ) {
         fprintf( stderr, _( "No file to process %s\n" ), filePath.c_str() );
 
-        if ( hasWildcard && !isRecursive )
-        {
+        if ( hasWildcard && !isRecursive ) {
             fprintf( stderr, "%s\n", _( "Did you intend to use --recursive" ) );
         }
 
         error();
     }
 
-    if ( hasWildcard )
-    {
+    if ( hasWildcard ) {
         printSeparatingLine();
     }
 }
 
 // Check if a file exists
-bool ASConsole::fileExists( const char* file ) const
-{
+bool ASConsole::fileExists( const char* file ) const {
     struct stat buf;
     return ( stat( file, &buf ) == 0 );
 }
 
-bool ASConsole::fileNameVectorIsEmpty() const
-{
+bool ASConsole::fileNameVectorIsEmpty() const {
     return fileNameVector.empty();
 }
 
-bool ASConsole::isOption( const string& arg, const char* op )
-{
+bool ASConsole::isOption( const string& arg, const char* op ) {
     return arg.compare( op ) == 0;
 }
 
-bool ASConsole::isOption( const string& arg, const char* a, const char* b )
-{
+bool ASConsole::isOption( const string& arg, const char* a, const char* b ) {
     return ( isOption( arg, a ) || isOption( arg, b ) );
 }
 
-bool ASConsole::isParamOption( const string& arg, const char* option )
-{
+bool ASConsole::isParamOption( const string& arg, const char* option ) {
     bool retVal = arg.compare( 0, strlen( option ), option ) == 0;
 
     // if comparing for short option, 2nd char of arg must be numeric
     if ( retVal && strlen( option ) == 1 && arg.length() > 1 )
-        if ( !isdigit( ( unsigned char ) arg[1] ) )
-        {
+        if ( !isdigit( ( unsigned char ) arg[1] ) ) {
             retVal = false;
         }
 
@@ -2185,52 +1900,43 @@ bool ASConsole::isParamOption( const string& arg, const char* option )
 // used for both directories and filenames
 // updates the g_excludeHitsVector
 // return true if a match
-bool ASConsole::isPathExclued( const string& subPath )
-{
+bool ASConsole::isPathExclued( const string& subPath ) {
     bool retVal = false;
 
     // read the exclude vector checking for a match
-    for ( size_t i = 0; i < excludeVector.size(); i++ )
-    {
+    for ( size_t i = 0; i < excludeVector.size(); i++ ) {
         string exclude = excludeVector[i];
 
-        if ( subPath.length() < exclude.length() )
-        {
+        if ( subPath.length() < exclude.length() ) {
             continue;
         }
 
         size_t compareStart = subPath.length() - exclude.length();
 
         // subPath compare must start with a directory name
-        if ( compareStart > 0 )
-        {
+        if ( compareStart > 0 ) {
             char lastPathChar = subPath[compareStart - 1];
 
-            if ( lastPathChar != g_fileSeparator )
-            {
+            if ( lastPathChar != g_fileSeparator ) {
                 continue;
             }
         }
 
         string compare = subPath.substr( compareStart );
 
-        if ( !g_isCaseSensitive )
-        {
+        if ( !g_isCaseSensitive ) {
             // make it case insensitive for Windows
-            for ( size_t j = 0; j < compare.length(); j++ )
-            {
+            for ( size_t j = 0; j < compare.length(); j++ ) {
                 compare[j] = ( char ) tolower( compare[j] );
             }
 
-            for ( size_t j = 0; j < exclude.length(); j++ )
-            {
+            for ( size_t j = 0; j < exclude.length(); j++ ) {
                 exclude[j] = ( char ) tolower( exclude[j] );
             }
         }
 
         // compare sub directory to exclude data - must check them all
-        if ( compare == exclude )
-        {
+        if ( compare == exclude ) {
             excludeHitsVector[i] = true;
             retVal = true;
             break;
@@ -2240,8 +1946,7 @@ bool ASConsole::isPathExclued( const string& subPath )
     return retVal;
 }
 
-void ASConsole::printHelp() const
-{
+void ASConsole::printHelp() const {
     cout << endl;
     cout << "                     Artistic Style " << g_version << endl;
     cout << "                     Maintained by: Jim Pattee\n";
@@ -2737,30 +2442,25 @@ void ASConsole::printHelp() const
 /**
  * Process files in the fileNameVector.
  */
-void ASConsole::processFiles()
-{
-    if ( isVerbose )
-    {
+void ASConsole::processFiles() {
+    if ( isVerbose ) {
         printVerboseHeader();
     }
 
     clock_t startTime = clock();     // start time of file formatting
 
     // loop thru input fileNameVector and process the files
-    for ( size_t i = 0; i < fileNameVector.size(); i++ )
-    {
+    for ( size_t i = 0; i < fileNameVector.size(); i++ ) {
         getFilePaths( fileNameVector[i] );
 
         // loop thru fileName vector formatting the files
-        for ( size_t j = 0; j < fileName.size(); j++ )
-        {
+        for ( size_t j = 0; j < fileName.size(); j++ ) {
             formatFile( fileName[j] );
         }
     }
 
     // files are processed, display stats
-    if ( isVerbose )
-    {
+    if ( isVerbose ) {
         printVerboseStats( startTime );
     }
 }
@@ -2768,8 +2468,7 @@ void ASConsole::processFiles()
 // process options from the command line and option files
 // build the vectors fileNameVector, excludeVector, optionsVector,
 // projectOptionsVector and fileOptionsVector
-void ASConsole::processOptions( const vector<string>& argvOptions )
-{
+void ASConsole::processOptions( const vector<string>& argvOptions ) {
     string arg;
     bool ok = true;
     bool optionFileRequired = false;
@@ -2779,46 +2478,39 @@ void ASConsole::processOptions( const vector<string>& argvOptions )
     string projectOptionArg;        // save for display
 
     // get command line options
-    for ( size_t i = 0; i < argvOptions.size(); i++ )
-    {
+    for ( size_t i = 0; i < argvOptions.size(); i++ ) {
         arg = argvOptions[i];
 
         if ( isOption( arg, "-I" )
-                || isOption( arg, "--ascii" ) )
-        {
+                || isOption( arg, "--ascii" ) ) {
             useAscii = true;
             setlocale( LC_ALL, "C" );   // use English decimal indicator
             localizer.setLanguageFromName( "en" );
         }
-        else if ( isOption( arg, "--options=none" ) )
-        {
+        else if ( isOption( arg, "--options=none" ) ) {
             optionFileRequired = false;
             shouldParseOptionFile = false;
             optionFileName = "";
         }
-        else if ( isParamOption( arg, "--options=" ) )
-        {
+        else if ( isParamOption( arg, "--options=" ) ) {
             optionFileName = getParam( arg, "--options=" );
             standardizePath( optionFileName );
             optionFileName = getFullPathName( optionFileName );
             optionFileRequired = true;
         }
-        else if ( isOption( arg, "--project=none" ) )
-        {
+        else if ( isOption( arg, "--project=none" ) ) {
             projectOptionFileRequired = false;
             shouldParseProjectOptionFile = false;
             setProjectOptionFileName( "" );
         }
-        else if ( isParamOption( arg, "--project=" ) )
-        {
+        else if ( isParamOption( arg, "--project=" ) ) {
             projectOptionFileName = getParam( arg, "--project=" );
             standardizePath( projectOptionFileName );
             projectOptionFileRequired = true;
             shouldParseProjectOptionFile = false;
             projectOptionArg = projectOptionFileName;
         }
-        else if ( isOption( arg, "--project" ) )
-        {
+        else if ( isOption( arg, "--project" ) ) {
             projectOptionFileName = ".astylerc";
             projectOptionFileRequired = true;
             shouldParseProjectOptionFile = false;
@@ -2826,61 +2518,50 @@ void ASConsole::processOptions( const vector<string>& argvOptions )
         }
         else if ( isOption( arg, "-h" )
                   || isOption( arg, "--help" )
-                  || isOption( arg, "-?" ) )
-        {
+                  || isOption( arg, "-?" ) ) {
             printHelp();
             exit( EXIT_SUCCESS );
         }
         else if ( isOption( arg, "-!" )
-                  || isOption( arg, "--html" ) )
-        {
+                  || isOption( arg, "--html" ) ) {
             launchDefaultBrowser();
             exit( EXIT_SUCCESS );
         }
-        else if ( isParamOption( arg, "--html=" ) )
-        {
+        else if ( isParamOption( arg, "--html=" ) ) {
             string htmlFilePath = getParam( arg, "--html=" );
             launchDefaultBrowser( htmlFilePath.c_str() );
             exit( EXIT_SUCCESS );
         }
         else if ( isOption( arg, "-V" )
-                  || isOption( arg, "--version" ) )
-        {
+                  || isOption( arg, "--version" ) ) {
             printf( "Artistic Style Version %s\n", g_version );
             exit( EXIT_SUCCESS );
         }
-        else if ( isParamOption( arg, "--stdin=" ) )
-        {
+        else if ( isParamOption( arg, "--stdin=" ) ) {
             string path = getParam( arg, "--stdin=" );
             standardizePath( path );
             setStdPathIn( path );
         }
-        else if ( isParamOption( arg, "--stdout=" ) )
-        {
+        else if ( isParamOption( arg, "--stdout=" ) ) {
             string path = getParam( arg, "--stdout=" );
             standardizePath( path );
             setStdPathOut( path );
         }
-        else if ( arg[0] == '-' )
-        {
+        else if ( arg[0] == '-' ) {
             optionsVector.emplace_back( arg );
         }
-        else // file-name
-        {
+        else { // file-name
             standardizePath( arg );
             fileNameVector.emplace_back( arg );
         }
     }
 
     // get option file path and name
-    if ( shouldParseOptionFile )
-    {
-        if ( optionFileName.empty() )
-        {
+    if ( shouldParseOptionFile ) {
+        if ( optionFileName.empty() ) {
             char* env = getenv( "ARTISTIC_STYLE_OPTIONS" );
 
-            if ( env != nullptr )
-            {
+            if ( env != nullptr ) {
                 setOptionFileName( env );
                 standardizePath( optionFileName );
                 optionFileName = getFullPathName( optionFileName );
@@ -2888,32 +2569,26 @@ void ASConsole::processOptions( const vector<string>& argvOptions )
         }
 
         // for Linux
-        if ( optionFileName.empty() )
-        {
+        if ( optionFileName.empty() ) {
             char* env = getenv( "HOME" );
 
-            if ( env != nullptr )
-            {
+            if ( env != nullptr ) {
                 string name = string( env ) + "/.astylerc";
 
-                if ( fileExists( name.c_str() ) )
-                {
+                if ( fileExists( name.c_str() ) ) {
                     setOptionFileName( name );
                 }
             }
         }
 
         // for Windows
-        if ( optionFileName.empty() )
-        {
+        if ( optionFileName.empty() ) {
             char* env = getenv( "APPDATA" );
 
-            if ( env != nullptr )
-            {
+            if ( env != nullptr ) {
                 string name = string( env ) + "\\astylerc";
 
-                if ( fileExists( name.c_str() ) )
-                {
+                if ( fileExists( name.c_str() ) ) {
                     setOptionFileName( name );
                 }
             }
@@ -2922,16 +2597,13 @@ void ASConsole::processOptions( const vector<string>& argvOptions )
         // for Windows
         // NOTE: depreciated with release 3.1, remove when appropriate
         // there is NO test data for this option
-        if ( optionFileName.empty() )
-        {
+        if ( optionFileName.empty() ) {
             char* env = getenv( "USERPROFILE" );
 
-            if ( env != nullptr )
-            {
+            if ( env != nullptr ) {
                 string name = string( env ) + "\\astylerc";
 
-                if ( fileExists( name.c_str() ) )
-                {
+                if ( fileExists( name.c_str() ) ) {
                     setOptionFileName( name );
                 }
             }
@@ -2939,12 +2611,10 @@ void ASConsole::processOptions( const vector<string>& argvOptions )
     }
 
     // find project option file
-    if ( projectOptionFileRequired )
-    {
+    if ( projectOptionFileRequired ) {
         string optfilepath = findProjectOptionFilePath( projectOptionFileName );
 
-        if ( optfilepath.empty() || projectOptionArg.empty() )
-        {
+        if ( optfilepath.empty() || projectOptionArg.empty() ) {
             error( _( "Cannot open project option file" ), projectOptionArg.c_str() );
         }
 
@@ -2952,12 +2622,10 @@ void ASConsole::processOptions( const vector<string>& argvOptions )
         setProjectOptionFileName( optfilepath );
     }
 
-    if ( shouldParseProjectOptionFile )
-    {
+    if ( shouldParseProjectOptionFile ) {
         char* env = getenv( "ARTISTIC_STYLE_PROJECT_OPTIONS" );
 
-        if ( env != nullptr )
-        {
+        if ( env != nullptr ) {
             string optfilepath = findProjectOptionFilePath( env );
             standardizePath( optfilepath );
             setProjectOptionFileName( optfilepath );
@@ -2966,20 +2634,17 @@ void ASConsole::processOptions( const vector<string>& argvOptions )
 
     ASOptions options( formatter, *this );
 
-    if ( !optionFileName.empty() )
-    {
+    if ( !optionFileName.empty() ) {
         stringstream optionsIn;
 
-        if ( !fileExists( optionFileName.c_str() ) )
-        {
+        if ( !fileExists( optionFileName.c_str() ) ) {
             error( _( "Cannot open default option file" ), optionFileName.c_str() );
         }
 
         FileEncoding encoding = readFile( optionFileName, optionsIn );
 
         // bypass a BOM, all BOMs have been converted to utf-8
-        if ( encoding == UTF_8BOM || encoding == UTF_16LE || encoding == UTF_16BE )
-        {
+        if ( encoding == UTF_8BOM || encoding == UTF_16LE || encoding == UTF_16BE ) {
             char buf[4];
             optionsIn.get( buf, 4 );
             assert( strcmp( buf, "\xEF\xBB\xBF" ) == 0 );
@@ -2989,32 +2654,27 @@ void ASConsole::processOptions( const vector<string>& argvOptions )
         ok = options.parseOptions( fileOptionsVector,
                                    string( _( "Invalid default options:" ) ) );
     }
-    else if ( optionFileRequired )
-    {
+    else if ( optionFileRequired ) {
         error( _( "Cannot open default option file" ), optionFileName.c_str() );
     }
 
-    if ( !ok )
-    {
+    if ( !ok ) {
         ( *errorStream ) << options.getOptionErrors();
         ( *errorStream ) << _( "For help on options type 'astyle -h'" ) << endl;
         error();
     }
 
-    if ( !projectOptionFileName.empty() )
-    {
+    if ( !projectOptionFileName.empty() ) {
         stringstream projectOptionsIn;
 
-        if ( !fileExists( projectOptionFileName.c_str() ) )
-        {
+        if ( !fileExists( projectOptionFileName.c_str() ) ) {
             error( _( "Cannot open project option file" ), projectOptionFileName.c_str() );
         }
 
         FileEncoding encoding = readFile( projectOptionFileName, projectOptionsIn );
 
         // bypass a BOM, all BOMs have been converted to utf-8
-        if ( encoding == UTF_8BOM || encoding == UTF_16LE || encoding == UTF_16BE )
-        {
+        if ( encoding == UTF_8BOM || encoding == UTF_16LE || encoding == UTF_16BE ) {
             char buf[4];
             projectOptionsIn.get( buf, 4 );
             assert( strcmp( buf, "\xEF\xBB\xBF" ) == 0 );
@@ -3025,8 +2685,7 @@ void ASConsole::processOptions( const vector<string>& argvOptions )
                                    string( _( "Invalid project options:" ) ) );
     }
 
-    if ( !ok )
-    {
+    if ( !ok ) {
         ( *errorStream ) << options.getOptionErrors();
         ( *errorStream ) << _( "For help on options type 'astyle -h'" ) << endl;
         error();
@@ -3036,8 +2695,7 @@ void ASConsole::processOptions( const vector<string>& argvOptions )
     ok = options.parseOptions( optionsVector,
                                string( _( "Invalid command line options:" ) ) );
 
-    if ( !ok )
-    {
+    if ( !ok ) {
         ( *errorStream ) << options.getOptionErrors();
         ( *errorStream ) << _( "For help on options type 'astyle -h'" ) << endl;
         error();
@@ -3045,17 +2703,13 @@ void ASConsole::processOptions( const vector<string>& argvOptions )
 }
 
 // remove a file and check for an error
-void ASConsole::removeFile( const char* fileName_, const char* errMsg ) const
-{
-    if ( remove( fileName_ ) != 0 )
-    {
-        if ( errno == ENOENT )      // no file is OK
-        {
+void ASConsole::removeFile( const char* fileName_, const char* errMsg ) const {
+    if ( remove( fileName_ ) != 0 ) {
+        if ( errno == ENOENT ) {    // no file is OK
             errno = 0;
         }
 
-        if ( errno )
-        {
+        if ( errno ) {
             perror( "errno message" );
             error( errMsg, fileName_ );
         }
@@ -3063,22 +2717,19 @@ void ASConsole::removeFile( const char* fileName_, const char* errMsg ) const
 }
 
 // rename a file and check for an error
-void ASConsole::renameFile( const char* oldFileName, const char* newFileName, const char* errMsg ) const
-{
+void ASConsole::renameFile( const char* oldFileName, const char* newFileName,
+                            const char* errMsg ) const {
     int result = rename( oldFileName, newFileName );
 
-    if ( result != 0 )
-    {
+    if ( result != 0 ) {
         // if file still exists the remove needs more time - retry
-        if ( errno == EEXIST )
-        {
+        if ( errno == EEXIST ) {
             errno = 0;
             waitForRemove( newFileName );
             result = rename( oldFileName, newFileName );
         }
 
-        if ( result != 0 )
-        {
+        if ( result != 0 ) {
             perror( "errno message" );
             error( errMsg, oldFileName );
         }
@@ -3088,8 +2739,8 @@ void ASConsole::renameFile( const char* oldFileName, const char* newFileName, co
 // make sure file separators are correct type (Windows or Linux)
 // remove ending file separator
 // remove beginning file separator if requested and NOT a complete file path
-void ASConsole::standardizePath( string& path, bool removeBeginningSeparator /*false*/ ) const
-{
+void ASConsole::standardizePath( string& path,
+                                 bool removeBeginningSeparator /*false*/ ) const {
 #ifdef __VMS
     struct FAB fab;
     struct NAML naml;
@@ -3113,14 +2764,11 @@ void ASConsole::standardizePath( string& path, bool removeBeginningSeparator /*f
     naml.naml$v_no_short_upcase = 1;
     r0_status = sys$parse( &fab );
 
-    if ( r0_status == RMS$_SYN )
-    {
+    if ( r0_status == RMS$_SYN ) {
         error( "File syntax error", path.c_str() );
     }
-    else
-    {
-        if ( !$VMS_STATUS_SUCCESS( r0_status ) )
-        {
+    else {
+        if ( !$VMS_STATUS_SUCCESS( r0_status ) ) {
             ( void ) lib$signal( r0_status );
         }
     }
@@ -3128,24 +2776,20 @@ void ASConsole::standardizePath( string& path, bool removeBeginningSeparator /*f
     less[naml.naml$l_long_expand_size - naml.naml$b_ver] = '\0';
     sess[naml.naml$b_esl - naml.naml$b_ver] = '\0';
 
-    if ( naml.naml$l_long_expand_size > naml.naml$b_esl )
-    {
+    if ( naml.naml$l_long_expand_size > naml.naml$b_esl ) {
         path = decc$translate_vms( less );
     }
-    else
-    {
+    else {
         path = decc$translate_vms( sess );
     }
 
 #endif /* __VMS */
 
     // make sure separators are correct type (Windows or Linux)
-    for ( size_t i = 0; i < path.length(); i++ )
-    {
+    for ( size_t i = 0; i < path.length(); i++ ) {
         i = path.find_first_of( "/\\", i );
 
-        if ( i == string::npos )
-        {
+        if ( i == string::npos ) {
             break;
         }
 
@@ -3153,40 +2797,33 @@ void ASConsole::standardizePath( string& path, bool removeBeginningSeparator /*f
     }
 
     // remove beginning separator if requested
-    if ( removeBeginningSeparator && ( path[0] == g_fileSeparator ) )
-    {
+    if ( removeBeginningSeparator && ( path[0] == g_fileSeparator ) ) {
         path.erase( 0, 1 );
     }
 }
 
-void ASConsole::printMsg( const char* msg, const string& data ) const
-{
-    if ( isQuiet )
-    {
+void ASConsole::printMsg( const char* msg, const string& data ) const {
+    if ( isQuiet ) {
         return;
     }
 
     printf( msg, data.c_str() );
 }
 
-void ASConsole::printSeparatingLine() const
-{
+void ASConsole::printSeparatingLine() const {
     string line;
 
-    for ( size_t i = 0; i < 60; i++ )
-    {
+    for ( size_t i = 0; i < 60; i++ ) {
         line.append( "-" );
     }
 
     printMsg( "%s\n", line );
 }
 
-void ASConsole::printVerboseHeader() const
-{
+void ASConsole::printVerboseHeader() const {
     assert( isVerbose );
 
-    if ( isQuiet )
-    {
+    if ( isQuiet ) {
         return;
     }
 
@@ -3206,69 +2843,58 @@ void ASConsole::printVerboseHeader() const
     printf( "%s", header.c_str() );
 
     // print option files
-    if ( !optionFileName.empty() )
-    {
+    if ( !optionFileName.empty() ) {
         printf( _( "Default option file  %s\n" ), optionFileName.c_str() );
     }
 
     // NOTE: depreciated with release 3.1, remove when appropriate
-    if ( !optionFileName.empty() )
-    {
+    if ( !optionFileName.empty() ) {
         char* env = getenv( "USERPROFILE" );
 
-        if ( env != nullptr && optionFileName == string( env ) + "\\astylerc" )
-        {
+        if ( env != nullptr && optionFileName == string( env ) + "\\astylerc" ) {
             printf( "The above option file has been DEPRECIATED\n" );
         }
     }
 
     // end depreciated
-    if ( !projectOptionFileName.empty() )
-    {
+    if ( !projectOptionFileName.empty() ) {
         printf( _( "Project option file  %s\n" ), projectOptionFileName.c_str() );
     }
 }
 
-void ASConsole::printVerboseStats( clock_t startTime ) const
-{
+void ASConsole::printVerboseStats( clock_t startTime ) const {
     assert( isVerbose );
 
-    if ( isQuiet )
-    {
+    if ( isQuiet ) {
         return;
     }
 
-    if ( hasWildcard )
-    {
+    if ( hasWildcard ) {
         printSeparatingLine();
     }
 
     string formatted = getNumberFormat( filesFormatted );
     string unchanged = getNumberFormat( filesUnchanged );
-    printf( _( " %s formatted   %s unchanged   " ), formatted.c_str(), unchanged.c_str() );
+    printf( _( " %s formatted   %s unchanged   " ), formatted.c_str(),
+            unchanged.c_str() );
     // show processing time
     clock_t stopTime = clock();
     double secs = ( stopTime - startTime ) / double( CLOCKS_PER_SEC );
 
-    if ( secs < 60 )
-    {
-        if ( secs < 2.0 )
-        {
+    if ( secs < 60 ) {
+        if ( secs < 2.0 ) {
             printf( "%.2f", secs );
         }
-        else if ( secs < 20.0 )
-        {
+        else if ( secs < 20.0 ) {
             printf( "%.1f", secs );
         }
-        else
-        {
+        else {
             printf( "%.0f", secs );
         }
 
         printf( "%s", _( " seconds   " ) );
     }
-    else
-    {
+    else {
         // show minutes and seconds if time is greater than one minute
         int min = ( int ) secs / 60;
         secs -= min * 60;
@@ -3281,23 +2907,20 @@ void ASConsole::printVerboseStats( clock_t startTime ) const
     printf( "\n" );
 }
 
-void ASConsole::sleep( int seconds ) const
-{
+void ASConsole::sleep( int seconds ) const {
     clock_t endwait;
     endwait = clock_t( clock() + seconds * CLOCKS_PER_SEC );
 
     while ( clock() < endwait ) {}
 }
 
-bool ASConsole::stringEndsWith( const string& str, const string& suffix ) const
-{
+bool ASConsole::stringEndsWith( const string& str,
+                                const string& suffix ) const {
     int strIndex = ( int ) str.length() - 1;
     int suffixIndex = ( int ) suffix.length() - 1;
 
-    while ( strIndex >= 0 && suffixIndex >= 0 )
-    {
-        if ( tolower( str[strIndex] ) != tolower( suffix[suffixIndex] ) )
-        {
+    while ( strIndex >= 0 && suffixIndex >= 0 ) {
+        if ( tolower( str[strIndex] ) != tolower( suffix[suffixIndex] ) ) {
             return false;
         }
 
@@ -3306,33 +2929,28 @@ bool ASConsole::stringEndsWith( const string& str, const string& suffix ) const
     }
 
     // suffix longer than string
-    if ( strIndex < 0 && suffixIndex >= 0 )
-    {
+    if ( strIndex < 0 && suffixIndex >= 0 ) {
         return false;
     }
 
     return true;
 }
 
-void ASConsole::updateExcludeVector( const string& suffixParam )
-{
+void ASConsole::updateExcludeVector( const string& suffixParam ) {
     excludeVector.emplace_back( suffixParam );
     standardizePath( excludeVector.back(), true );
     excludeHitsVector.push_back( false );
 }
 
-int ASConsole::waitForRemove( const char* newFileName ) const
-{
+int ASConsole::waitForRemove( const char* newFileName ) const {
     struct stat stBuf;
     int seconds;
 
     // sleep a max of 20 seconds for the remove
-    for ( seconds = 1; seconds <= 20; seconds++ )
-    {
+    for ( seconds = 1; seconds <= 20; seconds++ ) {
         sleep( 1 );
 
-        if ( stat( newFileName, &stBuf ) != 0 )
-        {
+        if ( stat( newFileName, &stBuf ) != 0 ) {
             break;
         }
     }
@@ -3344,24 +2962,19 @@ int ASConsole::waitForRemove( const char* newFileName ) const
 // From The Code Project http://www.codeproject.com/string/wildcmp.asp
 // Written by Jack Handy - jakkhandy@hotmail.com
 // Modified to compare case insensitive for Windows
-int ASConsole::wildcmp( const char* wild, const char* data ) const
-{
+int ASConsole::wildcmp( const char* wild, const char* data ) const {
     const char* cp = nullptr, *mp = nullptr;
     bool cmpval;
 
-    while ( ( *data ) && ( *wild != '*' ) )
-    {
-        if ( !g_isCaseSensitive )
-        {
+    while ( ( *data ) && ( *wild != '*' ) ) {
+        if ( !g_isCaseSensitive ) {
             cmpval = ( tolower( *wild ) != tolower( *data ) ) && ( *wild != '?' );
         }
-        else
-        {
+        else {
             cmpval = ( *wild != *data ) && ( *wild != '?' );
         }
 
-        if ( cmpval )
-        {
+        if ( cmpval ) {
             return 0;
         }
 
@@ -3369,82 +2982,71 @@ int ASConsole::wildcmp( const char* wild, const char* data ) const
         data++;
     }
 
-    while ( *data )
-    {
-        if ( *wild == '*' )
-        {
-            if ( !*++wild )
-            {
+    while ( *data ) {
+        if ( *wild == '*' ) {
+            if ( !*++wild ) {
                 return 1;
             }
 
             mp = wild;
             cp = data + 1;
         }
-        else
-        {
-            if ( !g_isCaseSensitive )
-            {
+        else {
+            if ( !g_isCaseSensitive ) {
                 cmpval = ( tolower( *wild ) == tolower( *data ) || ( *wild == '?' ) );
             }
-            else
-            {
+            else {
                 cmpval = ( *wild == *data ) || ( *wild == '?' );
             }
 
-            if ( cmpval )
-            {
+            if ( cmpval ) {
                 wild++;
                 data++;
             }
-            else
-            {
+            else {
                 wild = mp;
                 data = cp++;
             }
         }
     }
 
-    while ( *wild == '*' )
-    {
+    while ( *wild == '*' ) {
         wild++;
     }
 
     return !*wild;
 }
 
-void ASConsole::writeFile( const string& fileName_, FileEncoding encoding, ostringstream& out ) const
-{
+void ASConsole::writeFile( const string& fileName_, FileEncoding encoding,
+                           ostringstream& out ) const {
     // save date accessed and date modified of original file
     struct stat stBuf;
     bool statErr = false;
 
-    if ( stat( fileName_.c_str(), &stBuf ) == -1 )
-    {
+    if ( stat( fileName_.c_str(), &stBuf ) == -1 ) {
         statErr = true;
     }
 
     // create a backup
-    if ( !noBackup )
-    {
+    if ( !noBackup ) {
         string origFileName = fileName_ + origSuffix;
         removeFile( origFileName.c_str(), "Cannot remove pre-existing backup file" );
-        renameFile( fileName_.c_str(), origFileName.c_str(), "Cannot create backup file" );
+        renameFile( fileName_.c_str(), origFileName.c_str(),
+                    "Cannot create backup file" );
     }
 
     // write the output file
     ofstream fout( fileName_.c_str(), ios::binary | ios::trunc );
 
-    if ( !fout )
-    {
+    if ( !fout ) {
         error( "Cannot open output file", fileName_.c_str() );
     }
 
-    if ( encoding == UTF_16LE || encoding == UTF_16BE )
-    {
+    if ( encoding == UTF_16LE || encoding == UTF_16BE ) {
         // convert utf-8 to utf-16
         bool isBigEndian = ( encoding == UTF_16BE );
-        size_t utf16Size = encode.utf16LengthFromUtf8( out.str().c_str(), out.str().length() );
+        size_t utf16Size = encode.utf16LengthFromUtf8( out.str().c_str(),
+                           out.str().length() );
         char* utf16Out = new char[utf16Size];
         size_t utf16Len = encode.utf8ToUtf16( const_cast<char*>( out.str().c_str() ),
                                               out.str().length(), isBigEndian, utf16Out );
@@ -3452,8 +3054,7 @@ void ASConsole::writeFile( const string& fileName_, FileEncoding encoding, ostri
         fout << string( utf16Out, utf16Len );
         delete[] utf16Out;
     }
-    else
-    {
+    else {
         fout << out.str();
     }
 
@@ -3461,24 +3062,20 @@ void ASConsole::writeFile( const string& fileName_, FileEncoding encoding, ostri
 
     // change date modified to original file date
     // Embarcadero must be linked with cw32mt not cw32
-    if ( preserveDate )
-    {
-        if ( !statErr )
-        {
+    if ( preserveDate ) {
+        if ( !statErr ) {
             struct utimbuf outBuf;
             outBuf.actime = stBuf.st_atime;
             // add ticks so 'make' will recognize a change
             // Visual Studio 2008 needs more than 1
             outBuf.modtime = stBuf.st_mtime + 10;
 
-            if ( utime( fileName_.c_str(), &outBuf ) == -1 )
-            {
+            if ( utime( fileName_.c_str(), &outBuf ) == -1 ) {
                 statErr = true;
             }
         }
 
-        if ( statErr )
-        {
+        if ( statErr ) {
             perror( "errno message" );
             ( *errorStream ) << "*********  Cannot preserve file date" << endl;
         }
@@ -3492,23 +3089,21 @@ void ASConsole::writeFile( const string& fileName_, FileEncoding encoding, ostri
 // used by shared object (DLL) calls
 //-----------------------------------------------------------------------------
 
-char16_t* ASLibrary::formatUtf16( const char16_t* pSourceIn,    // the source to be formatted
+char16_t* ASLibrary::formatUtf16( const char16_t*
+                                  pSourceIn,    // the source to be formatted
                                   const char16_t* pOptions,      // AStyle options
                                   fpError fpErrorHandler,        // error handler function
-                                  fpAlloc fpMemoryAlloc ) const  // memory allocation function)
-{
+                                  fpAlloc fpMemoryAlloc ) const { // memory allocation function)
     const char* utf8In = convertUtf16ToUtf8( pSourceIn );
 
-    if ( utf8In == nullptr )
-    {
+    if ( utf8In == nullptr ) {
         fpErrorHandler( 121, "Cannot convert input utf-16 to utf-8." );
         return nullptr;
     }
 
     const char* utf8Options = convertUtf16ToUtf8( pOptions );
 
-    if ( utf8Options == nullptr )
-    {
+    if ( utf8Options == nullptr ) {
         delete[] utf8In;
         fpErrorHandler( 122, "Cannot convert options utf-16 to utf-8." );
         return nullptr;
@@ -3527,8 +3122,7 @@ char16_t* ASLibrary::formatUtf16( const char16_t* pSourceIn,    // the source to
     utf8Options = nullptr;
 
     // AStyle error has already been sent
-    if ( utf8Out == nullptr )
-    {
+    if ( utf8Out == nullptr ) {
         return nullptr;
     }
 
@@ -3537,8 +3131,7 @@ char16_t* ASLibrary::formatUtf16( const char16_t* pSourceIn,    // the source to
     delete[] utf8Out;
     utf8Out = nullptr;
 
-    if ( utf16Out == nullptr )
-    {
+    if ( utf16Out == nullptr ) {
         fpErrorHandler( 123, "Cannot convert output utf-8 to utf-16." );
         return nullptr;
     }
@@ -3548,8 +3141,7 @@ char16_t* ASLibrary::formatUtf16( const char16_t* pSourceIn,    // the source to
 
 // STATIC method to allocate temporary memory for AStyle formatting.
 // The data will be converted before being returned to the calling program.
-char* STDCALL ASLibrary::tempMemoryAllocation( unsigned long memoryNeeded )
-{
+char* STDCALL ASLibrary::tempMemoryAllocation( unsigned long memoryNeeded ) {
     char* buffer = new ( nothrow ) char[memoryNeeded];
     return buffer;
 }
@@ -3559,10 +3151,9 @@ char* STDCALL ASLibrary::tempMemoryAllocation( unsigned long memoryNeeded )
  * Memory is allocated by the calling program memory allocation function.
  * The calling function must check for errors.
  */
-char16_t* ASLibrary::convertUtf8ToUtf16( const char* utf8In, fpAlloc fpMemoryAlloc ) const
-{
-    if ( utf8In == nullptr )
-    {
+char16_t* ASLibrary::convertUtf8ToUtf16( const char* utf8In,
+        fpAlloc fpMemoryAlloc ) const {
+    if ( utf8In == nullptr ) {
         return nullptr;
     }
 
@@ -3570,21 +3161,23 @@ char16_t* ASLibrary::convertUtf8ToUtf16( const char* utf8In, fpAlloc fpMemoryAll
     size_t dataSize = strlen( utf8In );
     bool isBigEndian = encode.getBigEndian();
     // return size is in number of CHARs, not char16_t
-    size_t utf16Size = ( encode.utf16LengthFromUtf8( data, dataSize ) + sizeof( char16_t ) );
+    size_t utf16Size = ( encode.utf16LengthFromUtf8( data,
+                         dataSize ) + sizeof( char16_t ) );
     char* utf16Out = fpMemoryAlloc( ( long ) utf16Size );
 
-    if ( utf16Out == nullptr )
-    {
+    if ( utf16Out == nullptr ) {
         return nullptr;
     }
 
 #ifdef NDEBUG
     encode.utf8ToUtf16( data, dataSize + 1, isBigEndian, utf16Out );
 #else
-    size_t utf16Len = encode.utf8ToUtf16( data, dataSize + 1, isBigEndian, utf16Out );
+    size_t utf16Len = encode.utf8ToUtf16( data, dataSize + 1, isBigEndian,
+                                          utf16Out );
     assert( utf16Len == utf16Size );
 #endif
-    assert( utf16Size == ( encode.utf16len( reinterpret_cast<char16_t*>( utf16Out ) ) + 1 ) * sizeof( char16_t ) );
+    assert( utf16Size == ( encode.utf16len( reinterpret_cast<char16_t*>
+                                            ( utf16Out ) ) + 1 ) * sizeof( char16_t ) );
     return reinterpret_cast<char16_t*>( utf16Out );
 }
 
@@ -3593,10 +3186,8 @@ char16_t* ASLibrary::convertUtf8ToUtf16( const char* utf8In, fpAlloc fpMemoryAll
  * The calling function must check for errors and delete the
  * allocated memory.
  */
-char* ASLibrary::convertUtf16ToUtf8( const char16_t* utf16In ) const
-{
-    if ( utf16In == nullptr )
-    {
+char* ASLibrary::convertUtf16ToUtf8( const char16_t* utf16In ) const {
+    if ( utf16In == nullptr ) {
         return nullptr;
     }
 
@@ -3607,15 +3198,15 @@ char* ASLibrary::convertUtf16ToUtf8( const char16_t* utf16In ) const
     size_t utf8Size = encode.utf8LengthFromUtf16( data, dataSize, isBigEndian ) + 1;
     char* utf8Out = new ( nothrow ) char[utf8Size];
 
-    if ( utf8Out == nullptr )
-    {
+    if ( utf8Out == nullptr ) {
         return nullptr;
     }
 
 #ifdef NDEBUG
     encode.utf16ToUtf8( data, dataSize + 1, isBigEndian, true, utf8Out );
 #else
-    size_t utf8Len = encode.utf16ToUtf8( data, dataSize + 1, isBigEndian, true, utf8Out );
+    size_t utf8Len = encode.utf16ToUtf8( data, dataSize + 1, isBigEndian, true,
+                                         utf8Out );
     assert( utf8Len == utf8Size );
 #endif
     assert( utf8Size == strlen( utf8Out ) + 1 );
@@ -3647,30 +3238,26 @@ ASOptions::ASOptions( ASFormatter& formatterArg, ASConsole& consoleArg )
  *
  * @return        true if no errors, false if errors
  */
-bool ASOptions::parseOptions( vector<string>& optionsVector, const string& errorInfo )
-{
+bool ASOptions::parseOptions( vector<string>& optionsVector,
+                              const string& errorInfo ) {
     vector<string>::iterator option;
     string arg, subArg;
     optionErrors.clear();
 
-    for ( option = optionsVector.begin(); option != optionsVector.end(); ++option )
-    {
+    for ( option = optionsVector.begin(); option != optionsVector.end();
+            ++option ) {
         arg = *option;
 
-        if ( arg.compare( 0, 2, "--" ) == 0 )
-        {
+        if ( arg.compare( 0, 2, "--" ) == 0 ) {
             parseOption( arg.substr( 2 ), errorInfo );
         }
-        else if ( arg[0] == '-' )
-        {
+        else if ( arg[0] == '-' ) {
             size_t i;
 
-            for ( i = 1; i < arg.length(); ++i )
-            {
+            for ( i = 1; i < arg.length(); ++i ) {
                 if ( i > 1
                         && isalpha( ( unsigned char ) arg[i] )
-                        && arg[i - 1] != 'x' )
-                {
+                        && arg[i - 1] != 'x' ) {
                     // parse the previous option in subArg
                     parseOption( subArg, errorInfo );
                     subArg = "";
@@ -3684,654 +3271,516 @@ bool ASOptions::parseOptions( vector<string>& optionsVector, const string& error
             parseOption( subArg, errorInfo );
             subArg = "";
         }
-        else
-        {
+        else {
             parseOption( arg, errorInfo );
             subArg = "";
         }
     }
 
-    if ( optionErrors.str().length() > 0 )
-    {
+    if ( optionErrors.str().length() > 0 ) {
         return false;
     }
 
     return true;
 }
 
-void ASOptions::parseOption( const string& arg, const string& errorInfo )
-{
-    if ( isOption( arg, "A1", "style=allman" ) || isOption( arg, "style=bsd" ) || isOption( arg, "style=break" ) )
-    {
+void ASOptions::parseOption( const string& arg, const string& errorInfo ) {
+    if ( isOption( arg, "A1", "style=allman" ) || isOption( arg, "style=bsd" ) ||
+            isOption( arg, "style=break" ) ) {
         formatter.setFormattingStyle( STYLE_ALLMAN );
     }
-    else if ( isOption( arg, "A2", "style=java" ) || isOption( arg, "style=attach" ) )
-    {
+    else if ( isOption( arg, "A2", "style=java" ) ||
+              isOption( arg, "style=attach" ) ) {
         formatter.setFormattingStyle( STYLE_JAVA );
     }
-    else if ( isOption( arg, "A3", "style=k&r" ) || isOption( arg, "style=kr" ) || isOption( arg, "style=k/r" ) )
-    {
+    else if ( isOption( arg, "A3", "style=k&r" ) || isOption( arg, "style=kr" ) ||
+              isOption( arg, "style=k/r" ) ) {
         formatter.setFormattingStyle( STYLE_KR );
     }
-    else if ( isOption( arg, "A4", "style=stroustrup" ) )
-    {
+    else if ( isOption( arg, "A4", "style=stroustrup" ) ) {
         formatter.setFormattingStyle( STYLE_STROUSTRUP );
     }
-    else if ( isOption( arg, "A5", "style=whitesmith" ) )
-    {
+    else if ( isOption( arg, "A5", "style=whitesmith" ) ) {
         formatter.setFormattingStyle( STYLE_WHITESMITH );
     }
-    else if ( isOption( arg, "A15", "style=vtk" ) )
-    {
+    else if ( isOption( arg, "A15", "style=vtk" ) ) {
         formatter.setFormattingStyle( STYLE_VTK );
     }
-    else if ( isOption( arg, "A6", "style=ratliff" ) || isOption( arg, "style=banner" ) )
-    {
+    else if ( isOption( arg, "A6", "style=ratliff" ) ||
+              isOption( arg, "style=banner" ) ) {
         formatter.setFormattingStyle( STYLE_RATLIFF );
     }
-    else if ( isOption( arg, "A7", "style=gnu" ) )
-    {
+    else if ( isOption( arg, "A7", "style=gnu" ) ) {
         formatter.setFormattingStyle( STYLE_GNU );
     }
-    else if ( isOption( arg, "A8", "style=linux" ) || isOption( arg, "style=knf" ) )
-    {
+    else if ( isOption( arg, "A8", "style=linux" ) ||
+              isOption( arg, "style=knf" ) ) {
         formatter.setFormattingStyle( STYLE_LINUX );
     }
-    else if ( isOption( arg, "A9", "style=horstmann" ) || isOption( arg, "style=run-in" ) )
-    {
+    else if ( isOption( arg, "A9", "style=horstmann" ) ||
+              isOption( arg, "style=run-in" ) ) {
         formatter.setFormattingStyle( STYLE_HORSTMANN );
     }
-    else if ( isOption( arg, "A10", "style=1tbs" ) || isOption( arg, "style=otbs" ) )
-    {
+    else if ( isOption( arg, "A10", "style=1tbs" ) ||
+              isOption( arg, "style=otbs" ) ) {
         formatter.setFormattingStyle( STYLE_1TBS );
     }
-    else if ( isOption( arg, "A14", "style=google" ) )
-    {
+    else if ( isOption( arg, "A14", "style=google" ) ) {
         formatter.setFormattingStyle( STYLE_GOOGLE );
     }
-    else if ( isOption( arg, "A16", "style=mozilla" ) )
-    {
+    else if ( isOption( arg, "A16", "style=mozilla" ) ) {
         formatter.setFormattingStyle( STYLE_MOZILLA );
     }
-    else if ( isOption( arg, "A11", "style=pico" ) )
-    {
+    else if ( isOption( arg, "A11", "style=pico" ) ) {
         formatter.setFormattingStyle( STYLE_PICO );
     }
-    else if ( isOption( arg, "A12", "style=lisp" ) || isOption( arg, "style=python" ) )
-    {
+    else if ( isOption( arg, "A12", "style=lisp" ) ||
+              isOption( arg, "style=python" ) ) {
         formatter.setFormattingStyle( STYLE_LISP );
     }
     // must check for mode=cs before mode=c !!!
-    else if ( isOption( arg, "mode=cs" ) )
-    {
+    else if ( isOption( arg, "mode=cs" ) ) {
         formatter.setSharpStyle();
         formatter.setModeManuallySet( true );
     }
-    else if ( isOption( arg, "mode=c" ) )
-    {
+    else if ( isOption( arg, "mode=c" ) ) {
         formatter.setCStyle();
         formatter.setModeManuallySet( true );
     }
-    else if ( isOption( arg, "mode=java" ) )
-    {
+    else if ( isOption( arg, "mode=java" ) ) {
         formatter.setJavaStyle();
         formatter.setModeManuallySet( true );
     }
-    else if ( isParamOption( arg, "t", "indent=tab=" ) )
-    {
+    else if ( isParamOption( arg, "t", "indent=tab=" ) ) {
         int spaceNum = 4;
         string spaceNumParam = getParam( arg, "t", "indent=tab=" );
 
-        if ( spaceNumParam.length() > 0 )
-        {
+        if ( spaceNumParam.length() > 0 ) {
             spaceNum = atoi( spaceNumParam.c_str() );
         }
 
-        if ( spaceNum < 2 || spaceNum > 20 )
-        {
+        if ( spaceNum < 2 || spaceNum > 20 ) {
             isOptionError( arg, errorInfo );
         }
-        else
-        {
+        else {
             formatter.setTabIndentation( spaceNum, false );
         }
     }
-    else if ( isOption( arg, "indent=tab" ) )
-    {
+    else if ( isOption( arg, "indent=tab" ) ) {
         formatter.setTabIndentation( 4 );
     }
-    else if ( isParamOption( arg, "T", "indent=force-tab=" ) )
-    {
+    else if ( isParamOption( arg, "T", "indent=force-tab=" ) ) {
         int spaceNum = 4;
         string spaceNumParam = getParam( arg, "T", "indent=force-tab=" );
 
-        if ( spaceNumParam.length() > 0 )
-        {
+        if ( spaceNumParam.length() > 0 ) {
             spaceNum = atoi( spaceNumParam.c_str() );
         }
 
-        if ( spaceNum < 2 || spaceNum > 20 )
-        {
+        if ( spaceNum < 2 || spaceNum > 20 ) {
             isOptionError( arg, errorInfo );
         }
-        else
-        {
+        else {
             formatter.setTabIndentation( spaceNum, true );
         }
     }
-    else if ( isOption( arg, "indent=force-tab" ) )
-    {
+    else if ( isOption( arg, "indent=force-tab" ) ) {
         formatter.setTabIndentation( 4, true );
     }
-    else if ( isParamOption( arg, "xT", "indent=force-tab-x=" ) )
-    {
+    else if ( isParamOption( arg, "xT", "indent=force-tab-x=" ) ) {
         int tabNum = 8;
         string tabNumParam = getParam( arg, "xT", "indent=force-tab-x=" );
 
-        if ( tabNumParam.length() > 0 )
-        {
+        if ( tabNumParam.length() > 0 ) {
             tabNum = atoi( tabNumParam.c_str() );
         }
 
-        if ( tabNum < 2 || tabNum > 20 )
-        {
+        if ( tabNum < 2 || tabNum > 20 ) {
             isOptionError( arg, errorInfo );
         }
-        else
-        {
+        else {
             formatter.setForceTabXIndentation( tabNum );
         }
     }
-    else if ( isOption( arg, "indent=force-tab-x" ) )
-    {
+    else if ( isOption( arg, "indent=force-tab-x" ) ) {
         formatter.setForceTabXIndentation( 8 );
     }
-    else if ( isParamOption( arg, "s", "indent=spaces=" ) )
-    {
+    else if ( isParamOption( arg, "s", "indent=spaces=" ) ) {
         int spaceNum = 4;
         string spaceNumParam = getParam( arg, "s", "indent=spaces=" );
 
-        if ( spaceNumParam.length() > 0 )
-        {
+        if ( spaceNumParam.length() > 0 ) {
             spaceNum = atoi( spaceNumParam.c_str() );
         }
 
-        if ( spaceNum < 2 || spaceNum > 20 )
-        {
+        if ( spaceNum < 2 || spaceNum > 20 ) {
             isOptionError( arg, errorInfo );
         }
-        else
-        {
+        else {
             formatter.setSpaceIndentation( spaceNum );
         }
     }
-    else if ( isOption( arg, "indent=spaces" ) )
-    {
+    else if ( isOption( arg, "indent=spaces" ) ) {
         formatter.setSpaceIndentation( 4 );
     }
-    else if ( isParamOption( arg, "xt", "indent-continuation=" ) )
-    {
+    else if ( isParamOption( arg, "xt", "indent-continuation=" ) ) {
         int contIndent = 1;
         string contIndentParam = getParam( arg, "xt", "indent-continuation=" );
 
-        if ( contIndentParam.length() > 0 )
-        {
+        if ( contIndentParam.length() > 0 ) {
             contIndent = atoi( contIndentParam.c_str() );
         }
 
-        if ( contIndent < 0 )
-        {
+        if ( contIndent < 0 ) {
             isOptionError( arg, errorInfo );
         }
-        else if ( contIndent > 4 )
-        {
+        else if ( contIndent > 4 ) {
             isOptionError( arg, errorInfo );
         }
-        else
-        {
+        else {
             formatter.setContinuationIndentation( contIndent );
         }
     }
-    else if ( isParamOption( arg, "m", "min-conditional-indent=" ) )
-    {
+    else if ( isParamOption( arg, "m", "min-conditional-indent=" ) ) {
         int minIndent = MINCOND_TWO;
         string minIndentParam = getParam( arg, "m", "min-conditional-indent=" );
 
-        if ( minIndentParam.length() > 0 )
-        {
+        if ( minIndentParam.length() > 0 ) {
             minIndent = atoi( minIndentParam.c_str() );
         }
 
-        if ( minIndent >= MINCOND_END )
-        {
+        if ( minIndent >= MINCOND_END ) {
             isOptionError( arg, errorInfo );
         }
-        else
-        {
+        else {
             formatter.setMinConditionalIndentOption( minIndent );
         }
     }
-    else if ( isParamOption( arg, "M", "max-continuation-indent=" ) )
-    {
+    else if ( isParamOption( arg, "M", "max-continuation-indent=" ) ) {
         int maxIndent = 40;
         string maxIndentParam = getParam( arg, "M", "max-continuation-indent=" );
 
-        if ( maxIndentParam.length() > 0 )
-        {
+        if ( maxIndentParam.length() > 0 ) {
             maxIndent = atoi( maxIndentParam.c_str() );
         }
 
-        if ( maxIndent < 40 )
-        {
+        if ( maxIndent < 40 ) {
             isOptionError( arg, errorInfo );
         }
-        else if ( maxIndent > 120 )
-        {
+        else if ( maxIndent > 120 ) {
             isOptionError( arg, errorInfo );
         }
-        else
-        {
+        else {
             formatter.setMaxContinuationIndentLength( maxIndent );
         }
     }
-    else if ( isOption( arg, "N", "indent-namespaces" ) )
-    {
+    else if ( isOption( arg, "N", "indent-namespaces" ) ) {
         formatter.setNamespaceIndent( true );
     }
-    else if ( isOption( arg, "C", "indent-classes" ) )
-    {
+    else if ( isOption( arg, "C", "indent-classes" ) ) {
         formatter.setClassIndent( true );
     }
-    else if ( isOption( arg, "xG", "indent-modifiers" ) )
-    {
+    else if ( isOption( arg, "xG", "indent-modifiers" ) ) {
         formatter.setModifierIndent( true );
     }
-    else if ( isOption( arg, "S", "indent-switches" ) )
-    {
+    else if ( isOption( arg, "S", "indent-switches" ) ) {
         formatter.setSwitchIndent( true );
     }
-    else if ( isOption( arg, "K", "indent-cases" ) )
-    {
+    else if ( isOption( arg, "K", "indent-cases" ) ) {
         formatter.setCaseIndent( true );
     }
-    else if ( isOption( arg, "xU", "indent-after-parens" ) )
-    {
+    else if ( isOption( arg, "xU", "indent-after-parens" ) ) {
         formatter.setAfterParenIndent( true );
     }
-    else if ( isOption( arg, "L", "indent-labels" ) )
-    {
+    else if ( isOption( arg, "L", "indent-labels" ) ) {
         formatter.setLabelIndent( true );
     }
-    else if ( isOption( arg, "xW", "indent-preproc-block" ) )
-    {
+    else if ( isOption( arg, "xW", "indent-preproc-block" ) ) {
         formatter.setPreprocBlockIndent( true );
     }
-    else if ( isOption( arg, "w", "indent-preproc-define" ) )
-    {
+    else if ( isOption( arg, "w", "indent-preproc-define" ) ) {
         formatter.setPreprocDefineIndent( true );
     }
-    else if ( isOption( arg, "xw", "indent-preproc-cond" ) )
-    {
+    else if ( isOption( arg, "xw", "indent-preproc-cond" ) ) {
         formatter.setPreprocConditionalIndent( true );
     }
-    else if ( isOption( arg, "y", "break-closing-braces" ) )
-    {
+    else if ( isOption( arg, "y", "break-closing-braces" ) ) {
         formatter.setBreakClosingHeaderBracesMode( true );
     }
-    else if ( isOption( arg, "O", "keep-one-line-blocks" ) )
-    {
+    else if ( isOption( arg, "O", "keep-one-line-blocks" ) ) {
         formatter.setBreakOneLineBlocksMode( false );
     }
-    else if ( isOption( arg, "o", "keep-one-line-statements" ) )
-    {
+    else if ( isOption( arg, "o", "keep-one-line-statements" ) ) {
         formatter.setBreakOneLineStatementsMode( false );
     }
-    else if ( isOption( arg, "P", "pad-paren" ) )
-    {
+    else if ( isOption( arg, "P", "pad-paren" ) ) {
         formatter.setParensOutsidePaddingMode( true );
         formatter.setParensInsidePaddingMode( true );
     }
-    else if ( isOption( arg, "d", "pad-paren-out" ) )
-    {
+    else if ( isOption( arg, "d", "pad-paren-out" ) ) {
         formatter.setParensOutsidePaddingMode( true );
     }
-    else if ( isOption( arg, "xd", "pad-first-paren-out" ) )
-    {
+    else if ( isOption( arg, "xd", "pad-first-paren-out" ) ) {
         formatter.setParensFirstPaddingMode( true );
     }
-    else if ( isOption( arg, "D", "pad-paren-in" ) )
-    {
+    else if ( isOption( arg, "D", "pad-paren-in" ) ) {
         formatter.setParensInsidePaddingMode( true );
     }
-    else if ( isOption( arg, "H", "pad-header" ) )
-    {
+    else if ( isOption( arg, "H", "pad-header" ) ) {
         formatter.setParensHeaderPaddingMode( true );
     }
-    else if ( isOption( arg, "U", "unpad-paren" ) )
-    {
+    else if ( isOption( arg, "U", "unpad-paren" ) ) {
         formatter.setParensUnPaddingMode( true );
     }
-    else if ( isOption( arg, "p", "pad-oper" ) )
-    {
+    else if ( isOption( arg, "p", "pad-oper" ) ) {
         formatter.setOperatorPaddingMode( true );
     }
-    else if ( isOption( arg, "xg", "pad-comma" ) )
-    {
+    else if ( isOption( arg, "xg", "pad-comma" ) ) {
         formatter.setCommaPaddingMode( true );
     }
-    else if ( isOption( arg, "xe", "delete-empty-lines" ) )
-    {
+    else if ( isOption( arg, "xe", "delete-empty-lines" ) ) {
         formatter.setDeleteEmptyLinesMode( true );
     }
-    else if ( isOption( arg, "E", "fill-empty-lines" ) )
-    {
+    else if ( isOption( arg, "E", "fill-empty-lines" ) ) {
         formatter.setEmptyLineFill( true );
     }
-    else if ( isOption( arg, "c", "convert-tabs" ) )
-    {
+    else if ( isOption( arg, "c", "convert-tabs" ) ) {
         formatter.setTabSpaceConversionMode( true );
     }
-    else if ( isOption( arg, "xy", "close-templates" ) )
-    {
+    else if ( isOption( arg, "xy", "close-templates" ) ) {
         formatter.setCloseTemplatesMode( true );
     }
-    else if ( isOption( arg, "F", "break-blocks=all" ) )
-    {
+    else if ( isOption( arg, "F", "break-blocks=all" ) ) {
         formatter.setBreakBlocksMode( true );
         formatter.setBreakClosingHeaderBlocksMode( true );
     }
-    else if ( isOption( arg, "f", "break-blocks" ) )
-    {
+    else if ( isOption( arg, "f", "break-blocks" ) ) {
         formatter.setBreakBlocksMode( true );
     }
-    else if ( isOption( arg, "e", "break-elseifs" ) )
-    {
+    else if ( isOption( arg, "e", "break-elseifs" ) ) {
         formatter.setBreakElseIfsMode( true );
     }
-    else if ( isOption( arg, "xb", "break-one-line-headers" ) )
-    {
+    else if ( isOption( arg, "xb", "break-one-line-headers" ) ) {
         formatter.setBreakOneLineHeadersMode( true );
     }
-    else if ( isOption( arg, "j", "add-braces" ) )
-    {
+    else if ( isOption( arg, "j", "add-braces" ) ) {
         formatter.setAddBracesMode( true );
     }
-    else if ( isOption( arg, "J", "add-one-line-braces" ) )
-    {
+    else if ( isOption( arg, "J", "add-one-line-braces" ) ) {
         formatter.setAddOneLineBracesMode( true );
     }
-    else if ( isOption( arg, "xj", "remove-braces" ) )
-    {
+    else if ( isOption( arg, "xj", "remove-braces" ) ) {
         formatter.setRemoveBracesMode( true );
     }
-    else if ( isOption( arg, "Y", "indent-col1-comments" ) )
-    {
+    else if ( isOption( arg, "Y", "indent-col1-comments" ) ) {
         formatter.setIndentCol1CommentsMode( true );
     }
-    else if ( isOption( arg, "align-pointer=type" ) )
-    {
+    else if ( isOption( arg, "align-pointer=type" ) ) {
         formatter.setPointerAlignment( PTR_ALIGN_TYPE );
     }
-    else if ( isOption( arg, "align-pointer=middle" ) )
-    {
+    else if ( isOption( arg, "align-pointer=middle" ) ) {
         formatter.setPointerAlignment( PTR_ALIGN_MIDDLE );
     }
-    else if ( isOption( arg, "align-pointer=name" ) )
-    {
+    else if ( isOption( arg, "align-pointer=name" ) ) {
         formatter.setPointerAlignment( PTR_ALIGN_NAME );
     }
-    else if ( isParamOption( arg, "k" ) )
-    {
+    else if ( isParamOption( arg, "k" ) ) {
         int align = 0;
         string styleParam = getParam( arg, "k" );
 
-        if ( styleParam.length() > 0 )
-        {
+        if ( styleParam.length() > 0 ) {
             align = atoi( styleParam.c_str() );
         }
 
-        if ( align < 1 || align > 3 )
-        {
+        if ( align < 1 || align > 3 ) {
             isOptionError( arg, errorInfo );
         }
-        else if ( align == 1 )
-        {
+        else if ( align == 1 ) {
             formatter.setPointerAlignment( PTR_ALIGN_TYPE );
         }
-        else if ( align == 2 )
-        {
+        else if ( align == 2 ) {
             formatter.setPointerAlignment( PTR_ALIGN_MIDDLE );
         }
-        else if ( align == 3 )
-        {
+        else if ( align == 3 ) {
             formatter.setPointerAlignment( PTR_ALIGN_NAME );
         }
     }
-    else if ( isOption( arg, "align-reference=none" ) )
-    {
+    else if ( isOption( arg, "align-reference=none" ) ) {
         formatter.setReferenceAlignment( REF_ALIGN_NONE );
     }
-    else if ( isOption( arg, "align-reference=type" ) )
-    {
+    else if ( isOption( arg, "align-reference=type" ) ) {
         formatter.setReferenceAlignment( REF_ALIGN_TYPE );
     }
-    else if ( isOption( arg, "align-reference=middle" ) )
-    {
+    else if ( isOption( arg, "align-reference=middle" ) ) {
         formatter.setReferenceAlignment( REF_ALIGN_MIDDLE );
     }
-    else if ( isOption( arg, "align-reference=name" ) )
-    {
+    else if ( isOption( arg, "align-reference=name" ) ) {
         formatter.setReferenceAlignment( REF_ALIGN_NAME );
     }
-    else if ( isParamOption( arg, "W" ) )
-    {
+    else if ( isParamOption( arg, "W" ) ) {
         int align = 0;
         string styleParam = getParam( arg, "W" );
 
-        if ( styleParam.length() > 0 )
-        {
+        if ( styleParam.length() > 0 ) {
             align = atoi( styleParam.c_str() );
         }
 
-        if ( align < 0 || align > 3 )
-        {
+        if ( align < 0 || align > 3 ) {
             isOptionError( arg, errorInfo );
         }
-        else if ( align == 0 )
-        {
+        else if ( align == 0 ) {
             formatter.setReferenceAlignment( REF_ALIGN_NONE );
         }
-        else if ( align == 1 )
-        {
+        else if ( align == 1 ) {
             formatter.setReferenceAlignment( REF_ALIGN_TYPE );
         }
-        else if ( align == 2 )
-        {
+        else if ( align == 2 ) {
             formatter.setReferenceAlignment( REF_ALIGN_MIDDLE );
         }
-        else if ( align == 3 )
-        {
+        else if ( align == 3 ) {
             formatter.setReferenceAlignment( REF_ALIGN_NAME );
         }
     }
-    else if ( isParamOption( arg, "max-code-length=" ) )
-    {
+    else if ( isParamOption( arg, "max-code-length=" ) ) {
         int maxLength = 50;
         string maxLengthParam = getParam( arg, "max-code-length=" );
 
-        if ( maxLengthParam.length() > 0 )
-        {
+        if ( maxLengthParam.length() > 0 ) {
             maxLength = atoi( maxLengthParam.c_str() );
         }
 
-        if ( maxLength < 50 )
-        {
+        if ( maxLength < 50 ) {
             isOptionError( arg, errorInfo );
         }
-        else if ( maxLength > 200 )
-        {
+        else if ( maxLength > 200 ) {
             isOptionError( arg, errorInfo );
         }
-        else
-        {
+        else {
             formatter.setMaxCodeLength( maxLength );
         }
     }
-    else if ( isParamOption( arg, "xC" ) )
-    {
+    else if ( isParamOption( arg, "xC" ) ) {
         int maxLength = 50;
         string maxLengthParam = getParam( arg, "xC" );
 
-        if ( maxLengthParam.length() > 0 )
-        {
+        if ( maxLengthParam.length() > 0 ) {
             maxLength = atoi( maxLengthParam.c_str() );
         }
 
-        if ( maxLength > 200 )
-        {
+        if ( maxLength > 200 ) {
             isOptionError( arg, errorInfo );
         }
-        else
-        {
+        else {
             formatter.setMaxCodeLength( maxLength );
         }
     }
-    else if ( isOption( arg, "xL", "break-after-logical" ) )
-    {
+    else if ( isOption( arg, "xL", "break-after-logical" ) ) {
         formatter.setBreakAfterMode( true );
     }
-    else if ( isOption( arg, "xc", "attach-classes" ) )
-    {
+    else if ( isOption( arg, "xc", "attach-classes" ) ) {
         formatter.setAttachClass( true );
     }
-    else if ( isOption( arg, "xV", "attach-closing-while" ) )
-    {
+    else if ( isOption( arg, "xV", "attach-closing-while" ) ) {
         formatter.setAttachClosingWhile( true );
     }
-    else if ( isOption( arg, "xk", "attach-extern-c" ) )
-    {
+    else if ( isOption( arg, "xk", "attach-extern-c" ) ) {
         formatter.setAttachExternC( true );
     }
-    else if ( isOption( arg, "xn", "attach-namespaces" ) )
-    {
+    else if ( isOption( arg, "xn", "attach-namespaces" ) ) {
         formatter.setAttachNamespace( true );
     }
-    else if ( isOption( arg, "xl", "attach-inlines" ) )
-    {
+    else if ( isOption( arg, "xl", "attach-inlines" ) ) {
         formatter.setAttachInline( true );
     }
-    else if ( isOption( arg, "xp", "remove-comment-prefix" ) )
-    {
+    else if ( isOption( arg, "xp", "remove-comment-prefix" ) ) {
         formatter.setStripCommentPrefix( true );
     }
-    else if ( isOption( arg, "xB", "break-return-type" ) )
-    {
+    else if ( isOption( arg, "xB", "break-return-type" ) ) {
         formatter.setBreakReturnType( true );
     }
-    else if ( isOption( arg, "xD", "break-return-type-decl" ) )
-    {
+    else if ( isOption( arg, "xD", "break-return-type-decl" ) ) {
         formatter.setBreakReturnTypeDecl( true );
     }
-    else if ( isOption( arg, "xf", "attach-return-type" ) )
-    {
+    else if ( isOption( arg, "xf", "attach-return-type" ) ) {
         formatter.setAttachReturnType( true );
     }
-    else if ( isOption( arg, "xh", "attach-return-type-decl" ) )
-    {
+    else if ( isOption( arg, "xh", "attach-return-type-decl" ) ) {
         formatter.setAttachReturnTypeDecl( true );
     }
     // Objective-C options
-    else if ( isOption( arg, "xQ", "pad-method-prefix" ) )
-    {
+    else if ( isOption( arg, "xQ", "pad-method-prefix" ) ) {
         formatter.setMethodPrefixPaddingMode( true );
     }
-    else if ( isOption( arg, "xR", "unpad-method-prefix" ) )
-    {
+    else if ( isOption( arg, "xR", "unpad-method-prefix" ) ) {
         formatter.setMethodPrefixUnPaddingMode( true );
     }
-    else if ( isOption( arg, "xq", "pad-return-type" ) )
-    {
+    else if ( isOption( arg, "xq", "pad-return-type" ) ) {
         formatter.setReturnTypePaddingMode( true );
     }
-    else if ( isOption( arg, "xr", "unpad-return-type" ) )
-    {
+    else if ( isOption( arg, "xr", "unpad-return-type" ) ) {
         formatter.setReturnTypeUnPaddingMode( true );
     }
-    else if ( isOption( arg, "xS", "pad-param-type" ) )
-    {
+    else if ( isOption( arg, "xS", "pad-param-type" ) ) {
         formatter.setParamTypePaddingMode( true );
     }
-    else if ( isOption( arg, "xs", "unpad-param-type" ) )
-    {
+    else if ( isOption( arg, "xs", "unpad-param-type" ) ) {
         formatter.setParamTypeUnPaddingMode( true );
     }
-    else if ( isOption( arg, "xM", "align-method-colon" ) )
-    {
+    else if ( isOption( arg, "xM", "align-method-colon" ) ) {
         formatter.setAlignMethodColon( true );
     }
-    else if ( isOption( arg, "xP0", "pad-method-colon=none" ) )
-    {
+    else if ( isOption( arg, "xP0", "pad-method-colon=none" ) ) {
         formatter.setObjCColonPaddingMode( COLON_PAD_NONE );
     }
-    else if ( isOption( arg, "xP1", "pad-method-colon=all" ) )
-    {
+    else if ( isOption( arg, "xP1", "pad-method-colon=all" ) ) {
         formatter.setObjCColonPaddingMode( COLON_PAD_ALL );
     }
-    else if ( isOption( arg, "xP2", "pad-method-colon=after" ) )
-    {
+    else if ( isOption( arg, "xP2", "pad-method-colon=after" ) ) {
         formatter.setObjCColonPaddingMode( COLON_PAD_AFTER );
     }
-    else if ( isOption( arg, "xP3", "pad-method-colon=before" ) )
-    {
+    else if ( isOption( arg, "xP3", "pad-method-colon=before" ) ) {
         formatter.setObjCColonPaddingMode( COLON_PAD_BEFORE );
     }
     // NOTE: depreciated options - remove when appropriate
     // depreciated options ////////////////////////////////////////////////////////////////////////
-    else if ( isOption( arg, "indent-preprocessor" ) )  // depreciated release 2.04
-    {
+    else if ( isOption( arg, "indent-preprocessor" ) ) { // depreciated release 2.04
         formatter.setPreprocDefineIndent( true );
     }
-    else if ( isOption( arg, "style=ansi" ) )               // depreciated release 2.05
-    {
+    else if ( isOption( arg,
+                        "style=ansi" ) ) {             // depreciated release 2.05
         formatter.setFormattingStyle( STYLE_ALLMAN );
     }
     // depreciated in release 3.0 /////////////////////////////////////////////////////////////////
-    else if ( isOption( arg, "break-closing-brackets" ) )   // depreciated release 3.0
-    {
+    else if ( isOption( arg,
+                        "break-closing-brackets" ) ) { // depreciated release 3.0
         formatter.setBreakClosingHeaderBracketsMode( true );
     }
-    else if ( isOption( arg, "add-brackets" ) )         // depreciated release 3.0
-    {
+    else if ( isOption( arg, "add-brackets" ) ) {       // depreciated release 3.0
         formatter.setAddBracketsMode( true );
     }
-    else if ( isOption( arg, "add-one-line-brackets" ) )    // depreciated release 3.0
-    {
+    else if ( isOption( arg,
+                        "add-one-line-brackets" ) ) {  // depreciated release 3.0
         formatter.setAddOneLineBracketsMode( true );
     }
-    else if ( isOption( arg, "remove-brackets" ) )      // depreciated release 3.0
-    {
+    else if ( isOption( arg, "remove-brackets" ) ) {    // depreciated release 3.0
         formatter.setRemoveBracketsMode( true );
     }
-    else if ( isParamOption( arg, "max-instatement-indent=" ) ) // depreciated release 3.0
-    {
+    else if ( isParamOption( arg,
+                             "max-instatement-indent=" ) ) { // depreciated release 3.0
         int maxIndent = 40;
         string maxIndentParam = getParam( arg, "max-instatement-indent=" );
 
-        if ( maxIndentParam.length() > 0 )
-        {
+        if ( maxIndentParam.length() > 0 ) {
             maxIndent = atoi( maxIndentParam.c_str() );
         }
 
-        if ( maxIndent < 40 )
-        {
+        if ( maxIndent < 40 ) {
             isOptionError( arg, errorInfo );
         }
-        else if ( maxIndent > 120 )
-        {
+        else if ( maxIndent > 120 ) {
             isOptionError( arg, errorInfo );
         }
-        else
-        {
+        else {
             formatter.setMaxInStatementIndentLength( maxIndent );
         }
     }
@@ -4339,112 +3788,87 @@ void ASOptions::parseOption( const string& arg, const string& errorInfo )
     // end depreciated options ////////////////////////////////////////////////////////////////////
 #ifdef ASTYLE_LIB
     // End of options used by GUI /////////////////////////////////////////////////////////////////
-    else
-    {
+    else {
         isOptionError( arg, errorInfo );
     }
 
 #else
     // Options used by only console ///////////////////////////////////////////////////////////////
-    else if ( isOption( arg, "n", "suffix=none" ) )
-    {
+    else if ( isOption( arg, "n", "suffix=none" ) ) {
         console.setNoBackup( true );
     }
-    else if ( isParamOption( arg, "suffix=" ) )
-    {
+    else if ( isParamOption( arg, "suffix=" ) ) {
         string suffixParam = getParam( arg, "suffix=" );
 
-        if ( suffixParam.length() > 0 )
-        {
+        if ( suffixParam.length() > 0 ) {
             console.setOrigSuffix( suffixParam );
         }
     }
-    else if ( isParamOption( arg, "exclude=" ) )
-    {
+    else if ( isParamOption( arg, "exclude=" ) ) {
         string suffixParam = getParam( arg, "exclude=" );
 
-        if ( suffixParam.length() > 0 )
-        {
+        if ( suffixParam.length() > 0 ) {
             console.updateExcludeVector( suffixParam );
         }
     }
-    else if ( isOption( arg, "r", "R" ) || isOption( arg, "recursive" ) )
-    {
+    else if ( isOption( arg, "r", "R" ) || isOption( arg, "recursive" ) ) {
         console.setIsRecursive( true );
     }
-    else if ( isOption( arg, "dry-run" ) )
-    {
+    else if ( isOption( arg, "dry-run" ) ) {
         console.setIsDryRun( true );
     }
-    else if ( isOption( arg, "Z", "preserve-date" ) )
-    {
+    else if ( isOption( arg, "Z", "preserve-date" ) ) {
         console.setPreserveDate( true );
     }
-    else if ( isOption( arg, "v", "verbose" ) )
-    {
+    else if ( isOption( arg, "v", "verbose" ) ) {
         console.setIsVerbose( true );
     }
-    else if ( isOption( arg, "Q", "formatted" ) )
-    {
+    else if ( isOption( arg, "Q", "formatted" ) ) {
         console.setIsFormattedOnly( true );
     }
-    else if ( isOption( arg, "q", "quiet" ) )
-    {
+    else if ( isOption( arg, "q", "quiet" ) ) {
         console.setIsQuiet( true );
     }
-    else if ( isOption( arg, "i", "ignore-exclude-errors" ) )
-    {
+    else if ( isOption( arg, "i", "ignore-exclude-errors" ) ) {
         console.setIgnoreExcludeErrors( true );
     }
-    else if ( isOption( arg, "xi", "ignore-exclude-errors-x" ) )
-    {
+    else if ( isOption( arg, "xi", "ignore-exclude-errors-x" ) ) {
         console.setIgnoreExcludeErrorsAndDisplay( true );
     }
-    else if ( isOption( arg, "X", "errors-to-stdout" ) )
-    {
+    else if ( isOption( arg, "X", "errors-to-stdout" ) ) {
         console.setErrorStream( &cout );
     }
-    else if ( isOption( arg, "lineend=windows" ) )
-    {
+    else if ( isOption( arg, "lineend=windows" ) ) {
         formatter.setLineEndFormat( LINEEND_WINDOWS );
     }
-    else if ( isOption( arg, "lineend=linux" ) )
-    {
+    else if ( isOption( arg, "lineend=linux" ) ) {
         formatter.setLineEndFormat( LINEEND_LINUX );
     }
-    else if ( isOption( arg, "lineend=macold" ) )
-    {
+    else if ( isOption( arg, "lineend=macold" ) ) {
         formatter.setLineEndFormat( LINEEND_MACOLD );
     }
-    else if ( isParamOption( arg, "z" ) )
-    {
+    else if ( isParamOption( arg, "z" ) ) {
         int lineendType = 0;
         string lineendParam = getParam( arg, "z" );
 
-        if ( lineendParam.length() > 0 )
-        {
+        if ( lineendParam.length() > 0 ) {
             lineendType = atoi( lineendParam.c_str() );
         }
 
-        if ( lineendType < 1 || lineendType > 3 )
-        {
+        if ( lineendType < 1 || lineendType > 3 ) {
             isOptionError( arg, errorInfo );
         }
-        else if ( lineendType == 1 )
-        {
+        else if ( lineendType == 1 ) {
             formatter.setLineEndFormat( LINEEND_WINDOWS );
         }
-        else if ( lineendType == 2 )
-        {
+        else if ( lineendType == 2 ) {
             formatter.setLineEndFormat( LINEEND_LINUX );
         }
-        else if ( lineendType == 3 )
-        {
+        else if ( lineendType == 3 ) {
             formatter.setLineEndFormat( LINEEND_MACOLD );
         }
     }
-    else
-    {
+    else {
         isOptionError( arg, errorInfo );
     }
 
@@ -4452,57 +3876,48 @@ void ASOptions::parseOption( const string& arg, const string& errorInfo )
 }   // End of parseOption function
 
 // Parse options from the option file.
-void ASOptions::importOptions( stringstream& in, vector<string>& optionsVector )
-{
+void ASOptions::importOptions( stringstream& in,
+                               vector<string>& optionsVector ) {
     char ch;
     bool isInQuote = false;
     char quoteChar = ' ';
     string currentToken;
 
-    while ( in )
-    {
+    while ( in ) {
         currentToken = "";
 
-        do
-        {
+        do {
             in.get( ch );
 
-            if ( in.eof() )
-            {
+            if ( in.eof() ) {
                 break;
             }
 
             // treat '#' as line comments
             if ( ch == '#' )
-                while ( in )
-                {
+                while ( in ) {
                     in.get( ch );
 
-                    if ( ch == '\n' || ch == '\r' )
-                    {
+                    if ( ch == '\n' || ch == '\r' ) {
                         break;
                     }
                 }
 
             // break options on new-lines, tabs, commas, or spaces
             // remove quotes from output
-            if ( in.eof() || ch == '\n' || ch == '\r' || ch == '\t' || ch == ',' )
-            {
+            if ( in.eof() || ch == '\n' || ch == '\r' || ch == '\t' || ch == ',' ) {
                 break;
             }
 
-            if ( ch == ' ' && !isInQuote )
-            {
+            if ( ch == ' ' && !isInQuote ) {
                 break;
             }
 
-            if ( ch == quoteChar && isInQuote )
-            {
+            if ( ch == quoteChar && isInQuote ) {
                 break;
             }
 
-            if ( ch == '"' || ch == '\'' )
-            {
+            if ( ch == '"' || ch == '\'' ) {
                 isInQuote = true;
                 quoteChar = ch;
                 continue;
@@ -4512,8 +3927,7 @@ void ASOptions::importOptions( stringstream& in, vector<string>& optionsVector )
         }
         while ( in );
 
-        if ( currentToken.length() != 0 )
-        {
+        if ( currentToken.length() != 0 ) {
             optionsVector.emplace_back( currentToken );
         }
 
@@ -4521,57 +3935,50 @@ void ASOptions::importOptions( stringstream& in, vector<string>& optionsVector )
     }
 }
 
-string ASOptions::getOptionErrors() const
-{
+string ASOptions::getOptionErrors() const {
     return optionErrors.str();
 }
 
-string ASOptions::getParam( const string& arg, const char* op )
-{
+string ASOptions::getParam( const string& arg, const char* op ) {
     return arg.substr( strlen( op ) );
 }
 
-string ASOptions::getParam( const string& arg, const char* op1, const char* op2 )
-{
+string ASOptions::getParam( const string& arg, const char* op1,
+                            const char* op2 ) {
     return isParamOption( arg, op1 ) ? getParam( arg, op1 ) : getParam( arg, op2 );
 }
 
-bool ASOptions::isOption( const string& arg, const char* op )
-{
+bool ASOptions::isOption( const string& arg, const char* op ) {
     return arg.compare( op ) == 0;
 }
 
-bool ASOptions::isOption( const string& arg, const char* op1, const char* op2 )
-{
+bool ASOptions::isOption( const string& arg, const char* op1,
+                          const char* op2 ) {
     return ( isOption( arg, op1 ) || isOption( arg, op2 ) );
 }
 
-void ASOptions::isOptionError( const string& arg, const string& errorInfo )
-{
-    if ( optionErrors.str().length() == 0 )
-    {
+void ASOptions::isOptionError( const string& arg, const string& errorInfo ) {
+    if ( optionErrors.str().length() == 0 ) {
         optionErrors << errorInfo << endl;    // need main error message
     }
 
     optionErrors << "\t" << arg << endl;
 }
 
-bool ASOptions::isParamOption( const string& arg, const char* option )
-{
+bool ASOptions::isParamOption( const string& arg, const char* option ) {
     bool retVal = arg.compare( 0, strlen( option ), option ) == 0;
 
     // if comparing for short option, 2nd char of arg must be numeric
     if ( retVal && strlen( option ) == 1 && arg.length() > 1 )
-        if ( !isdigit( ( unsigned char ) arg[1] ) )
-        {
+        if ( !isdigit( ( unsigned char ) arg[1] ) ) {
             retVal = false;
         }
 
     return retVal;
 }
 
-bool ASOptions::isParamOption( const string& arg, const char* option1, const char* option2 )
-{
+bool ASOptions::isParamOption( const string& arg, const char* option1,
+                               const char* option2 ) {
     return isParamOption( arg, option1 ) || isParamOption( arg, option2 );
 }
 
@@ -4580,27 +3987,23 @@ bool ASOptions::isParamOption( const string& arg, const char* option1, const cha
 //----------------------------------------------------------------------------
 
 // Return true if an int is big endian.
-bool ASEncoding::getBigEndian() const
-{
+bool ASEncoding::getBigEndian() const {
     char16_t word = 0x0001;
     char* byte = ( char* ) &word;
     return ( byte[0] ? false : true );
 }
 
 // Swap the two low order bytes of a 16 bit integer value.
-int ASEncoding::swap16bit( int value ) const
-{
+int ASEncoding::swap16bit( int value ) const {
     return ( ( ( value & 0xff ) << 8 ) | ( ( value & 0xff00 ) >> 8 ) );
 }
 
 // Return the length of a utf-16 C string.
 // The length is in number of char16_t.
-size_t ASEncoding::utf16len( const utf16* utf16In ) const
-{
+size_t ASEncoding::utf16len( const utf16* utf16In ) const {
     size_t length = 0;
 
-    while ( *utf16In++ != '\0' )
-    {
+    while ( *utf16In++ != '\0' ) {
         length++;
     }
 
@@ -4612,31 +4015,26 @@ size_t ASEncoding::utf16len( const utf16* utf16In ) const
 // Modified for Artistic Style by Jim Pattee.
 // Compute the length of an output utf-8 file given a utf-16 file.
 // Input inLen is the size in BYTES (not wchar_t).
-size_t ASEncoding::utf8LengthFromUtf16( const char* utf16In, size_t inLen, bool isBigEndian ) const
-{
+size_t ASEncoding::utf8LengthFromUtf16( const char* utf16In, size_t inLen,
+                                        bool isBigEndian ) const {
     size_t len = 0;
     size_t wcharLen = ( inLen / 2 ) + ( inLen % 2 );
     const char16_t* uptr = reinterpret_cast<const char16_t*>( utf16In );
 
-    for ( size_t i = 0; i < wcharLen; )
-    {
+    for ( size_t i = 0; i < wcharLen; ) {
         size_t uch = isBigEndian ? swap16bit( uptr[i] ) : uptr[i];
 
-        if ( uch < 0x80 )
-        {
+        if ( uch < 0x80 ) {
             len++;
         }
-        else if ( uch < 0x800 )
-        {
+        else if ( uch < 0x800 ) {
             len += 2;
         }
-        else if ( ( uch >= SURROGATE_LEAD_FIRST ) && ( uch <= SURROGATE_LEAD_LAST ) )
-        {
+        else if ( ( uch >= SURROGATE_LEAD_FIRST ) && ( uch <= SURROGATE_LEAD_LAST ) ) {
             len += 4;
             i++;
         }
-        else
-        {
+        else {
             len += 3;
         }
 
@@ -4650,8 +4048,8 @@ size_t ASEncoding::utf8LengthFromUtf16( const char* utf16In, size_t inLen, bool 
 // Copyright (C) 2002 Scott Kirkwood.
 // Modified for Artistic Style by Jim Pattee.
 // Convert a utf-8 file to utf-16.
-size_t ASEncoding::utf8ToUtf16( char* utf8In, size_t inLen, bool isBigEndian, char* utf16Out ) const
-{
+size_t ASEncoding::utf8ToUtf16( char* utf8In, size_t inLen, bool isBigEndian,
+                                char* utf16Out ) const {
     int nCur = 0;
     ubyte* pRead = reinterpret_cast<ubyte*>( utf8In );
     utf16* pCur = reinterpret_cast<utf16*>( utf16Out );
@@ -4660,28 +4058,22 @@ size_t ASEncoding::utf8ToUtf16( char* utf8In, size_t inLen, bool isBigEndian, ch
     eState state = eStart;
 
     // the BOM will automatically be converted to utf-16
-    while ( pRead < pEnd )
-    {
-        switch ( state )
-        {
+    while ( pRead < pEnd ) {
+        switch ( state ) {
         case eStart:
-            if ( ( 0xF0 & *pRead ) == 0xF0 )
-            {
+            if ( ( 0xF0 & *pRead ) == 0xF0 ) {
                 nCur = ( 0x7 & *pRead ) << 18;
                 state = eSecondOf4Bytes;
             }
-            else if ( ( 0xE0 & *pRead ) == 0xE0 )
-            {
+            else if ( ( 0xE0 & *pRead ) == 0xE0 ) {
                 nCur = ( ~0xE0 & *pRead ) << 12;
                 state = ePenultimate;
             }
-            else if ( ( 0xC0 & *pRead ) == 0xC0 )
-            {
+            else if ( ( 0xC0 & *pRead ) == 0xC0 ) {
                 nCur = ( ~0xC0 & *pRead ) << 6;
                 state = eFinal;
             }
-            else
-            {
+            else {
                 nCur = *pRead;
                 state = eStart;
             }
@@ -4707,21 +4099,19 @@ size_t ASEncoding::utf8ToUtf16( char* utf8In, size_t inLen, bool isBigEndian, ch
 
         ++pRead;
 
-        if ( state == eStart )
-        {
+        if ( state == eStart ) {
             int codePoint = nCur;
 
-            if ( codePoint >= SURROGATE_FIRST_VALUE )
-            {
+            if ( codePoint >= SURROGATE_FIRST_VALUE ) {
                 codePoint -= SURROGATE_FIRST_VALUE;
                 int lead = ( codePoint >> 10 ) + SURROGATE_LEAD_FIRST;
                 *pCur++ = static_cast<utf16>( isBigEndian ? swap16bit( lead ) : lead );
                 int trail = ( codePoint & 0x3ff ) + SURROGATE_TRAIL_FIRST;
                 *pCur++ = static_cast<utf16>( isBigEndian ? swap16bit( trail ) : trail );
             }
-            else
-            {
-                *pCur++ = static_cast<utf16>( isBigEndian ? swap16bit( codePoint ) : codePoint );
+            else {
+                *pCur++ = static_cast<utf16>( isBigEndian ? swap16bit( codePoint ) :
+                                              codePoint );
             }
         }
     }
@@ -4735,29 +4125,23 @@ size_t ASEncoding::utf8ToUtf16( char* utf8In, size_t inLen, bool isBigEndian, ch
 // Modified for Artistic Style by Jim Pattee.
 // Compute the length of an output utf-16 file given a utf-8 file.
 // Return value is the size in BYTES (not wchar_t).
-size_t ASEncoding::utf16LengthFromUtf8( const char* utf8In, size_t len ) const
-{
+size_t ASEncoding::utf16LengthFromUtf8( const char* utf8In, size_t len ) const {
     size_t ulen = 0;
     size_t charLen;
 
-    for ( size_t i = 0; i < len; )
-    {
+    for ( size_t i = 0; i < len; ) {
         unsigned char ch = static_cast<unsigned char>( utf8In[i] );
 
-        if ( ch < 0x80 )
-        {
+        if ( ch < 0x80 ) {
             charLen = 1;
         }
-        else if ( ch < 0x80 + 0x40 + 0x20 )
-        {
+        else if ( ch < 0x80 + 0x40 + 0x20 ) {
             charLen = 2;
         }
-        else if ( ch < 0x80 + 0x40 + 0x20 + 0x10 )
-        {
+        else if ( ch < 0x80 + 0x40 + 0x20 + 0x10 ) {
             charLen = 3;
         }
-        else
-        {
+        else {
             charLen = 4;
             ulen++;
         }
@@ -4775,8 +4159,7 @@ size_t ASEncoding::utf16LengthFromUtf8( const char* utf8In, size_t len ) const
 // Modified for Artistic Style by Jim Pattee.
 // Convert a utf-16 file to utf-8.
 size_t ASEncoding::utf16ToUtf8( char* utf16In, size_t inLen, bool isBigEndian,
-                                bool firstBlock, char* utf8Out ) const
-{
+                                bool firstBlock, char* utf8Out ) const {
     int nCur16 = 0;
     int nCur = 0;
     ubyte* pRead = reinterpret_cast<ubyte*>( utf16In );
@@ -4785,72 +4168,60 @@ size_t ASEncoding::utf16ToUtf8( char* utf16In, size_t inLen, bool isBigEndian,
     const ubyte* pCurStart = pCur;
     static eState state = eStart;   // state is retained for subsequent blocks
 
-    if ( firstBlock )
-    {
+    if ( firstBlock ) {
         state = eStart;
     }
 
     // the BOM will automatically be converted to utf-8
-    while ( pRead < pEnd )
-    {
-        switch ( state )
-        {
+    while ( pRead < pEnd ) {
+        switch ( state ) {
         case eStart:
-            if ( pRead >= pEnd )
-            {
+            if ( pRead >= pEnd ) {
                 ++pRead;
                 break;
             }
 
-            if ( isBigEndian )
-            {
+            if ( isBigEndian ) {
                 nCur16 = static_cast<utf16>( *pRead++ << 8 );
                 nCur16 |= static_cast<utf16>( *pRead );
             }
-            else
-            {
+            else {
                 nCur16 = *pRead++;
                 nCur16 |= static_cast<utf16>( *pRead << 8 );
             }
 
-            if ( nCur16 >= SURROGATE_LEAD_FIRST && nCur16 <= SURROGATE_LEAD_LAST )
-            {
+            if ( nCur16 >= SURROGATE_LEAD_FIRST && nCur16 <= SURROGATE_LEAD_LAST ) {
                 ++pRead;
                 int trail;
 
-                if ( isBigEndian )
-                {
+                if ( isBigEndian ) {
                     trail = static_cast<utf16>( *pRead++ << 8 );
                     trail |= static_cast<utf16>( *pRead );
                 }
-                else
-                {
+                else {
                     trail = *pRead++;
                     trail |= static_cast<utf16>( *pRead << 8 );
                 }
 
-                nCur16 = ( ( ( nCur16 & 0x3ff ) << 10 ) | ( trail & 0x3ff ) ) + SURROGATE_FIRST_VALUE;
+                nCur16 = ( ( ( nCur16 & 0x3ff ) << 10 ) | ( trail & 0x3ff ) ) +
+                         SURROGATE_FIRST_VALUE;
             }
 
             ++pRead;
 
-            if ( nCur16 < 0x80 )
-            {
+            if ( nCur16 < 0x80 ) {
                 nCur = static_cast<ubyte>( nCur16 & 0xFF );
                 state = eStart;
             }
-            else if ( nCur16 < 0x800 )
-            {
+            else if ( nCur16 < 0x800 ) {
                 nCur = static_cast<ubyte>( 0xC0 | ( nCur16 >> 6 ) );
                 state = eFinal;
             }
-            else if ( nCur16 < SURROGATE_FIRST_VALUE )
-            {
+            else if ( nCur16 < SURROGATE_FIRST_VALUE ) {
                 nCur = static_cast<ubyte>( 0xE0 | ( nCur16 >> 12 ) );
                 state = ePenultimate;
             }
-            else
-            {
+            else {
                 nCur = static_cast<ubyte>( 0xF0 | ( nCur16 >> 18 ) );
                 state = eSecondOf4Bytes;
             }
@@ -4897,8 +4268,7 @@ using namespace astyle;
 // called by a java program to get the version number
 // the function name is constructed from method names in the calling java program
 extern "C"  EXPORT
-jstring STDCALL Java_AStyleInterface_AStyleGetVersion( JNIEnv* env, jclass )
-{
+jstring STDCALL Java_AStyleInterface_AStyleGetVersion( JNIEnv* env, jclass ) {
     return env->NewStringUTF( g_version );
 }
 
@@ -4908,17 +4278,16 @@ extern "C"  EXPORT
 jstring STDCALL Java_AStyleInterface_AStyleMain( JNIEnv* env,
         jobject obj,
         jstring textInJava,
-        jstring optionsJava )
-{
+        jstring optionsJava ) {
     g_env = env;                                // make object available globally
     g_obj = obj;                                // make object available globally
-    jstring textErr = env->NewStringUTF( "" );  // zero length text returned if an error occurs
+    jstring textErr =
+        env->NewStringUTF( "" );  // zero length text returned if an error occurs
     // get the method ID
     jclass cls = env->GetObjectClass( obj );
     g_mid = env->GetMethodID( cls, "ErrorHandler", "(ILjava/lang/String;)V" );
 
-    if ( g_mid == nullptr )
-    {
+    if ( g_mid == nullptr ) {
         cout << "Cannot find java method ErrorHandler" << endl;
         return textErr;
     }
@@ -4927,11 +4296,11 @@ jstring STDCALL Java_AStyleInterface_AStyleMain( JNIEnv* env,
     const char* textIn = env->GetStringUTFChars( textInJava, nullptr );
     const char* options = env->GetStringUTFChars( optionsJava, nullptr );
     // call the C++ formatting function
-    char* textOut = AStyleMain( textIn, options, javaErrorHandler, javaMemoryAlloc );
+    char* textOut = AStyleMain( textIn, options, javaErrorHandler,
+                                javaMemoryAlloc );
 
     // if an error message occurred it was displayed by errorHandler
-    if ( textOut == nullptr )
-    {
+    if ( textOut == nullptr ) {
         return textErr;
     }
 
@@ -4944,15 +4313,13 @@ jstring STDCALL Java_AStyleInterface_AStyleMain( JNIEnv* env,
 }
 
 // Call the Java error handler
-void STDCALL javaErrorHandler( int errorNumber, const char* errorMessage )
-{
+void STDCALL javaErrorHandler( int errorNumber, const char* errorMessage ) {
     jstring errorMessageJava = g_env->NewStringUTF( errorMessage );
     g_env->CallVoidMethod( g_obj, g_mid, errorNumber, errorMessageJava );
 }
 
 // Allocate memory for the formatted text
-char* STDCALL javaMemoryAlloc( unsigned long memoryNeeded )
-{
+char* STDCALL javaMemoryAlloc( unsigned long memoryNeeded ) {
     // error condition is checked after return from AStyleMain
     char* buffer = new ( nothrow ) char[memoryNeeded];
     return buffer;
@@ -4976,30 +4343,27 @@ char* STDCALL javaMemoryAlloc( unsigned long memoryNeeded )
 *           /EXPORT:AStyleGetVersion=_AStyleGetVersion@0
 * No /EXPORT is required for x64
 */
-extern "C" EXPORT char16_t* STDCALL AStyleMainUtf16( const char16_t* pSourceIn, // the source to be formatted
+extern "C" EXPORT char16_t* STDCALL AStyleMainUtf16( const char16_t*
+        pSourceIn, // the source to be formatted
         const char16_t* pOptions,   // AStyle options
         fpError fpErrorHandler,     // error handler function
-        fpAlloc fpMemoryAlloc )     // memory allocation function
-{
-    if ( fpErrorHandler == nullptr )       // cannot display a message if no error handler
-    {
+        fpAlloc fpMemoryAlloc ) {   // memory allocation function
+    if ( fpErrorHandler ==
+            nullptr ) {     // cannot display a message if no error handler
         return nullptr;
     }
 
-    if ( pSourceIn == nullptr )
-    {
+    if ( pSourceIn == nullptr ) {
         fpErrorHandler( 101, "No pointer to source input." );
         return nullptr;
     }
 
-    if ( pOptions == nullptr )
-    {
+    if ( pOptions == nullptr ) {
         fpErrorHandler( 102, "No pointer to AStyle options." );
         return nullptr;
     }
 
-    if ( fpMemoryAlloc == nullptr )
-    {
+    if ( fpMemoryAlloc == nullptr ) {
         fpErrorHandler( 103, "No pointer to memory allocation function." );
         return nullptr;
     }
@@ -5008,15 +4372,15 @@ extern "C" EXPORT char16_t* STDCALL AStyleMainUtf16( const char16_t* pSourceIn, 
     // check size of char16_t on Linux
     int sizeCheck = 2;
 
-    if ( sizeof( char16_t ) != sizeCheck )
-    {
+    if ( sizeof( char16_t ) != sizeCheck ) {
         fpErrorHandler( 104, "char16_t is not the correct size." );
         return nullptr;
     }
 
 #endif
     ASLibrary library;
-    char16_t* utf16Out = library.formatUtf16( pSourceIn, pOptions, fpErrorHandler, fpMemoryAlloc );
+    char16_t* utf16Out = library.formatUtf16( pSourceIn, pOptions, fpErrorHandler,
+                         fpMemoryAlloc );
     return utf16Out;
 }
 
@@ -5030,30 +4394,27 @@ extern "C" EXPORT char16_t* STDCALL AStyleMainUtf16( const char16_t* pSourceIn, 
  *           /EXPORT:AStyleGetVersion=_AStyleGetVersion@0
  * No /EXPORT is required for x64
  */
-extern "C" EXPORT char* STDCALL AStyleMain( const char* pSourceIn,      // the source to be formatted
+extern "C" EXPORT char* STDCALL AStyleMain( const char*
+        pSourceIn,      // the source to be formatted
         const char* pOptions,        // AStyle options
         fpError fpErrorHandler,      // error handler function
-        fpAlloc fpMemoryAlloc )      // memory allocation function
-{
-    if ( fpErrorHandler == nullptr )       // cannot display a message if no error handler
-    {
+        fpAlloc fpMemoryAlloc ) {    // memory allocation function
+    if ( fpErrorHandler ==
+            nullptr ) {     // cannot display a message if no error handler
         return nullptr;
     }
 
-    if ( pSourceIn == nullptr )
-    {
+    if ( pSourceIn == nullptr ) {
         fpErrorHandler( 101, "No pointer to source input." );
         return nullptr;
     }
 
-    if ( pOptions == nullptr )
-    {
+    if ( pOptions == nullptr ) {
         fpErrorHandler( 102, "No pointer to AStyle options." );
         return nullptr;
     }
 
-    if ( fpMemoryAlloc == nullptr )
-    {
+    if ( fpMemoryAlloc == nullptr ) {
         fpErrorHandler( 103, "No pointer to memory allocation function." );
         return nullptr;
     }
@@ -5063,10 +4424,10 @@ extern "C" EXPORT char* STDCALL AStyleMain( const char* pSourceIn,      // the s
     vector<string> optionsVector;
     stringstream opt( pOptions );
     options.importOptions( opt, optionsVector );
-    bool ok = options.parseOptions( optionsVector, "Invalid Artistic Style options:" );
+    bool ok = options.parseOptions( optionsVector,
+                                    "Invalid Artistic Style options:" );
 
-    if ( !ok )
-    {
+    if ( !ok ) {
         fpErrorHandler( 130, options.getOptionErrors().c_str() );
     }
 
@@ -5075,19 +4436,15 @@ extern "C" EXPORT char* STDCALL AStyleMain( const char* pSourceIn,      // the s
     ostringstream out;
     formatter.init( &streamIterator );
 
-    while ( formatter.hasMoreLines() )
-    {
+    while ( formatter.hasMoreLines() ) {
         out << formatter.nextLine();
 
-        if ( formatter.hasMoreLines() )
-        {
+        if ( formatter.hasMoreLines() ) {
             out << streamIterator.getOutputEOL();
         }
-        else
-        {
+        else {
             // this can happen if the file if missing a closing brace and break-blocks is requested
-            if ( formatter.getIsLineReady() )
-            {
+            if ( formatter.getIsLineReady() ) {
                 out << streamIterator.getOutputEOL();
                 out << formatter.nextLine();
             }
@@ -5095,10 +4452,10 @@ extern "C" EXPORT char* STDCALL AStyleMain( const char* pSourceIn,      // the s
     }
 
     size_t textSizeOut = out.str().length();
-    char* pTextOut = fpMemoryAlloc( ( long ) textSizeOut + 1 ); // call memory allocation function
+    char* pTextOut = fpMemoryAlloc( ( long ) textSizeOut +
+                                    1 ); // call memory allocation function
 
-    if ( pTextOut == nullptr )
-    {
+    if ( pTextOut == nullptr ) {
         fpErrorHandler( 120, "Allocation failure on output." );
         return nullptr;
     }
@@ -5118,8 +4475,7 @@ extern "C" EXPORT char* STDCALL AStyleMain( const char* pSourceIn,      // the s
     return pTextOut;
 }
 
-extern "C" EXPORT const char* STDCALL AStyleGetVersion( void )
-{
+extern "C" EXPORT const char* STDCALL AStyleGetVersion( void ) {
     return g_version;
 }
 
@@ -5130,8 +4486,7 @@ extern "C" EXPORT const char* STDCALL AStyleGetVersion( void )
 // main function for ASConsole build
 //----------------------------------------------------------------------------
 
-int main( int argc, char** argv )
-{
+int main( int argc, char** argv ) {
     // create objects
     ASFormatter formatter;
     unique_ptr<ASConsole> console( new ASConsole( formatter ) );
@@ -5142,12 +4497,10 @@ int main( int argc, char** argv )
     console->processOptions( argvOptions );
 
     // if no files have been given, use cin for input and cout for output
-    if ( !console->fileNameVectorIsEmpty() )
-    {
+    if ( !console->fileNameVectorIsEmpty() ) {
         console->processFiles();
     }
-    else
-    {
+    else {
         console->formatCinToCout();
     }
 
