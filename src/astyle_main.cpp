@@ -46,6 +46,7 @@
 #ifdef _WIN32
 #undef UNICODE      // use ASCII windows functions
 #include <windows.h>
+#include <shellapi.h>
 #else
 #include <dirent.h>
 #include <unistd.h>

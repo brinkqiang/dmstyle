@@ -178,3 +178,14 @@ else()
     message("CMAKE_BUILD_TYPE is Executable ${CMAKE_BUILD_TYPE}")
 endif()
 set(CMAKE_VERBOSE_MAKEFILE ON)
+
+ADD_CUSTOM_COMMAND(
+TARGET astyle
+PRE_BUILD
+COMMAND ${CMAKE_COMMAND} -E copy_if_different
+${CMAKE_CURRENT_SOURCE_DIR}/script/fly.bat
+${CMAKE_CURRENT_SOURCE_DIR}/script/fly.sh
+${CMAKE_CURRENT_SOURCE_DIR}/script/clean.bat
+${CMAKE_CURRENT_SOURCE_DIR}/script/clean.sh
+$<TARGET_FILE_DIR:astyle>
+)
